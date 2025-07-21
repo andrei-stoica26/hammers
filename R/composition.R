@@ -1,4 +1,5 @@
 #' @importFrom dplyr count
+#' @import SeuratObject
 #' @importFrom sgof BY
 #' @importFrom stats phyper setNames
 #'

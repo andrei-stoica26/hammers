@@ -15,6 +15,10 @@ BiocManager::install("andrei-stoica26/hammers")
 ```
 ## Functions implemented so far
 
+`addLineages`: Adds [slingshot](https://www.bioconductor.org/packages/release/bioc/html/slingshot.html) lineages to Seurat metadata.
+
+`addCurveweights`: Adds [slingshot](https://www.bioconductor.org/packages/release/bioc/html/slingshot.html) curve weights to Seurat metadata.
+
 `repAnalysis`: Given two gene expression metadata categorical column, performs
 overrepresentation/underrepresentation analysis for all the pairs comprising a
 label from each category.
