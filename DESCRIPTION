@@ -12,9 +12,11 @@ Description: hammers is an evolving collection of simple tools designed to addre
 License: MIT + file LICENSE
 Imports: 
     dplyr,
+    henna,
     SeuratObject,
     sgof,
     slingshot,
-    stats
+    stats,
+    tidyr
 Encoding: UTF-8
 RoxygenNote: 7.3.2
