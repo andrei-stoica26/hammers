@@ -13,7 +13,7 @@ NULL
 #'
 #' @export
 #'
-repPlot <- function(df, ...){
+pvalRiverPlot <- function(df, ...){
     resDF <- prepAlluvial(df)
     p <- riverPlot(resDF, ...)
     return(p)
