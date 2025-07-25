@@ -12,6 +12,7 @@ Description: hammers is an evolving collection of simple tools designed to addre
 License: MIT + file LICENSE
 Imports: 
     dplyr,
+    grDevices,
     henna,
     SeuratObject,
     sgof,
