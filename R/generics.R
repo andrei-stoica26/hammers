@@ -25,14 +25,6 @@
 devPlot <- function(plotObject, ...)
     UseMethod(generic='devPlot', object=plotObject)
 
-
-
-
-
-
-
-
-
 #' Extract metadata from object as a data frame
 #'
 #' This function extracts the metadata from a Seurat or
@@ -90,7 +82,7 @@ scCol <- function(scObj, colStr)
 #' @export
 #'
 scPCAMat <- function(scObj)
-    UseMethod(generic='scCol', object=scObj)
+    UseMethod(generic='scPCAMat', object=scObj)
 
 #' Extracts the expression matrix from object.
 #'
