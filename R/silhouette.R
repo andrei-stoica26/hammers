@@ -13,17 +13,19 @@ NULL
 #' @inheritParams metadataDF
 #' @param idClass Identity class. Must be present among the metadata columns of
 #' the single-cell expression object.
+#' @param pcaMat PCA matrix.
 #'
 #' @return The input object (\code{Seurat} or \code{SingleCellExperiment}) with
 #' an added metadata silhouette column.
 #'
 #' @export
 #'
-computeSilhouette <- function(scObj, idClass = 'label'){
+computeSilhouette <- function(scObj, idClass = 'label', pcaMat = NULL){
   if (!idClass %in% metadataNames(scObj))
     stop(paste0('Column ', idClass, ' not found.'))
-  pcaMat <- scPCAMat(scObj)
-  message('Computing distance matrix...')
+  if(is.null(pcaMat))
+    pcaMat <- scPCAMat(scObj)
+  message('Computing cosine distance matrix...')
   distMat <- 1 - text2vec::sim2(pcaMat, method='cosine', norm='l2')
   message(paste0('Computing silhouette for identity class: ', idClass, '...'))
   groupVals <- unclass(factor(scCol(scObj, idClass)))
