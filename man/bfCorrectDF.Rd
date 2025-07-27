@@ -9,6 +9,8 @@ bfCorrectDF(df, nTests, pvalThr = 0.05, colStr = "pval")
 \arguments{
 \item{df}{A dataframe with a column of p-values.}
 
+\item{nTests}{Number of tests.}
+
 \item{pvalThr}{p-value threshold.}
 
 \item{colStr}{Name of the column of p-values.}
@@ -24,6 +26,6 @@ based on p-values.
 \examples{
 df <- data.frame(elem = c('A', 'B', 'C', 'D', 'E'),
 pval = c(0.032, 0.001, 0.0045, 0.051, 0.048))
-bfCorrectDF(df)
+bfCorrectDF(df, 5)
 
 }

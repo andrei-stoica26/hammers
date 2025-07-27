@@ -16,7 +16,11 @@ Imports:
     henna,
     qs,
     SeuratObject,
+    SingleCellExperiment,
+    SummarizedExperiment,
     sgof,
     stats
+Suggests:
+    ggplot2
 Encoding: UTF-8
 RoxygenNote: 7.3.2

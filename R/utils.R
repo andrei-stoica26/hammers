@@ -15,8 +15,6 @@ countsVector <- function(seuratObj, column){
     return(v)
 }
 
-
-
 #' Prepare dataframe for alluvial plot
 #'
 #' This function extracts the relevant information from dataframe and adjusts

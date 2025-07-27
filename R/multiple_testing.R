@@ -5,6 +5,7 @@
 #' based on p-values.
 #'
 #' @param df A dataframe with a column of p-values.
+#' @param nTests Number of tests.
 #' @param pvalThr p-value threshold.
 #' @param colStr Name of the column of p-values.
 #'
@@ -13,7 +14,7 @@
 #' @examples
 #' df <- data.frame(elem = c('A', 'B', 'C', 'D', 'E'),
 #' pval = c(0.032, 0.001, 0.0045, 0.051, 0.048))
-#' bfCorrectDF(df)
+#' bfCorrectDF(df, 5)
 #'
 #' @export
 #'
