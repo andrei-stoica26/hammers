@@ -11,15 +11,18 @@ Description: hammers is an evolving collection of simple tools designed to addre
     combine wide applicability with ease of use.
 License: MIT + file LICENSE
 Imports: 
+    cluster,
     dplyr,
     grDevices,
     henna,
+    liver,
     qs,
     SeuratObject,
     SingleCellExperiment,
     SummarizedExperiment,
     sgof,
-    stats
+    stats,
+    text2vec
 Suggests:
     ggplot2
 Encoding: UTF-8
