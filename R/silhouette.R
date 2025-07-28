@@ -20,7 +20,7 @@ NULL
 #'
 #' @export
 #'
-computeSilhouette <- function(scObj, idClass = 'label', pcaMat = NULL){
+computeSilhouette <- function(scObj, idClass, pcaMat = NULL){
   if (!idClass %in% metadataNames(scObj))
     stop(paste0('Column ', idClass, ' not found.'))
   if(is.null(pcaMat))

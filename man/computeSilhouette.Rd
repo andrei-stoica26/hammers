@@ -4,7 +4,7 @@
 \alias{computeSilhouette}
 \title{Compute cluster silhouette for single-cell expression object}
 \usage{
-computeSilhouette(scObj, idClass = "label", pcaMat = NULL)
+computeSilhouette(scObj, idClass, pcaMat = NULL)
 }
 \arguments{
 \item{scObj}{A \code{Seurat} or \code{SingleCellExperiment} object.}
