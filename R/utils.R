@@ -2,7 +2,7 @@
 #'
 NULL
 
-#' Extract count information from Seurat column.
+#' Extract count information from Seurat column
 #'
 #' This function extracts count information from Seurat column.
 #'
@@ -18,6 +18,35 @@ countsVector <- function(seuratObj, column){
     v <- setNames(df[, 2], as.factor(df[, 1]))
     return(v)
 }
+
+
+#' Get nearest neighbors from distance matrix
+#'
+#' This function gets the nearest neighbors from a distance matrix.
+#'
+#' @param A distance matrix.
+#'
+#' @return A named character vector.
+#'
+#' @examples
+#' df <- data.frame(v = c(1, 2, 4, 5, 6),
+#' w = c(2, 3, 1, 5, 8),
+#' x = c(2, 8, 7, 1, 1),
+#' y = c(2, 3, 2, 2, 4),
+#' z = c(1, 9, 9, 7, 6))
+#' distMat <- as.matrix(stats::dist(df))
+#' rownames(distMat) <- c('v', 'w', 'x', 'y', 'z')
+#' colnames(distMat) <- c('v', 'w', 'x', 'y', 'z')
+#' nearestNeighbors(distMat)
+#'
+#' @export
+#'
+nearestNeighbors <- function(distMat)
+    return(apply(distMat, 1, function(x) {
+        names(x) <- colnames(distMat)
+        x <- x[x > 0]
+        return(names(x)[which.min(x)])
+    }))
 
 #' Prepare dataframe for alluvial plot
 #'
