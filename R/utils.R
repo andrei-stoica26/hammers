@@ -112,3 +112,39 @@ safeMinmax <- function(scores, safeVal = 0){
     return(liver::minmax(scores))
 }
 
+#' Replaces genes from vector
+#'
+#' This function removes and adds genes from vector at random.
+#'
+#' @inheritParams metadataDF
+#' @param genes A character vector.
+#' @param lossFrac Fraction of genes than be removed. Must be in \code{[0, 1]}.
+#' @param noiseFrac Amount of noise (random genes) in the final gene vector.
+#' Must be in \code{[0, 1)}
+#' @param geneCountThresh Minimum number of cells in which newly added genes
+#' must be expressed.
+#'
+#' @return Genes vector after changes.
+#'
+#' @export
+#'
+shuffleGenes <- function(scObj, genes, lossFrac, noiseFrac,
+                         geneCountThresh=10){
+    nGenes <- length(genes)
+    nRemovedGenes <- round(lossFrac * nGenes)
+    nRetainedGenes <- nGenes - nRemovedGenes
+
+    expression <- scExpMat(scObj, 'counts')
+    freq <- rowSums(expression != 0)
+
+    suitableGenes <- setdiff(names(freq[freq >= geneCountThresh]), genes)
+
+    genes <- c(sample(genes, nRetainedGenes))
+    message('Removed ', nRemovedGenes, ' genes.')
+
+    nAddedGenes <- round(noiseFrac * nRetainedGenes / (1 - noiseFrac))
+    genes <- c(genes, sample(suitableGenes, nAddedGenes))
+    message('Added ', nAddedGenes, ' random genes.')
+
+    return(genes)
+}
