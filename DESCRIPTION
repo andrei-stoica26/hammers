@@ -11,6 +11,7 @@ Description: hammers is an evolving collection of simple tools designed to addre
     combine wide applicability with ease of use.
 License: MIT + file LICENSE
 Imports: 
+    abdiv,
     cluster,
     dplyr,
     grDevices,

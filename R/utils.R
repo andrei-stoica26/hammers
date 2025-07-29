@@ -1,3 +1,7 @@
+#' @importFrom abdiv euclidean
+#'
+NULL
+
 #' Extract count information from Seurat column.
 #'
 #' This function extracts count information from Seurat column.
@@ -43,3 +47,39 @@ prepAlluvial <- function(repDF, pvalCol = 'pvalAdj', colIndices = c(1, 2)){
     resDF$weight <- sqrt(pvals)
     return(resDF)
 }
+
+#' Compute proximity between two vectors based on Euclidean distance
+#'
+#' This functions computes proximity between two vectors based on Euclidean
+#' distance and an input maximum distance.
+#'
+#' @param x A numeric vector.
+#' @param y A numeric vector.
+#' @param maxDist Maximum distance.
+#'
+#' @return A number between 0 and 1.
+#'
+#' @export
+#'
+proximity <- function(x, y, maxDist)
+    return(1 - euclidean(x, y) / maxDist)
+
+#' Perform min-max normalization when possible; otherwise return a zero-vector
+#'
+#' This function min-max-normalizes a vector when possible, and otherwise returns
+#' the zero vector
+#'
+#' @param scores Numeric vector
+#' @param safeVal Value to replace all values with when all values in the vector
+#' are the same
+#'
+#' @return Min-max-normalized scores or the zero vector
+#'
+#' @export
+#'
+safeMinmax <- function(scores, safeVal = 0){
+    if(length(unique(scores)) < 2)
+        return(rep(safeVal, length(scores)))
+    return(liver::minmax(scores))
+}
+
