@@ -1,0 +1,93 @@
+#' @importFrom AnnotationDbi select
+#' @importFrom clusterProfiler enrichGO enrichKEGG enrichWP
+#' @importFrom DOSE setReadable
+#' @importFrom org.Dr.eg.db org.Dr.eg.db
+#' @importFrom org.Hs.eg.db org.Hs.eg.db
+#' @importFrom org.Mm.eg.db org.Mm.eg.db
+#'
+NULL
+
+#' Perform enrichment analysis on a set of Entrez IDs
+#'
+#' This function performs enrichment analysis on a set of Entrez IDs.
+#'
+#' @param entrezIDs A character vector of gene Entrez IDs.
+#' @inheritParams entrezGenes
+#' @param funString Name of enrichment function from \code{clusterProfiler}.
+#' Must be a character selected from 'enrichGO', 'enrichKEGG' and 'enrichWP'.
+#'
+#' @return Enrichment result.
+#'
+#' @keywords internal
+#'
+getEnrichmentResult <- function(entrezIDs,
+                                species = c('human', 'mouse', 'zebrafish'),
+                                funString = c('enrichGO',
+                                              'enrichKEGG',
+                                              'enrichWP',
+                                              )){
+    species <- match.arg(species, c('human', 'mouse', 'zebrafish'))
+    funString <- match.arg(funString, c('enrichGO',
+                                        'enrichKEGG',
+                                        'enrichWP'))
+    df <- data.frame(database = c('org.Hs.eg.db',
+                                  'org.Mm.eg.db',
+                                  'org.Dr.eg.db'),
+                     code = c('hsa', 'dre', 'mmu'))
+    rownames(df) <- c('human', 'mouse', 'zebrafish')
+    db <- df[species, 1]
+    code <- df[species, 2]
+    return(switch(funString,
+           "enrichGO" = enrichGO(entrezIDs, OrgDb=db, ont="BP",
+                                 readable=TRUE, pvalueCutoff=0),
+           "enrichWP" = setReadable(enrichWP(entrezIDs, 'Homo sapiens'),
+                                    db, 'ENTREZID'),
+           "enrichKEGG" = setReadable(enrichKEGG(entrezIDs, code),
+                                      db, 'ENTREZID'),
+    ))
+}
+
+#' Convert gene symbols to Entrez IDs.
+#'
+#' This function converts gene symbols to Entrez IDs.
+#'
+#' @param genes A character vector of gene symbols.
+#' @param species Species. Must be one of 'human', 'mouse' and 'zebrafish'.
+#'
+#' @return The Entrez IDs of the genes.
+#'
+#' @keywords internal
+#'
+entrezGenes <- function(genes, species){
+    species <- match.arg(species, c('human', 'mouse', 'zebrafish'))
+    return(switch(species,
+           'human' = AnnotationDbi::select(org.Hs.eg.db,
+                                           keys=genes,
+                                           columns=c("ENTREZID", "SYMBOL"),
+                                           keytype="SYMBOL")[[2]],
+           'zebrafish' = AnnotationDbi::select(org.Dr.eg.db,
+                                               keys=genes,
+                                               columns=c("ENTREZID", "SYMBOL"),
+                                               keytype="SYMBOL")[[2]],
+           'mouse' = AnnotationDbi::select(org.Mm.eg.db, keys=genes,
+                                           columns = c("ENTREZID", "SYMBOL"),
+                                           keytype="SYMBOL")[[2]]))
+}
+
+
+#' Perform enrichment analysis on a set of genes
+#'
+#' This function performs enrichment analysis on a set of genes.
+#'
+#' @inheritParams entrezGenes
+#' @inheritParams getEnrichmentResult
+#'
+#' @return Enrichment result.
+#'
+#' @export
+#'
+genesER <- function(genes, species,
+                    funStr = c('enrichGO','enrichKEGG', 'enrichWP'))
+    return(getEnrichmentResult(entrezGenes(genes, species), species, funStr))
+
+

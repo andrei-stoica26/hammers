@@ -12,11 +12,17 @@ Description: hammers is an evolving collection of simple tools designed to addre
 License: MIT + file LICENSE
 Imports: 
     abdiv,
+    AnnotationDbi,
     cluster,
+    clusterProfiler,
+    DOSE,
     dplyr,
     grDevices,
     henna,
     liver,
+    org.Dr.eg.db,
+    org.Hs.eg.db,
+    org.Mm.eg.db,
     qs,
     SeuratObject,
     SingleCellExperiment,
