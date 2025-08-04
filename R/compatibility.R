@@ -74,8 +74,8 @@ scExpMat.default <- function(scObj,
                                           'logcounts'),
                              genes = NULL,
                              densify = TRUE)
-    stop('Unrecognized input type: scObj must be a Seurat or ',
-         'SingleCellExpression object')
+    stop('Unrecognized input type: scObj must be a Seurat, ',
+         'SingleCellExpression, matrix or dgCMatrix object')
 
 #' @param dataType Expression data type. Must be one of 'counts' and 'data'.
 #'
@@ -99,7 +99,9 @@ scExpMat.Seurat <- function(scObj,
     return(mat)
 }
 
-
+#' @param dataType Expression data type. Must be one of 'counts'
+#' and 'logcounts'.
+#'
 #' @rdname scExpMat
 #' @export
 #'
@@ -119,6 +121,38 @@ scExpMat.SingleCellExperiment <- function(scObj,
     if(densify)
         mat <- suppressWarnings(as.matrix(mat))
     return(mat)
+}
+
+#' @rdname scExpMat
+#' @export
+#'
+scExpMat.dgCMatrix <- function(scObj,
+                               dataType = c('counts',
+                                            'data',
+                                            'logcounts'),
+                               genes = NULL,
+                               densify = TRUE){
+
+    if (!is.null(genes))
+        mat <- scObj[genes, ]
+    if(densify)
+        mat <- suppressWarnings(as.matrix(mat))
+    return(mat)
+}
+
+#' @rdname scExpMat
+#' @export
+#'
+scExpMat.matrix <- function(scObj,
+                               dataType = c('counts',
+                                            'data',
+                                            'logcounts'),
+                               genes = NULL,
+                               densify = TRUE){
+
+    if (!is.null(genes))
+        scObj <- scObj[genes, ]
+    return(scObj)
 }
 
 ###############################################################################

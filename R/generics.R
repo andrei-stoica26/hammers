@@ -89,8 +89,10 @@ scPCAMat <- function(scObj)
 #' This function extracts an expression matrix from a Seurat or
 #' SingleCellExperiment object.
 #'
-#' @inheritParams metadataNames
-#' @param dataType Expression data type.
+#' @param scObj A \code{Seurat}, \code{SingleCellExperiment},
+#' \code{dgCMatrix} or \code{matrix} object.
+#' @param dataType Expression data type. Ignored if \code{scObj} is of class
+#' \code{dgCMatrix} or \code{matrix}.
 #' @param genes Selected genes. If \code{NULL}, all genes will be retained
 #' @param densify Whether to convert to dense matrix.
 #'

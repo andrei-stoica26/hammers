@@ -4,6 +4,8 @@
 \alias{scExpMat.default}
 \alias{scExpMat.Seurat}
 \alias{scExpMat.SingleCellExperiment}
+\alias{scExpMat.dgCMatrix}
+\alias{scExpMat.matrix}
 \alias{scExpMat}
 \title{Extracts the expression matrix from object.}
 \usage{
@@ -28,6 +30,20 @@
   densify = TRUE
 )
 
+\method{scExpMat}{dgCMatrix}(
+  scObj,
+  dataType = c("counts", "data", "logcounts"),
+  genes = NULL,
+  densify = TRUE
+)
+
+\method{scExpMat}{matrix}(
+  scObj,
+  dataType = c("counts", "data", "logcounts"),
+  genes = NULL,
+  densify = TRUE
+)
+
 scExpMat(
   scObj,
   dataType = c("counts", "data", "logcounts"),
@@ -36,9 +52,11 @@ scExpMat(
 )
 }
 \arguments{
-\item{scObj}{A \code{Seurat} or \code{SingleCellExperiment} object.}
+\item{scObj}{A \code{Seurat}, \code{SingleCellExperiment},
+\code{dgCMatrix} or \code{matrix} object.}
 
-\item{dataType}{Expression data type.}
+\item{dataType}{Expression data type. Ignored if \code{scObj} is of class
+\code{dgCMatrix} or \code{matrix}.}
 
 \item{genes}{Selected genes. If \code{NULL}, all genes will be retained}
 
