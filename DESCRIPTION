@@ -29,6 +29,7 @@ Imports:
     SummarizedExperiment,
     sgof,
     stats,
+    stringr,
     text2vec
 Suggests:
     ggplot2

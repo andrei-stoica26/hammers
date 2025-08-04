@@ -4,6 +4,7 @@
 #' @importFrom org.Dr.eg.db org.Dr.eg.db
 #' @importFrom org.Hs.eg.db org.Hs.eg.db
 #' @importFrom org.Mm.eg.db org.Mm.eg.db
+#' @importFrom stringr str_split
 #'
 NULL
 
@@ -90,4 +91,18 @@ genesER <- function(genes, species,
                     funStr = c('enrichGO','enrichKEGG', 'enrichWP'))
     return(getEnrichmentResult(entrezGenes(genes, species), species, funStr))
 
+#' Extract genes enriched for term
+#'
+#' This function extracts genes enriched for term from an \code{enrichResult}
+#' object.
+#'
+#' @inheritParams entrezGenes
+#' @inheritParams getEnrichmentResult
+#'
+#' @return Enrichment result.
+#'
+#' @export
+#'
+termGenes <- function(er, term)
+    return(str_split(m@result[m@result$Description == term, ]$geneID, '/')[[1]])
 
