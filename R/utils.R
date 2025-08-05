@@ -1,4 +1,5 @@
 #' @importFrom abdiv euclidean
+#' @importFrom withr with_seed
 #'
 NULL
 
@@ -93,16 +94,17 @@ prepAlluvial <- function(repDF, pvalCol = 'pvalAdj', colIndices = c(1, 2)){
 proximity <- function(x, y, maxDist)
     return(1 - euclidean(x, y) / maxDist)
 
-#' Perform min-max normalization when possible; otherwise return a zero-vector
+#' Perform min-max normalization when possible; otherwise return a single-value
+#' vector.
 #'
 #' This function min-max-normalizes a vector when possible, and otherwise returns
-#' the zero vector
+#' a single-value vector.
 #'
-#' @param scores Numeric vector
+#' @param scores Numeric vector.
 #' @param safeVal Value to replace all values with when all values in the vector
-#' are the same
+#' are the same.
 #'
-#' @return Min-max-normalized scores or the zero vector
+#' @return Min-max-normalized scores or a single-value vector.
 #'
 #' @export
 #'
@@ -123,13 +125,14 @@ safeMinmax <- function(scores, safeVal = 0){
 #' Must be in \code{[0, 1)}
 #' @param geneCountThresh Minimum number of cells in which newly added genes
 #' must be expressed.
+#' @param seed Random seed.
 #'
 #' @return Genes vector after changes.
 #'
 #' @export
 #'
 shuffleGenes <- function(scObj, genes, lossFrac, noiseFrac,
-                         geneCountThresh=10){
+                         geneCountThresh = 10, seed = 1){
     nGenes <- length(genes)
     nRemovedGenes <- round(lossFrac * nGenes)
     nRetainedGenes <- nGenes - nRemovedGenes
@@ -139,12 +142,18 @@ shuffleGenes <- function(scObj, genes, lossFrac, noiseFrac,
 
     suitableGenes <- setdiff(names(freq[freq >= geneCountThresh]), genes)
 
-    genes <- c(sample(genes, nRetainedGenes))
-    message('Removed ', nRemovedGenes, ' genes.')
+    if(lossFrac > 0){
+        genes <- c(with_seed(seed, sample(genes, nRetainedGenes)))
+        message('Removed ', nRemovedGenes, ' genes.')
+    } else
+        message('No genes were removed.')
 
-    nAddedGenes <- round(noiseFrac * nRetainedGenes / (1 - noiseFrac))
-    genes <- c(genes, sample(suitableGenes, nAddedGenes))
-    message('Added ', nAddedGenes, ' random genes.')
+    if(noiseFrac > 0){
+        nAddedGenes <- round(noiseFrac * nRetainedGenes / (1 - noiseFrac))
+        genes <- c(genes, with_seed(seed, sample(suitableGenes, nAddedGenes)))
+        message('Added ', nAddedGenes, ' random genes.')
+    } else
+        message('No random genes were added')
 
     return(genes)
 }

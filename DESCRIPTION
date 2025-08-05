@@ -30,7 +30,8 @@ Imports:
     sgof,
     stats,
     stringr,
-    text2vec
+    text2vec,
+    withr
 Suggests:
     ggplot2
 Encoding: UTF-8

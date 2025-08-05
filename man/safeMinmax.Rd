@@ -2,20 +2,21 @@
 % Please edit documentation in R/utils.R
 \name{safeMinmax}
 \alias{safeMinmax}
-\title{Perform min-max normalization when possible; otherwise return a zero-vector}
+\title{Perform min-max normalization when possible; otherwise return a single-value
+vector.}
 \usage{
 safeMinmax(scores, safeVal = 0)
 }
 \arguments{
-\item{scores}{Numeric vector}
+\item{scores}{Numeric vector.}
 
 \item{safeVal}{Value to replace all values with when all values in the vector
-are the same}
+are the same.}
 }
 \value{
-Min-max-normalized scores or the zero vector
+Min-max-normalized scores or a single-value vector.
 }
 \description{
 This function min-max-normalizes a vector when possible, and otherwise returns
-the zero vector
+a single-value vector.
 }

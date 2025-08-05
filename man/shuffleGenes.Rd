@@ -4,7 +4,7 @@
 \alias{shuffleGenes}
 \title{Replaces genes from vector}
 \usage{
-shuffleGenes(scObj, genes, lossFrac, noiseFrac, geneCountThresh = 10)
+shuffleGenes(scObj, genes, lossFrac, noiseFrac, geneCountThresh = 10, seed = 1)
 }
 \arguments{
 \item{scObj}{A \code{Seurat} or \code{SingleCellExperiment} object.}
@@ -18,6 +18,8 @@ Must be in \code{[0, 1)}}
 
 \item{geneCountThresh}{Minimum number of cells in which newly added genes
 must be expressed.}
+
+\item{seed}{Random seed.}
 }
 \value{
 Genes vector after changes.
