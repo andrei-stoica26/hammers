@@ -4,7 +4,15 @@
 \alias{shuffleGenes}
 \title{Replaces genes from vector}
 \usage{
-shuffleGenes(scObj, genes, lossFrac, noiseFrac, geneCountThresh = 10, seed = 1)
+shuffleGenes(
+  scObj,
+  genes,
+  lossFrac,
+  noiseFrac,
+  geneCountThresh = 10,
+  seed = 1,
+  verbose = TRUE
+)
 }
 \arguments{
 \item{scObj}{A \code{Seurat} or \code{SingleCellExperiment} object.}
@@ -20,6 +28,8 @@ Must be in \code{[0, 1)}}
 must be expressed.}
 
 \item{seed}{Random seed.}
+
+\item{verbose}{Whether the output should be verbose.}
 }
 \value{
 Genes vector after changes.

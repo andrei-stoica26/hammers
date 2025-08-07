@@ -114,6 +114,22 @@ safeMinmax <- function(scores, safeVal = 0){
     return(liver::minmax(scores))
 }
 
+#' Message an input if verbose is set to TRUE
+#'
+#' This function messages an input if \code{verbose} is set to \code{TRUE}.
+#'
+#' @param msg Message
+#' @param verbose Whether the message should be displayed.
+#'
+#' @return No return value. This function is called for its side effect
+#' (messaging the input if \code{verbose} is set to \code{TRUE}).
+#'
+#' @export
+#'
+safeMessage <- function(msg, verbose)
+    if(verbose)
+        message(msg)
+
 #' Replaces genes from vector
 #'
 #' This function removes and adds genes from vector at random.
@@ -126,13 +142,15 @@ safeMinmax <- function(scores, safeVal = 0){
 #' @param geneCountThresh Minimum number of cells in which newly added genes
 #' must be expressed.
 #' @param seed Random seed.
+#' @param verbose Whether the output should be verbose.
 #'
 #' @return Genes vector after changes.
 #'
 #' @export
 #'
 shuffleGenes <- function(scObj, genes, lossFrac, noiseFrac,
-                         geneCountThresh = 10, seed = 1){
+                         geneCountThresh = 10, seed = 1,
+                         verbose = TRUE){
     nGenes <- length(genes)
     nRemovedGenes <- round(lossFrac * nGenes)
     nRetainedGenes <- nGenes - nRemovedGenes
@@ -144,16 +162,16 @@ shuffleGenes <- function(scObj, genes, lossFrac, noiseFrac,
 
     if(lossFrac > 0){
         genes <- c(with_seed(seed, sample(genes, nRetainedGenes)))
-        message('Removed ', nRemovedGenes, ' genes.')
+        safeMessage(paste0('Removed ', nRemovedGenes, ' genes.'), verbose)
     } else
-        message('No genes were removed.')
+        safeMessage('No genes were removed.', verbose)
 
     if(noiseFrac > 0){
         nAddedGenes <- round(noiseFrac * nRetainedGenes / (1 - noiseFrac))
         genes <- c(genes, with_seed(seed, sample(suitableGenes, nAddedGenes)))
-        message('Added ', nAddedGenes, ' random genes.')
+        safeMessage(paste0('Added ', nAddedGenes, ' random genes.'), verbose)
     } else
-        message('No random genes were added')
+        safeMessage('No genes were added.', verbose)
 
     return(genes)
 }
