@@ -4,10 +4,10 @@
 \alias{pvalRiverPlot}
 \title{Plot representation data frame}
 \usage{
-pvalRiverPlot(df, ...)
+pvalRiverPlot(df, weightExp = 1/2, ...)
 }
 \arguments{
-\item{df}{A representation data frame.}
+\item{weightExp}{Exponent used in constructing weight from p-values.}
 
 \item{...}{Additional parameters passed to \code{henna::riverPlot}}
 }

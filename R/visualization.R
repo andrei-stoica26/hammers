@@ -6,15 +6,15 @@ NULL
 #'
 #' This function plots representation data frame as an alluvial plot.
 #'
-#' @param df A representation data frame.
+#' @inheritParams prepAlluvial
 #' @param ... Additional parameters passed to \code{henna::riverPlot}
 #'
 #' @return A ggplot object
 #'
 #' @export
 #'
-pvalRiverPlot <- function(df, ...){
+pvalRiverPlot <- function(df, weightExp = 1/2, ...){
     resDF <- prepAlluvial(df)
-    p <- riverPlot(resDF, ...)
+    p <- riverPlot(resDF, weightExp, ...)
     return(p)
 }

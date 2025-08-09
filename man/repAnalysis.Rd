@@ -14,7 +14,7 @@ repAnalysis(seuratObj, column1, column2, doOverrep = TRUE, pvalThr = 0.05)
 \item{column2}{Second column.}
 
 \item{doOverrep}{Whether to perform overrepresentation analysis. If
-\code{FALSE}, underrepresentation analysis will be performed.}
+\code{FALSE}, underrepresentation analysis will be performed instead.}
 
 \item{pvalThr}{p-value threshold.}
 }

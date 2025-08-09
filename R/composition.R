@@ -13,7 +13,7 @@ NULL
 #' @param column1 First column.
 #' @param column2 Second column.
 #' @param doOverrep Whether to perform overrepresentation analysis. If
-#' \code{FALSE}, underrepresentation analysis will be performed.
+#' \code{FALSE}, underrepresentation analysis will be performed instead.
 #' @param pvalThr p-value threshold.
 #'
 #' @return An overrepresentation or underrepresentation data frame.
