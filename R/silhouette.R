@@ -47,13 +47,12 @@ computeSilhouette <- function(scObj, idClass, pcaMat = NULL){
 #'
 normalizeSilhouette <- function(scObj, idClass){
   df <- metadataDF(scObj)[, c(idClass, 'silhouette')]
-  colnames(df)[1] <- 'label'
   groups <- unique(df[[idClass]])
   res <- data.frame(matrix(0, nrow(df), length(groups)))
   rownames(res) <- rownames(df)
   colnames(res) <- groups
   for (group in groups){
-    dfSub <- subset(df, label == group)
+    dfSub <- df[df[, 1] == group, ]
     sortedSil <- dfSub$silhouette
     auxMin <- 2 * sortedSil[1] - sortedSil[2]
     normSilVals <- liver::minmax(c(dfSub$silhouette, auxMin))[seq_along(dfSub$silhouette)]
