@@ -96,13 +96,14 @@ genesER <- function(genes, species,
 #' This function extracts genes enriched for term from an \code{enrichResult}
 #' object.
 #'
-#' @inheritParams entrezGenes
-#' @inheritParams getEnrichmentResult
+#' @param er Enrichment result.
+#' @param term Term.
 #'
-#' @return Enrichment result.
+#' @return Genes enriched for term.
 #'
 #' @export
 #'
 termGenes <- function(er, term)
-    return(str_split(m@result[m@result$Description == term, ]$geneID, '/')[[1]])
+    return(str_split(er@result[er@result$Description == term, ]$geneID,
+                     '/')[[1]])
 

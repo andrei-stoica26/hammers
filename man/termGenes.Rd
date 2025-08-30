@@ -6,8 +6,13 @@
 \usage{
 termGenes(er, term)
 }
+\arguments{
+\item{er}{Enrichment result.}
+
+\item{term}{Term.}
+}
 \value{
-Enrichment result.
+Genes enriched for term.
 }
 \description{
 This function extracts genes enriched for term from an \code{enrichResult}
