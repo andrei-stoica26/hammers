@@ -108,9 +108,13 @@ genesER <- function(genes, species,
 termGenes <- function(er, terms, negTerms = NULL){
     posGenes <- str_split(er@result[er@result$Description %in%
                                         terms, ]$geneID, '/')[[1]]
-    negGenes <- str_split(er@result[er@result$Description %in%
-                                        negTerms, ]$geneID, '/')[[1]]
+    if(!is.null(negTerms))
+        negGenes <- str_split(er@result[er@result$Description %in%
+                                            negTerms, ]$geneID, '/')[[1]] else
+                                                negGenes <- NULL
     return(sort(setdiff(posGenes, negGenes)))
 }
+
+
 
 
