@@ -4,15 +4,18 @@
 \alias{termGenes}
 \title{Extract genes enriched for term}
 \usage{
-termGenes(er, term)
+termGenes(er, terms, negTerms = NULL)
 }
 \arguments{
 \item{er}{Enrichment result.}
 
-\item{term}{Term.}
+\item{terms}{Terms for which enriched genes should be extracted.}
+
+\item{negTerms}{Terms for which enriched genes should be subtracted from the
+genes enriched for \code{terms}.}
 }
 \value{
-Genes enriched for term.
+Genes enriched for terms.
 }
 \description{
 This function extracts genes enriched for term from an \code{enrichResult}

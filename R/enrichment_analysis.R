@@ -97,13 +97,20 @@ genesER <- function(genes, species,
 #' object.
 #'
 #' @param er Enrichment result.
-#' @param term Term.
+#' @param terms Terms for which enriched genes should be extracted.
+#' @param negTerms Terms for which enriched genes should be subtracted from the
+#' genes enriched for \code{terms}.
 #'
-#' @return Genes enriched for term.
+#' @return Genes enriched for terms.
 #'
 #' @export
 #'
-termGenes <- function(er, term)
-    return(str_split(er@result[er@result$Description == term, ]$geneID,
-                     '/')[[1]])
+termGenes <- function(er, terms, negTerms = NULL){
+    posGenes <- str_split(er@result[er@result$Description %in%
+                                        terms, ]$geneID, '/')[[1]]
+    negGenes <- str_split(er@result[er@result$Description %in%
+                                        negTerms, ]$geneID, '/')[[1]]
+    return(sort(setdiff(posGenes, negGenes)))
+}
+
 
