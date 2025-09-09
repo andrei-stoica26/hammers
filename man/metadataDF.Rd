@@ -23,5 +23,5 @@ A metadata data frame.
 }
 \description{
 This function extracts the metadata from a Seurat or
-SingleCellExperiment object as a data frame
+SingleCellExperiment object as a data frame.
 }

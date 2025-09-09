@@ -1,4 +1,4 @@
-#' @importFrom grDevices dev.new dev.off
+#' @importFrom grDevices dev.new dev.off hcl.colors
 #' @importFrom qs qread
 #'
 NULL

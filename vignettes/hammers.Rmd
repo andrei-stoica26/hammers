@@ -1,0 +1,22 @@
+---
+title: "hammers"
+author: "Andrei-Florian Stoica"
+package: hammers
+date: September 7, 2025
+output: BiocStyle::html_document
+vignette: >
+    %\VignetteIndexEntry{Getting started with CSOA}
+    %\VignetteEngine{knitr::rmarkdown}
+    %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+# Introduction
+
+hammers is a tool for.

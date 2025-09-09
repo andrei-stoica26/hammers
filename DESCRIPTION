@@ -33,6 +33,9 @@ Imports:
     text2vec,
     withr
 Suggests:
-    ggplot2
+    ggplot2,
+    knitr,
+    rmarkdown
 Encoding: UTF-8
 RoxygenNote: 7.3.2
+VignetteBuilder: knitr

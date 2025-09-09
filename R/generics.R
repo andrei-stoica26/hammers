@@ -28,7 +28,7 @@ devPlot <- function(plotObject, ...)
 #' Extract metadata from object as a data frame
 #'
 #' This function extracts the metadata from a Seurat or
-#' SingleCellExperiment object as a data frame
+#' SingleCellExperiment object as a data frame.
 #'
 #' @param scObj A \code{Seurat} or \code{SingleCellExperiment} object.
 #'
