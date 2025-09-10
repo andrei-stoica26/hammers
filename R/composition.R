@@ -9,7 +9,7 @@ NULL
 #'
 #' This function find the differential representation of two Seurat columns.
 #'
-#' @inheritParams colPairCounts
+#' @inheritParams scColPairCounts
 #' @param doOverrep Whether to perform overrepresentation analysis. If
 #' \code{FALSE}, underrepresentation analysis will be performed instead.
 #' @param pvalThr p-value threshold.
@@ -25,10 +25,10 @@ repAnalysis <- function(scObj,
                         doOverrep=TRUE,
                         pvalThr=0.05){
     nCells <- ncol(scObj)
-    df <- colPairCounts(scObj, col1, col2)
+    df <- scColPairCounts(scObj, col1, col2)
     colnames(df)[3] <- 'sharedCount'
-    v1 <- colCounts(scObj, col1)
-    v2 <- colCounts(scObj, col2)
+    v1 <- scColCounts(scObj, col1)
+    v2 <- scColCounts(scObj, col2)
     newCols <- paste0(colnames(df)[c(1, 2)], 'Count')
     df[[newCols[1]]] <- vapply(df[, 1], function(x) v1[x], integer(1))
     df[[newCols[2]]] <- vapply(df[, 2], function(x) v2[x], integer(1))

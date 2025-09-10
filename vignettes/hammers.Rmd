@@ -64,7 +64,6 @@ log-transform the data using the `logNormCounts` function from `scuttle`
 
 ```{r message=FALSE, warning=FALSE, results=FALSE}
 sceObj <- logNormCounts(sceObj)
-seuratObj <- as.Seurat(sceObj)
 ```
 
 We will also need PCA and UMAP dimensions. These can be computed using the 
@@ -139,7 +138,7 @@ Seurat or SingleCellExpression object:
 df1 <- metadataDF(seuratObj)
 df2 <- metadataDF(sceObj)
 identical(df1, df2)
-head(df1)[c(1, 2), ]
+head(df1)[, c(1, 2)]
 ```
 
 The `metadataNames` function extracts the column names of the metadata/coldata 
@@ -152,3 +151,30 @@ identical(colNames1, colNames2)
 head(colNames1)
 ```
 
+Finally, the `scColCounts` and `scColPairCounts` functions are wrappers around 
+`dplyr::count` which enable counting frequencies of elements from one or two 
+categorical columns in a Seurat or SingleCellExpression object:
+
+```{r message=FALSE, warning=FALSE}
+freq1 <- scColCounts(sceObj, 'donor')
+freq2 <- scColCounts(seuratObj, 'donor')
+identical(freq1, freq2)
+head(freq1)
+freq1 <- scColPairCounts(sceObj, 'donor', 'label')
+freq2 <- scColPairCounts(seuratObj, 'donor', 'label')
+identical(freq1, freq2)
+head(freq1)
+```
+
+# Extracting statistical information from single-cell data
+
+The `repAnalysis` function shows which pairs selected from two categorical 
+columns of a single-cell object are:
+
+- Statistically overrepresented. This is the default setting.
+- Statistically underrepresented. This requires setting `doOverrep` to `FALSE`.
+
+```{r message=FALSE, warning=FALSE}
+head(repAnalysis(sceObj, 'donor', 'label'))
+head(repAnalysis(sceObj, 'donor', 'label', doOverrep=FALSE))
+```

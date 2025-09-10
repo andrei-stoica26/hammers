@@ -13,9 +13,9 @@ NULL
 #'
 #' @return A frequency vector with the unique column values as names.
 #'
-#' @noRd
+#' @export
 #'
-colCounts <- function(scObj, col='orig.ident'){
+scColCounts <- function(scObj, col='orig.ident'){
     df <- dplyr::count(metadataDF(scObj), .data[[col]])
     v <- setNames(df[, 2], as.factor(df[, 1]))
     return(v)
@@ -32,9 +32,9 @@ colCounts <- function(scObj, col='orig.ident'){
 #' @return A data frame listing the counts of all combinations of pairs from
 #' two categorical columns.
 #'
-#' @keywords internal
+#' @export
 #'
-colPairCounts <- function(scObj, col1='seurat_clusters', col2='orig.ident')
+scColPairCounts <- function(scObj, col1='seurat_clusters', col2='orig.ident')
     return(dplyr::count(metadataDF(scObj), .data[[col1]], .data[[col2]]))
 
 #' Get nearest neighbors from distance matrix

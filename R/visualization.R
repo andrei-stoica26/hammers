@@ -8,7 +8,7 @@ NULL
 #'
 #' This function plots the distribution of cells across two columns.
 #'
-#' @inheritParams colPairCounts
+#' @inheritParams scColPairCounts
 #' @param plotTitle Plot title.
 #' @param xLab x axis label.
 #' @param yLab y axis label.
@@ -25,7 +25,7 @@ distributionPlot <- function(scObj,
                              yLab = 'Count',
                              legendLab = 'Column 2',
                              palette = 'Spectral'){
-    df <- colPairCounts(scObj, col1, col2)
+    df <- scColPairCounts(scObj, col1, col2)
     nColors <- length(unique(df[, 2]))
     p <- ggplot(df) +
         geom_bar(position='stack',
