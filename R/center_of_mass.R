@@ -33,3 +33,24 @@ geneCenters <- function(scObj, genes){
                        function(x) centerOfMass(dimMat, x))))
     return(centersDF)
 }
+
+#' Calculate the coordinates of centers of mass of metadata/coldata columns
+#'
+#' This function calculates the coordinates of the center of mass of the
+#' selected metadata/coldata columns from a Seurat or SingleCellExpression
+#' object.
+#'
+#' @inheritParams metadataDF
+#' @param columns Numeric columns.
+#'
+#' @return A data frame containing the coordinates of centers of mass.
+#'
+#' @export
+#'
+colCenters <- function(scObj, columns){
+    cols <- metadataDF(scObj)[, columns]
+    dimMat <- scUMAPMat(scObj)
+    centersDF <- data.frame(t(apply(cols, 2,
+                                    function(x) centerOfMass(dimMat, x))))
+    return(centersDF)
+}

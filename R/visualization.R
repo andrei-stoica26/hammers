@@ -99,9 +99,9 @@ pointsDimPlot <- function(seuratObj,
     return(p)
 }
 
-#' Plot Seurat DimPlot with added labeled points
+#' Plot Seurat DimPlot with added labeled points for genes
 #'
-#' This function plots a Seurat DimPlot with added labeled points.
+#' This function plots a Seurat DimPlot with added labeled points for genes.
 #'
 #' @param seuratObj A Seurat object.
 #' @param genes Genes whose centers of mass will be plotted.
@@ -113,5 +113,23 @@ pointsDimPlot <- function(seuratObj,
 #'
 genesDimPlot <- function(seuratObj, genes, ...){
     centersDF <- geneCenters(seuratObj, genes)
+    return(pointsDimPlot(seuratObj, pointsDF=centersDF, ...))
+}
+
+#' Plot Seurat DimPlot with added labeled points for numeric columns
+#'
+#' This function plots a Seurat DimPlot with added labeled points for metadata
+#' numeric columns.
+#'
+#' @param seuratObj A Seurat object.
+#' @param cols Genes whose centers of mass will be plotted.
+#' @param ... Additional parameters passed to \code{pointsDimPlot}.
+#'
+#' @return A ggplot object.
+#'
+#' @export
+#'
+colsDimPlot <- function(seuratObj, cols, ...){
+    centersDF <- colCenters(seuratObj, cols)
     return(pointsDimPlot(seuratObj, pointsDF=centersDF, ...))
 }

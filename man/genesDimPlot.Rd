@@ -2,7 +2,7 @@
 % Please edit documentation in R/visualization.R
 \name{genesDimPlot}
 \alias{genesDimPlot}
-\title{Plot Seurat DimPlot with added labeled points}
+\title{Plot Seurat DimPlot with added labeled points for genes}
 \usage{
 genesDimPlot(seuratObj, genes, ...)
 }
@@ -17,5 +17,5 @@ genesDimPlot(seuratObj, genes, ...)
 A ggplot object.
 }
 \description{
-This function plots a Seurat DimPlot with added labeled points.
+This function plots a Seurat DimPlot with added labeled points for genes.
 }
