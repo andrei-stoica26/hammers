@@ -239,7 +239,7 @@ scDimredMat.SingleCellExperiment <- function(scObj, dimred = c('pca', 'umap')){
     reductions <- names(reducedDims(scObj))
     if(!dimred %in% reductions){
         dimred <- toupper(dimred)
-        if(!dimred %in% reduction)
+        if(!dimred %in% reductions)
             stop(dimred, ' reduction not found in SingleCellExperiment object.')
     }
     return(reducedDim(scObj, dimred))
