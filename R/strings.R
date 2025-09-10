@@ -8,6 +8,9 @@
 #'
 #' @return A character vector.
 #'
+#' @examples
+#' joinCharCombs(c('a', 'b', 'c', 'd'), c('eee', 'ff'), c(1, 2, 3))
+#'
 #' @export
 #'
 joinCharCombs <- function(..., joinChar = '_')

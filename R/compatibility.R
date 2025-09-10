@@ -246,7 +246,6 @@ scDimredMat.SingleCellExperiment <- function(scObj, dimred = c('pca', 'umap')){
 }
 
 ###############################################################################
-
 #' Extracts the PCA matrix from object.
 #'
 #' This function extracts the PCA matrix from a Seurat or
