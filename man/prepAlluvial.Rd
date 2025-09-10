@@ -5,7 +5,7 @@
 \title{Prepare dataframe for alluvial plot}
 \usage{
 prepAlluvial(
-  repDF,
+  df,
   pvalCol = "pvalAdj",
   colIndices = c(1, 2),
   weightExp = 1/2,
@@ -13,7 +13,7 @@ prepAlluvial(
 )
 }
 \arguments{
-\item{repDF}{A representation data frame.}
+\item{df}{A data frame.}
 
 \item{pvalCol}{Name of p-value column.}
 

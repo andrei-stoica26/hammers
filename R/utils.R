@@ -3,29 +3,45 @@
 #'
 NULL
 
-#' Extract count information from Seurat column
+#' Extract count information from single-cell expression object column
 #'
-#' This function extracts count information from Seurat column.
+#' This function extracts count information from the column of a Seurat or
+#' SingleCellExperiment object.
 #'
-#' @param seuratObj A Seurat object.
-#' @param column Column
+#' @inheritParams metadataDF
+#' @param col Column as string.
 #'
 #' @return A frequency vector with the unique column values as names.
 #'
 #' @noRd
 #'
-countsVector <- function(seuratObj, column){
-    df <- dplyr::count(seuratObj[[]], {{column}})
+colCounts <- function(scObj, col='orig.ident'){
+    df <- dplyr::count(metadataDF(scObj), .data[[col]])
     v <- setNames(df[, 2], as.factor(df[, 1]))
     return(v)
 }
 
+#' Extract count information from Seurat column
+#'
+#' This function extracts count information from Seurat column.
+#'
+#' @inheritParams metadataDF
+#' @param col1 Column as string.
+#' @param col2 Column as string.
+#'
+#' @return A data frame listing the counts of all combinations of pairs from
+#' two categorical columns.
+#'
+#' @keywords internal
+#'
+colPairCounts <- function(scObj, col1='seurat_clusters', col2='orig.ident')
+    return(dplyr::count(metadataDF(scObj), .data[[col1]], .data[[col2]]))
 
 #' Get nearest neighbors from distance matrix
 #'
 #' This function gets the nearest neighbors from a distance matrix.
 #'
-#' @param A distance matrix.
+#' @param distMat A distance matrix.
 #'
 #' @return A named character vector.
 #'
@@ -54,7 +70,7 @@ nearestNeighbors <- function(distMat)
 #' This function extracts the relevant information from dataframe and adjusts
 #' p-values to be used as weights for the alluvia.
 #'
-#' @param repDF A representation data frame.
+#' @param df A data frame.
 #' @param pvalCol Name of p-value column.
 #' @param colIndices A vector respresenting the indices of the two categorical
 #' columns from the data frame that will be used.
@@ -65,19 +81,19 @@ nearestNeighbors <- function(distMat)
 #'
 #' @keywords internal
 #'
-prepAlluvial <- function(repDF,
+prepAlluvial <- function(df,
                          pvalCol = 'pvalAdj',
                          colIndices = c(1, 2),
                          weightExp = 1/2,
                          offset = 1e-317){
-    pvals <- sort(repDF[[pvalCol]])
+    pvals <- sort(df[[pvalCol]])
     pvals[-1] <- -log(pvals[-1] + offset)
     if (pvals[1])
         pvals[1] <- -log(pvals[1]) else
             if (length(pvals) > 2)
                 pvals[1] <- 2 * pvals[2] - pvals[3] else
                     pvals[1] <- 1
-    resDF <- repDF[, colIndices]
+    resDF <- df[, colIndices]
     resDF$weight <- pvals ^ weightExp
     return(resDF)
 }

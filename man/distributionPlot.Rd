@@ -7,8 +7,8 @@
 distributionPlot(
   scObj,
   plotTitle = "Distribution plot",
-  col1 = seurat_clusters,
-  col2 = orig.ident,
+  col1 = "seurat_clusters",
+  col2 = "orig.ident",
   xLab = "Column 1",
   yLab = "Count",
   legendLab = "Column 2",
@@ -20,9 +20,9 @@ distributionPlot(
 
 \item{plotTitle}{Plot title.}
 
-\item{col1}{Column 1}
+\item{col1}{Column as string.}
 
-\item{col2}{Column 2.}
+\item{col2}{Column as string.}
 
 \item{xLab}{x axis label.}
 

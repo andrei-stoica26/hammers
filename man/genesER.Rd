@@ -4,12 +4,15 @@
 \alias{genesER}
 \title{Perform enrichment analysis on a set of genes}
 \usage{
-genesER(genes, species, funStr = c("enrichGO", "enrichKEGG", "enrichWP"))
+genesER(genes, species, funString = c("enrichGO", "enrichKEGG", "enrichWP"))
 }
 \arguments{
 \item{genes}{A character vector of gene symbols.}
 
 \item{species}{Species. Must be one of 'human', 'mouse' and 'zebrafish'.}
+
+\item{funString}{Name of enrichment function from \code{clusterProfiler}.
+Must be a character selected from 'enrichGO', 'enrichKEGG' and 'enrichWP'.}
 }
 \value{
 Enrichment result.

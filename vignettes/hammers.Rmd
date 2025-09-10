@@ -19,4 +19,136 @@ knitr::opts_chunk$set(
 
 # Introduction
 
-hammers is a tool for.
+hammers is a tool fo
+
+# Installation
+
+To install hammers, run the following commands in an R session:
+
+```{r setup, eval=FALSE}
+if (!require("BiocManager", quietly=TRUE))
+    install.packages("BiocManager")
+
+BiocManager::install("hammers")
+```
+
+# Prerequisites
+In addition to hammers, you need to install [scater](https://bioconductor.org/packages/release/bioc/html/scater.html) and [scRNAseq](https://bioconductor.org/packages/release/data/experiment/html/scRNAseq.html).
+
+# Loading data
+
+This tutorial uses an scRNA-seq human pancreas dataset. After loading the 
+required packages, download the dataset using the `BaronPancreasData` function 
+from `scRNAseq`. The dataset will be stored as a `SingleCellExperiment` object. 
+
+```{r message=FALSE, warning=FALSE, results=FALSE}
+library(hammers)
+library(scRNAseq)
+library(scater)
+library(Seurat)
+
+sceObj <- BaronPancreasData('human')
+
+```
+
+# Providing compatibility between Seurat and SingleCellExperiment objects
+
+hammers provides a series of functions that can equally operate on Seurat and
+SingleCellExperiment objects. These functions are mainly intended to help
+developers build tools compatible with both types of input.
+
+To illustrate this functionality of hammers, we will first normalize and 
+log-transform the data using the `logNormCounts` function from `scuttle` 
+(loaded with `scater`).
+
+
+```{r message=FALSE, warning=FALSE, results=FALSE}
+sceObj <- logNormCounts(sceObj)
+seuratObj <- as.Seurat(sceObj)
+```
+
+We will also need PCA and UMAP dimensions. These can be computed using the 
+`runPCA` and `runUMAP` functions from `scater`:
+
+```{r message=FALSE, warning=FALSE, results=FALSE}
+sceObj <- runPCA(sceObj)
+sceObj <- runUMAP(sceObj)
+```
+
+Now we will convert the dataset to a Seurat object:
+
+```{r message=FALSE, warning=FALSE, results=FALSE}
+seuratObj <- as.Seurat(sceObj)
+```
+
+Next, we will introduce the `scExpMat` function, which extracts the expression
+matrix from a Seurat or SingleCellExperiment object.
+
+```{r message=FALSE, warning=FALSE}
+mat1 <- scExpMat(sceObj)
+dim(mat1)
+mat2 <- scExpMat(seuratObj)
+identical(mat1, mat2)
+```
+
+By default, the function extracts normalized and log-transformed single-cell
+expression data, so it looks for the `data` assay for a Seurat object and for
+the `logcounts` one for a SingleCellExperiment object. This behavior can be
+changed by setting the `dataType` parameter to `counts`.
+
+`scExpMat` can also take a matrix as input. This option is useful when building
+functions allowing users to use either a single-cell expression matrix or an
+object of a dedicated class (Seurat, SingleCellExperiment) as input:
+
+```{r message=FALSE, warning=FALSE}
+mat2 <- scExpMat(mat1)
+identical(mat1, mat2)
+```
+
+By default, `scExpMat`converts the expression matrix to a dense matrix. 
+If this behavior is not desired, conversion can be skipped by setting `densify`
+to `FALSE`:
+
+```{r message=FALSE, warning=FALSE}
+is(mat1)[1]
+mat2 <- scExpMat(sceObj, densify=FALSE)
+is(mat2)[2]
+```
+
+The function can also extract the expression data only for selected genes:
+
+```{r message=FALSE, warning=FALSE}
+mat2 <- scExpMat(sceObj, genes=rownames(sceObj)[seq(30, 80)])
+dim(mat2)
+```
+
+The `scCol` function extracts a column from the metadata of the Seurat object or
+the coldata of the SingleCellExperiment object:
+
+```{r message=FALSE, warning=FALSE}
+col1 <- scCol(seuratObj, 'label')
+col2 <- scCol(sceObj, 'label')
+identical(col1, col2)
+head(col1)
+```
+
+The `metadataDF` function extracts the metadata/coldata data frame from a
+Seurat or SingleCellExpression object:
+
+```{r message=FALSE, warning=FALSE}
+df1 <- metadataDF(seuratObj)
+df2 <- metadataDF(sceObj)
+identical(df1, df2)
+head(df1)[c(1, 2), ]
+```
+
+The `metadataNames` function extracts the column names of the metadata/coldata 
+data frame from a Seurat or SingleCellExpression object:
+
+```{r message=FALSE, warning=FALSE}
+colNames1 <- metadataNames(seuratObj)
+colNames2 <- metadataNames(sceObj)
+identical(colNames1, colNames2)
+head(colNames1)
+```
+

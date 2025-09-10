@@ -156,22 +156,54 @@ scExpMat.matrix <- function(scObj,
 }
 
 ###############################################################################
-#' @rdname scPCAMat
-#' @export
+#' @noRd
 #'
-scPCAMat.default <- function(scObj)
+scDimredMat.default <- function(scObj, dimred = c('pca', 'umap'))
     stop('Unrecognized input type: scObj must be a Seurat or ',
          'SingleCellExpression object')
 
-#' @rdname scPCAMat
-#' @export
+#' @noRd
 #'
-scPCAMat.Seurat <- function(scObj)
-    return(as.matrix(Embeddings(scObj, reduction="pca")))
+scDimredMat.Seurat <- function(scObj, dimred = c('pca', 'umap'))
+{
+    dimred <- match.arg(dimred, c('pca', 'umap'))
+    return(as.matrix(Embeddings(scObj, reduction=dimred)))
+}
 
-#' @rdname scPCAMat
+#' @noRd
+#'
+scDimredMat.SingleCellExperiment <- function(scObj){
+    dimred <- toupper(match.arg(dimred, c('pca', 'umap')))
+    return(reducedDim(scObj, dimred))
+}
+
+###############################################################################
+
+#' Extracts the PCA matrix from object.
+#'
+#' This function extracts the PCA matrix from a Seurat or
+#' SingleCellExperiment object.
+#'
+#' @inheritParams metadataNames
+#'
+#' @return A PCA matrix.
+#'
 #' @export
 #'
-scPCAMat.SingleCellExperiment <- function(scObj)
-    return(reducedDim(scObj, 'PCA'))
+scPCAMat <- function(scObj)
+    return(scDimredMat(scObj, 'pca'))
+
+#' Extracts the UMAP matrix from object.
+#'
+#' This function extracts the UMAP matrix from a Seurat or
+#' SingleCellExperiment object.
+#'
+#' @inheritParams metadataNames
+#'
+#' @return A UMAP matrix.
+#'
+#' @export
+#'
+scUMAPMat <- function(scObj)
+    return(scDimredMat(scObj, 'umap'))
 

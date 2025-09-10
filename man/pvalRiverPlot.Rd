@@ -7,6 +7,8 @@
 pvalRiverPlot(df, weightExp = 1/2, ...)
 }
 \arguments{
+\item{df}{A data frame.}
+
 \item{weightExp}{Exponent used in constructing weight from p-values.}
 
 \item{...}{Additional parameters passed to \code{henna::riverPlot}}

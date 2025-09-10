@@ -4,14 +4,20 @@
 \alias{repAnalysis}
 \title{Find the differential representation of two Seurat columns}
 \usage{
-repAnalysis(seuratObj, column1, column2, doOverrep = TRUE, pvalThr = 0.05)
+repAnalysis(
+  scObj,
+  col1 = "seurat_clusters",
+  col2 = "orig.ident",
+  doOverrep = TRUE,
+  pvalThr = 0.05
+)
 }
 \arguments{
-\item{seuratObj}{A Seurat object.}
+\item{scObj}{A \code{Seurat} or \code{SingleCellExperiment} object.}
 
-\item{column1}{First column.}
+\item{col1}{Column as string.}
 
-\item{column2}{Second column.}
+\item{col2}{Column as string.}
 
 \item{doOverrep}{Whether to perform overrepresentation analysis. If
 \code{FALSE}, underrepresentation analysis will be performed instead.}

@@ -7,7 +7,7 @@
 getEnrichmentResult(
   entrezIDs,
   species = c("human", "mouse", "zebrafish"),
-  funString = c("enrichGO", "enrichKEGG", "enrichWP", )
+  funString = c("enrichGO", "enrichKEGG", "enrichWP")
 )
 }
 \arguments{

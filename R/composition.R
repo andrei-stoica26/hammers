@@ -9,9 +9,7 @@ NULL
 #'
 #' This function find the differential representation of two Seurat columns.
 #'
-#' @param seuratObj A Seurat object.
-#' @param column1 First column.
-#' @param column2 Second column.
+#' @inheritParams colPairCounts
 #' @param doOverrep Whether to perform overrepresentation analysis. If
 #' \code{FALSE}, underrepresentation analysis will be performed instead.
 #' @param pvalThr p-value threshold.
@@ -21,13 +19,16 @@ NULL
 #' @export
 #'
 #'
-repAnalysis <- function(seuratObj, column1, column2, doOverrep=TRUE,
+repAnalysis <- function(scObj,
+                        col1='seurat_clusters',
+                        col2='orig.ident',
+                        doOverrep=TRUE,
                         pvalThr=0.05){
-    nCells <- ncol(seuratObj)
-    df <- dplyr::count(seuratObj[[]], {{column1}}, {{column2}})
+    nCells <- ncol(scObj)
+    df <- colPairCounts(scObj, col1, col2)
     colnames(df)[3] <- 'sharedCount'
-    v1 <- countsVector(seuratObj, {{column1}})
-    v2 <- countsVector(seuratObj, {{column2}})
+    v1 <- colCounts(scObj, col1)
+    v2 <- colCounts(scObj, col2)
     newCols <- paste0(colnames(df)[c(1, 2)], 'Count')
     df[[newCols[1]]] <- vapply(df[, 1], function(x) v1[x], integer(1))
     df[[newCols[2]]] <- vapply(df[, 2], function(x) v2[x], integer(1))
@@ -38,6 +39,6 @@ repAnalysis <- function(seuratObj, column1, column2, doOverrep=TRUE,
         df[, 3] - doOverrep, df[, 4], nCells - df[, 4], df[, 5])
     df <- df[order(df$pval), ]
     df$pvalAdj <- BY(df$pval, pvalThr)$Adjusted.pvalues
-    df <- subset(df, pvalAdj < pvalThr)
+    df <- df[df[, 'pvalAdj'] < pvalThr, ]
     return(df)
 }

@@ -5,7 +5,7 @@
 \alias{scCol.Seurat}
 \alias{scCol.SingleCellExperiment}
 \alias{scCol}
-\title{Extract a metadata column from object.}
+\title{Extract a metadata/coldata column from object.}
 \usage{
 \method{scCol}{default}(scObj, colStr)
 
@@ -24,6 +24,6 @@ scCol(scObj, colStr)
 A column vector.
 }
 \description{
-This function extracts a metadata column from a Seurat or
+This function extracts a metadata/coldata column from a Seurat or
 SingleCellExperiment object.
 }

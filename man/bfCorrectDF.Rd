@@ -4,7 +4,7 @@
 \alias{bfCorrectDF}
 \title{Perform multiple testing correction and filtering with Bonferroni}
 \usage{
-bfCorrectDF(df, nTests, pvalThr = 0.05, colStr = "pval")
+bfCorrectDF(df, nTests, pvalThr = 0.05, colStr = "pval", newColStr = "pvalAdj")
 }
 \arguments{
 \item{df}{A dataframe with a column of p-values.}
@@ -14,6 +14,9 @@ bfCorrectDF(df, nTests, pvalThr = 0.05, colStr = "pval")
 \item{pvalThr}{p-value threshold.}
 
 \item{colStr}{Name of the column of p-values.}
+
+\item{newColStr}{Name of the column of adjusted p-values that will be
+created.}
 }
 \value{
 The data frame with Benjamini-Yekutieli-corrected p-values.

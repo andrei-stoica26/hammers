@@ -8,6 +8,8 @@
 #' @param nTests Number of tests.
 #' @param pvalThr p-value threshold.
 #' @param colStr Name of the column of p-values.
+#' @param newColStr Name of the column of adjusted p-values that will be
+#' created.
 #'
 #' @return The data frame with Benjamini-Yekutieli-corrected p-values.
 #'
@@ -18,9 +20,13 @@
 #'
 #' @export
 #'
-bfCorrectDF <- function(df, nTests, pvalThr = 0.05, colStr = 'pval'){
-    df$pvalAdj <- df[[colStr]] * nTests
-    df <- subset(df, pvalAdj < pvalThr)
+bfCorrectDF <- function(df,
+                        nTests,
+                        pvalThr = 0.05,
+                        colStr = 'pval',
+                        newColStr = 'pvalAdj'){
+    df[[newColStr]] <- df[[colStr]] * nTests
+    df <- df[df[, newColStr] < pvalThr, ]
     return(df)
 }
 
@@ -42,9 +48,12 @@ bfCorrectDF <- function(df, nTests, pvalThr = 0.05, colStr = 'pval'){
 #' @export
 #'
 #'
-byCorrectDF <- function(df, pvalThr = 0.05, colStr = 'pval'){
+byCorrectDF <- function(df,
+                        pvalThr = 0.05,
+                        colStr = 'pval',
+                        newColStr = 'pvalAdj'){
     df <- df[order(df[[colStr]]), ]
-    df$pvalAdj <- BY(df[[colStr]], pvalThr)$Adjusted.pvalues
-    df <- subset(df, pvalAdj < pvalThr)
+    df[[newColStr]] <- BY(df[[colStr]], pvalThr)$Adjusted.pvalues
+    df <- df[df[, newColStr] < pvalThr, ]
     return(df)
 }

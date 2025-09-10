@@ -55,9 +55,9 @@ metadataNames <- function(scObj)
     UseMethod(generic='metadataNames', object=scObj)
 
 
-#' Extract a metadata column from object.
+#' Extract a metadata/coldata column from object.
 #'
-#' This function extracts a metadata column from a Seurat or
+#' This function extracts a metadata/coldata column from a Seurat or
 #' SingleCellExperiment object.
 #'
 #' @inheritParams metadataNames
@@ -70,19 +70,19 @@ metadataNames <- function(scObj)
 scCol <- function(scObj, colStr)
     UseMethod(generic='scCol', object=scObj)
 
-#' Extracts the PCA matrix from object.
+#' Extracts a dimensionality reduction matrix from object.
 #'
-#' This function extracts the PCA matrix from a Seurat or
-#' SingleCellExperiment object.
+#' This function extracts a dimensionality reduction matrix (PCA or UMAP)
+#' from a Seurat or SingleCellExperiment object.
 #'
 #' @inheritParams metadataNames
 #'
-#' @return A PCA matrix.
+#' @return A PCA or UMAP matrix.
 #'
-#' @export
+#' @noRd
 #'
-scPCAMat <- function(scObj)
-    UseMethod(generic='scPCAMat', object=scObj)
+scDimredMat <- function(scObj, dimred = c('pca', 'PCA', 'umap', 'UMAP'))
+    UseMethod(generic='scDimredMat', object=scObj)
 
 #' Extracts the expression matrix from object.
 #'

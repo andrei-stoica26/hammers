@@ -7,7 +7,7 @@
 nearestNeighbors(distMat)
 }
 \arguments{
-\item{A}{distance matrix.}
+\item{distMat}{A distance matrix.}
 }
 \value{
 A named character vector.

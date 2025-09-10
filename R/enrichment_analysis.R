@@ -25,14 +25,10 @@ getEnrichmentResult <- function(entrezIDs,
                                 species = c('human', 'mouse', 'zebrafish'),
                                 funString = c('enrichGO',
                                               'enrichKEGG',
-                                              'enrichWP',
-                                              )){
+                                              'enrichWP')){
     species <- match.arg(species, c('human', 'mouse', 'zebrafish'))
-    funString <- match.arg(funString, c('enrichGO',
-                                        'enrichKEGG',
-                                        'enrichWP'))
-    df <- data.frame(database = c('org.Hs.eg.db',
-                                  'org.Mm.eg.db',
+    funString <- match.arg(funString, c('enrichGO', 'enrichKEGG', 'enrichWP'))
+    df <- data.frame(database = c('org.Hs.eg.db', 'org.Mm.eg.db',
                                   'org.Dr.eg.db'),
                      code = c('hsa', 'dre', 'mmu'))
     rownames(df) <- c('human', 'mouse', 'zebrafish')
@@ -59,7 +55,7 @@ getEnrichmentResult <- function(entrezIDs,
 #'
 #' @keywords internal
 #'
-entrezGenes <- function(genes, species){
+entrezGenes <- function(genes, species = c('human', 'mouse', 'zebrafish')){
     species <- match.arg(species, c('human', 'mouse', 'zebrafish'))
     return(switch(species,
            'human' = AnnotationDbi::select(org.Hs.eg.db,
@@ -88,8 +84,8 @@ entrezGenes <- function(genes, species){
 #' @export
 #'
 genesER <- function(genes, species,
-                    funStr = c('enrichGO','enrichKEGG', 'enrichWP'))
-    return(getEnrichmentResult(entrezGenes(genes, species), species, funStr))
+                    funString = c('enrichGO','enrichKEGG', 'enrichWP'))
+    return(getEnrichmentResult(entrezGenes(genes, species), species, funString))
 
 #' Extract genes enriched for term
 #'
@@ -114,7 +110,3 @@ termGenes <- function(er, terms, negTerms = NULL){
                                                 negGenes <- NULL
     return(sort(setdiff(posGenes, negGenes)))
 }
-
-
-
-

@@ -1,3 +1,5 @@
+#' @importFrom ggplot2 aes ggplot geom_bar labs scale_fill_manual theme_classic
+#' @importFrom rlang .data
 #' @importFrom henna centerTitle riverPlot
 #'
 NULL
@@ -6,10 +8,8 @@ NULL
 #'
 #' This function plots the distribution of cells across two columns.
 #'
-#' @inheritParams metadataDF
+#' @inheritParams colPairCounts
 #' @param plotTitle Plot title.
-#' @param col1 Column 1
-#' @param col2 Column 2.
 #' @param xLab x axis label.
 #' @param yLab y axis label.
 #' @param legendLab Legend label.
@@ -19,13 +19,13 @@ NULL
 #'
 distributionPlot <- function(scObj,
                              plotTitle = 'Distribution plot',
-                             col1 = seurat_clusters,
-                             col2 = orig.ident,
+                             col1 = 'seurat_clusters',
+                             col2 = 'orig.ident',
                              xLab = 'Column 1',
                              yLab = 'Count',
                              legendLab = 'Column 2',
                              palette = 'Spectral'){
-    df <- dplyr::count(metadataDF(scObj), {{col1}}, {{col2}})
+    df <- colPairCounts(scObj, col1, col2)
     nColors <- length(unique(df[, 2]))
     p <- ggplot(df) +
         geom_bar(position='stack',

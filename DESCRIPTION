@@ -17,6 +17,7 @@ Imports:
     clusterProfiler,
     DOSE,
     dplyr,
+    ggplot2,
     grDevices,
     henna,
     liver,
@@ -24,6 +25,7 @@ Imports:
     org.Hs.eg.db,
     org.Mm.eg.db,
     qs,
+    rlang,
     SeuratObject,
     SingleCellExperiment,
     SummarizedExperiment,
@@ -33,9 +35,11 @@ Imports:
     text2vec,
     withr
 Suggests:
-    ggplot2,
     knitr,
-    rmarkdown
+    rmarkdown,
+    Seurat,
+    scRNAseq,
+    scater
 Encoding: UTF-8
 RoxygenNote: 7.3.2
 VignetteBuilder: knitr

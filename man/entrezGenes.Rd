@@ -4,7 +4,7 @@
 \alias{entrezGenes}
 \title{Convert gene symbols to Entrez IDs.}
 \usage{
-entrezGenes(genes, species)
+entrezGenes(genes, species = c("human", "mouse", "zebrafish"))
 }
 \arguments{
 \item{genes}{A character vector of gene symbols.}
