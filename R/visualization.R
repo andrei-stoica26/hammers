@@ -1,6 +1,7 @@
-#' @importFrom ggplot2 aes ggplot geom_bar labs scale_fill_manual theme_classic
-#' @importFrom rlang .data
+#' @importFrom ggplot2 aes ggplot geom_bar geom_point labs scale_fill_manual theme_classic
+#' @importFrom ggrepel geom_text_repel
 #' @importFrom henna centerTitle riverPlot
+#' @importFrom rlang .data
 #'
 NULL
 
@@ -56,4 +57,61 @@ pvalRiverPlot <- function(df, weightExp = 1/2, ...){
     return(p)
 }
 
+#' Plot Seurat DimPlot with added labeled points
+#'
+#' This function plots a Seurat DimPlot with added labeled points.
+#'
+#' @param seuratObj A Seurat object.
+#' @param pointsDF A data frame of points with two columns representing the x
+#' and y coordinates.
+#' @param pointShape Point shape.
+#' @param pointSize Point size.
+#' @param labelSize Label size.
+#' @param maxOverlaps Maximum overlaps.
+#' @param ... Additional parameters passed to \code{Seurat::DimPlot}.
+#'
+#' @return A ggplot object.
+#'
+#' @export
+#'
+pointsDimPlot <- function(seuratObj,
+                          plotTitle = 'Dim plot',
+                          pointsDF = NULL,
+                          pointShape = 4,
+                          pointSize = 2,
+                          labelSize = 2.5,
+                          maxOverlaps = 30,
+                          ...){
+    p <- DimPlot(seuratObj, ...)
+    if(!is.null(pointsDF))
+        p <- p + geom_point(aes(.data[[names(pointsDF)[1]]],
+                                .data[[names(pointsDF)[2]]]),
+                            data=pointsDF,
+                            shape=pointShape,
+                            size=pointSize) +
+            geom_text_repel(aes(.data[[names(pointsDF)[1]]],
+                                .data[[names(pointsDF)[2]]]),
+                            data=pointsDF,
+                            label=rownames(pointsDF),
+                            size=labelSize,
+                            max.overlaps=maxOverlaps)
+    p <- centerTitle(p, plotTitle)
+    return(p)
+}
 
+#' Plot Seurat DimPlot with added labeled points
+#'
+#' This function plots a Seurat DimPlot with added labeled points.
+#'
+#' @param seuratObj A Seurat object.
+#' @param genes Genes whose centers of mass will be plotted.
+#' @param ... Additional parameters passed to \code{pointsDimPlot}.
+#'
+#' @return A ggplot object.
+#'
+#' @export
+#'
+genesDimPlot <- function(seuratObj, genes, ...){
+    centersDF <- geneCenters(seuratObj, genes)
+    return(pointsDimPlot(seuratObj, pointsDF=centersDF, ...))
+}

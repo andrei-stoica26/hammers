@@ -1,5 +1,5 @@
-#' @importFrom SeuratObject Embeddings
-#' @importFrom SingleCellExperiment colData reducedDim
+#' @importFrom SeuratObject Embeddings Reductions
+#' @importFrom SingleCellExperiment colData reducedDim reducedDims
 #' @importFrom SummarizedExperiment assay
 #'
 NULL
@@ -130,17 +130,14 @@ scGeneExp.matrix <- function(scObj,
 #' @export
 #'
 scExpMat.default <- function(scObj,
-                             dataType = c('counts',
-                                          'data',
+                             dataType = c('data',
+                                          'counts',
                                           'logcounts'),
                              genes = NULL,
                              densify = TRUE)
     stop('Unrecognized input type: scObj must be a Seurat, ',
          'SingleCellExpression, matrix or dgCMatrix object')
 
-#' @param dataType Expression data type. Must be one of 'counts', 'data' and
-#' 'logcounts' (equivalent to 'data').
-#'
 #' @rdname scExpMat
 #' @export
 #'
@@ -150,7 +147,7 @@ scExpMat.Seurat <- function(scObj,
                                          'logcounts'),
                             genes = NULL,
                             densify = TRUE){
-    dataType <- match.arg(dataType, c('counts', 'data', 'logcounts'))
+    dataType <- match.arg(dataType, c('data', 'counts', 'logcounts'))
     if (dataType == 'logcounts')
         dataType <- 'data'
     mat <- LayerData(scObj, layer=dataType)
@@ -161,9 +158,6 @@ scExpMat.Seurat <- function(scObj,
     return(mat)
 }
 
-#' @param dataType Expression data type. Must be one of 'counts',
-#' 'logcounts' and 'data' (equivalent to 'logcounts').
-#'
 #' @rdname scExpMat
 #' @export
 #'
@@ -229,13 +223,25 @@ scDimredMat.default <- function(scObj, dimred = c('pca', 'umap'))
 scDimredMat.Seurat <- function(scObj, dimred = c('pca', 'umap'))
 {
     dimred <- match.arg(dimred, c('pca', 'umap'))
+    reductions <- Reductions(scObj)
+    if(!dimred %in% reductions){
+        dimred <- toupper(dimred)
+        if(!dimred %in% reductions)
+            stop(dimred, ' reduction not found in Seurat object.')
+    }
     return(as.matrix(Embeddings(scObj, reduction=dimred)))
 }
 
 #' @noRd
 #'
 scDimredMat.SingleCellExperiment <- function(scObj, dimred = c('pca', 'umap')){
-    dimred <- toupper(match.arg(dimred, c('pca', 'umap')))
+    dimred <- match.arg(dimred, c('pca', 'umap'))
+    reductions <- names(reducedDims(scObj))
+    if(!dimred %in% reductions){
+        dimred <- toupper(dimred)
+        if(!dimred %in% reduction)
+            stop(dimred, ' reduction not found in SingleCellExperiment object.')
+    }
     return(reducedDim(scObj, dimred))
 }
 

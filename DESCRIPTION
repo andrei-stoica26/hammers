@@ -18,6 +18,7 @@ Imports:
     DOSE,
     dplyr,
     ggplot2,
+    ggrepel,
     grDevices,
     henna,
     liver,
@@ -38,8 +39,8 @@ Suggests:
     knitr,
     rmarkdown,
     Seurat,
-    scRNAseq,
-    scater
+    scater,
+    scRNAseq
 Encoding: UTF-8
 RoxygenNote: 7.3.2
 VignetteBuilder: knitr
