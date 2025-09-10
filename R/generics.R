@@ -81,18 +81,35 @@ scCol <- function(scObj, colStr)
 #'
 #' @noRd
 #'
-scDimredMat <- function(scObj, dimred = c('pca', 'PCA', 'umap', 'UMAP'))
+scDimredMat <- function(scObj, dimred = c('pca', 'umap'))
     UseMethod(generic='scDimredMat', object=scObj)
+
+#' Extracts the expression of a single gene
+#'
+#' This function extracts the expression of a single gene from a Seurat,
+#' SingleCellExperiment, dgCMatrix or matrix object.
+#
+#' @param scObj A \code{Seurat}, \code{SingleCellExperiment},
+#' \code{dgCMatrix} or \code{matrix} object.
+#' @param gene Selected gene.
+#' @param dataType Expression data type. Ignored if \code{scObj} is of class
+#' \code{dgCMatrix} or \code{matrix}.
+#'
+#' @return A gene expression vector,
+#'
+#' @export
+#'
+scGeneExp <- function(scObj, gene, dataType = c('data',
+                                                'counts',
+                                                'logcounts'))
+    UseMethod(generic='scGeneExp', object=scObj)
 
 #' Extracts the expression matrix from object.
 #'
 #' This function extracts an expression matrix from a Seurat or
 #' SingleCellExperiment object.
 #'
-#' @param scObj A \code{Seurat}, \code{SingleCellExperiment},
-#' \code{dgCMatrix} or \code{matrix} object.
-#' @param dataType Expression data type. Ignored if \code{scObj} is of class
-#' \code{dgCMatrix} or \code{matrix}.
+#' @inheritParams scGeneExp
 #' @param genes Selected genes. If \code{NULL}, all genes will be retained
 #' @param densify Whether to convert to dense matrix.
 #'
@@ -100,8 +117,8 @@ scDimredMat <- function(scObj, dimred = c('pca', 'PCA', 'umap', 'UMAP'))
 #'
 #' @export
 #'
-scExpMat <- function(scObj, dataType = c('counts',
-                                         'data',
+scExpMat <- function(scObj, dataType = c('data',
+                                         'counts',
                                          'logcounts'),
                      genes = NULL,
                      densify = TRUE)

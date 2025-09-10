@@ -63,6 +63,67 @@ scCol.Seurat <- function(scObj, colStr)
 scCol.SingleCellExperiment <- function(scObj, colStr)
     return(scObj[[colStr]])
 
+###############################################################################
+#' @rdname scGeneExp
+#' @export
+#'
+scGeneExp.default <- function(scObj, gene, dataType = c('counts',
+                                                        'data',
+                                                        'logcounts'))
+    stop('Unrecognized input type: scObj must be a Seurat, ',
+         'SingleCellExpression, matrix or dgCMatrix object')
+
+#' @param dataType Expression data type. Must be one of 'counts' and 'data'.
+#'
+#' @rdname scGeneExp
+#' @export
+#'
+scGeneExp.Seurat <- function(scObj,
+                             gene,
+                             dataType = c('counts',
+                                          'data',
+                                          'logcounts')){
+    dataType <- match.arg(dataType, c('counts', 'data', 'logcounts'))
+    if (dataType == 'logcounts')
+        dataType <- 'data'
+    return(LayerData(scObj, dataType)[gene, ])
+}
+
+#' @param dataType Expression data type. Must be one of 'counts' and 'logcounts'.
+#'
+#' @rdname scGeneExp
+#' @export
+#'
+scGeneExp.SingleCellExperiment <- function(scObj,
+                                           gene,
+                                           dataType = c('counts',
+                                                        'data',
+                                                        'logcounts')){
+    dataType <- match.arg(dataType, c('counts', 'data', 'logcounts'))
+    if (dataType == 'data')
+        dataType <- 'logcounts'
+    return(assay(scObj, dataType)[gene, ])
+}
+
+#' @rdname scGeneExp
+#' @export
+#'
+scGeneExp.dgCMatrix <- function(scObj,
+                                gene,
+                                dataType = c('counts',
+                                             'data',
+                                             'logcounts'))
+    return(scObj[gene, ])
+
+#' @rdname scGeneExp
+#' @export
+#'
+scGeneExp.matrix <- function(scObj,
+                             gene,
+                             dataType = c('counts',
+                                          'data',
+                                          'logcounts'))
+    return(scObj[gene, ])
 
 ###############################################################################
 #' @rdname scExpMat
@@ -77,14 +138,15 @@ scExpMat.default <- function(scObj,
     stop('Unrecognized input type: scObj must be a Seurat, ',
          'SingleCellExpression, matrix or dgCMatrix object')
 
-#' @param dataType Expression data type. Must be one of 'counts' and 'data'.
+#' @param dataType Expression data type. Must be one of 'counts', 'data' and
+#' 'logcounts' (equivalent to 'data').
 #'
 #' @rdname scExpMat
 #' @export
 #'
 scExpMat.Seurat <- function(scObj,
-                            dataType = c('counts',
-                                         'data',
+                            dataType = c('data',
+                                         'counts',
                                          'logcounts'),
                             genes = NULL,
                             densify = TRUE){
@@ -99,20 +161,20 @@ scExpMat.Seurat <- function(scObj,
     return(mat)
 }
 
-#' @param dataType Expression data type. Must be one of 'counts'
-#' and 'logcounts'.
+#' @param dataType Expression data type. Must be one of 'counts',
+#' 'logcounts' and 'data' (equivalent to 'logcounts').
 #'
 #' @rdname scExpMat
 #' @export
 #'
 scExpMat.SingleCellExperiment <- function(scObj,
-                                          dataType = c('counts',
-                                                       'data',
+                                          dataType = c('data',
+                                                       'counts',
                                                        'logcounts'),
                                           genes = NULL,
                                           densify = TRUE){
 
-    dataType <- match.arg(dataType, c('counts', 'data', 'logcounts'))
+    dataType <- match.arg(dataType, c('data', 'counts', 'logcounts'))
     if (dataType == 'data')
         dataType <- 'logcounts'
     mat <- assay(scObj, dataType)
@@ -127,8 +189,8 @@ scExpMat.SingleCellExperiment <- function(scObj,
 #' @export
 #'
 scExpMat.dgCMatrix <- function(scObj,
-                               dataType = c('counts',
-                                            'data',
+                               dataType = c('data',
+                                            'counts',
                                             'logcounts'),
                                genes = NULL,
                                densify = TRUE){
@@ -144,8 +206,8 @@ scExpMat.dgCMatrix <- function(scObj,
 #' @export
 #'
 scExpMat.matrix <- function(scObj,
-                               dataType = c('counts',
-                                            'data',
+                               dataType = c('data',
+                                            'counts',
                                             'logcounts'),
                                genes = NULL,
                                densify = TRUE){

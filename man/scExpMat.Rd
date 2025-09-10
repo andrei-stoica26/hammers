@@ -18,35 +18,35 @@
 
 \method{scExpMat}{Seurat}(
   scObj,
-  dataType = c("counts", "data", "logcounts"),
+  dataType = c("data", "counts", "logcounts"),
   genes = NULL,
   densify = TRUE
 )
 
 \method{scExpMat}{SingleCellExperiment}(
   scObj,
-  dataType = c("counts", "data", "logcounts"),
+  dataType = c("data", "counts", "logcounts"),
   genes = NULL,
   densify = TRUE
 )
 
 \method{scExpMat}{dgCMatrix}(
   scObj,
-  dataType = c("counts", "data", "logcounts"),
+  dataType = c("data", "counts", "logcounts"),
   genes = NULL,
   densify = TRUE
 )
 
 \method{scExpMat}{matrix}(
   scObj,
-  dataType = c("counts", "data", "logcounts"),
+  dataType = c("data", "counts", "logcounts"),
   genes = NULL,
   densify = TRUE
 )
 
 scExpMat(
   scObj,
-  dataType = c("counts", "data", "logcounts"),
+  dataType = c("data", "counts", "logcounts"),
   genes = NULL,
   densify = TRUE
 )
@@ -55,8 +55,8 @@ scExpMat(
 \item{scObj}{A \code{Seurat}, \code{SingleCellExperiment},
 \code{dgCMatrix} or \code{matrix} object.}
 
-\item{dataType}{Expression data type. Ignored if \code{scObj} is of class
-\code{dgCMatrix} or \code{matrix}.}
+\item{dataType}{Expression data type. Must be one of 'counts',
+'logcounts' and 'data' (equivalent to 'logcounts').}
 
 \item{genes}{Selected genes. If \code{NULL}, all genes will be retained}
 

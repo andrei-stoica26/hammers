@@ -48,7 +48,6 @@ library(scater)
 library(Seurat)
 
 sceObj <- BaronPancreasData('human')
-
 ```
 
 # Providing compatibility between Seurat and SingleCellExperiment objects
@@ -66,6 +65,7 @@ log-transform the data using the `logNormCounts` function from `scuttle`
 sceObj <- logNormCounts(sceObj)
 ```
 
+View(sceObj)
 We will also need PCA and UMAP dimensions. These can be computed using the 
 `runPCA` and `runUMAP` functions from `scater`:
 
