@@ -16,8 +16,12 @@ NULL
 #'
 #' @return An overrepresentation or underrepresentation data frame.
 #'
-#' @export
+#' @examples
+#' sceObj <- scRNAseq::BaronPancreasData('human')
+#' repAnalysis(sceObj, 'donor', 'label')
 #'
+#'
+#' @export
 #'
 repAnalysis <- function(scObj,
                         col1='seurat_clusters',
