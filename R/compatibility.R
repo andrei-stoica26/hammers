@@ -234,7 +234,7 @@ scDimredMat.Seurat <- function(scObj, dimred = c('pca', 'umap'))
 
 #' @noRd
 #'
-scDimredMat.SingleCellExperiment <- function(scObj){
+scDimredMat.SingleCellExperiment <- function(scObj, dimred = c('pca', 'umap')){
     dimred <- toupper(match.arg(dimred, c('pca', 'umap')))
     return(reducedDim(scObj, dimred))
 }
