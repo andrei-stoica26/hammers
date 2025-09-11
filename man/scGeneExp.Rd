@@ -31,9 +31,14 @@ scGeneExp(scObj, gene, dataType = c("data", "counts", "logcounts"))
 \code{dgCMatrix} or \code{matrix}.}
 }
 \value{
-A gene expression vector,
+A gene expression vector.
 }
 \description{
 This function extracts the expression of a single gene from a Seurat,
 SingleCellExperiment, dgCMatrix or matrix object.
+}
+\examples{
+scObj <- scRNAseq::BaronPancreasData('human')
+v <- scGeneExp(scObj, 'AURKA')
+
 }

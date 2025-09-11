@@ -25,3 +25,8 @@ A metadata data frame.
 This function extracts the metadata from a Seurat or
 SingleCellExperiment object as a data frame.
 }
+\examples{
+scObj <- scRNAseq::BaronPancreasData('human')
+df <- metadataDF(scObj)
+
+}

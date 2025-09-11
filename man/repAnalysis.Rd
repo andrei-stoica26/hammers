@@ -30,3 +30,9 @@ An overrepresentation or underrepresentation data frame.
 \description{
 This function find the differential representation of two Seurat columns.
 }
+\examples{
+sceObj <- scRNAseq::BaronPancreasData('human')
+repAnalysis(sceObj, 'donor', 'label')
+
+
+}

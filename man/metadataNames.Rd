@@ -25,3 +25,8 @@ The names of the metadata columns.
 This function extracts metadata names from a Seurat or
 SingleCellExperiment object.
 }
+\examples{
+scObj <- scRNAseq::BaronPancreasData('human')
+colNames <- metadataNames(scObj)
+
+}

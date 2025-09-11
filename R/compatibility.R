@@ -255,6 +255,12 @@ scDimredMat.SingleCellExperiment <- function(scObj, dimred = c('pca', 'umap')){
 #'
 #' @return A PCA matrix.
 #'
+#' @examples
+#' scObj <- scRNAseq::BaronPancreasData('human')
+#' scObj <- scuttle::logNormCounts(scObj)
+#' scObj <- scater::runPCA
+#' pcaMat <- scPCAMat(scObj)
+#'
 #' @export
 #'
 scPCAMat <- function(scObj)
@@ -268,6 +274,12 @@ scPCAMat <- function(scObj)
 #' @inheritParams metadataNames
 #'
 #' @return A UMAP matrix.
+#'
+#' @examples
+#' scObj <- scRNAseq::BaronPancreasData('human')
+#' scObj <- scuttle::logNormCounts(scObj)
+#' scObj <- scater::runUMAP
+#' umapMat <- scPCAMat(scObj)
 #'
 #' @export
 #'

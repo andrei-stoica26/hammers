@@ -13,17 +13,22 @@
 
 \method{scCol}{SingleCellExperiment}(scObj, colStr)
 
-scCol(scObj, colStr)
+scCol(scObj, col)
 }
 \arguments{
 \item{scObj}{A \code{Seurat} or \code{SingleCellExperiment} object.}
 
-\item{colStr}{Column name.}
+\item{col}{Column name.}
 }
 \value{
-A column vector.
+A vector.
 }
 \description{
 This function extracts a metadata/coldata column from a Seurat or
 SingleCellExperiment object.
+}
+\examples{
+scObj <- scRNAseq::BaronPancreasData('human')
+v <- scCol(scObj, 'label')
+
 }

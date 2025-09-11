@@ -34,6 +34,10 @@ devPlot <- function(plotObject, ...)
 #'
 #' @return A metadata data frame.
 #'
+#' @examples
+#' scObj <- scRNAseq::BaronPancreasData('human')
+#' df <- metadataDF(scObj)
+#'
 #' @export
 #'
 metadataDF <- function(scObj)
@@ -49,6 +53,10 @@ metadataDF <- function(scObj)
 #'
 #' @return The names of the metadata columns.
 #'
+#' @examples
+#' scObj <- scRNAseq::BaronPancreasData('human')
+#' colNames <- metadataNames(scObj)
+#'
 #' @export
 #'
 metadataNames <- function(scObj)
@@ -61,13 +69,17 @@ metadataNames <- function(scObj)
 #' SingleCellExperiment object.
 #'
 #' @inheritParams metadataNames
-#' @param colStr Column name.
+#' @param col Column name.
 #'
-#' @return A column vector.
+#' @return A vector.
+#'
+#' @examples
+#' scObj <- scRNAseq::BaronPancreasData('human')
+#' v <- scCol(scObj, 'label')
 #'
 #' @export
 #'
-scCol <- function(scObj, colStr)
+scCol <- function(scObj, col)
     UseMethod(generic='scCol', object=scObj)
 
 #' Extracts a dimensionality reduction matrix from object.
@@ -84,6 +96,30 @@ scCol <- function(scObj, colStr)
 scDimredMat <- function(scObj, dimred = c('pca', 'umap'))
     UseMethod(generic='scDimredMat', object=scObj)
 
+#' Extracts the expression matrix from object.
+#'
+#' This function extracts an expression matrix from a Seurat or
+#' SingleCellExperiment object.
+#'
+#' @inheritParams scGeneExp
+#' @param genes Selected genes. If \code{NULL}, all genes will be retained
+#' @param densify Whether to convert to dense matrix.
+#'
+#' @return An expression matrix.
+#'
+#' @examples
+#' scObj <- scRNAseq::BaronPancreasData('human')
+#' mat <- scExpMat(scObj)
+#'
+#' @export
+#'
+scExpMat <- function(scObj, dataType = c('data',
+                                         'counts',
+                                         'logcounts'),
+                     genes = NULL,
+                     densify = TRUE)
+    UseMethod(generic='scExpMat', object=scObj)
+
 #' Extracts the expression of a single gene
 #'
 #' This function extracts the expression of a single gene from a Seurat,
@@ -95,7 +131,11 @@ scDimredMat <- function(scObj, dimred = c('pca', 'umap'))
 #' @param dataType Expression data type. Ignored if \code{scObj} is of class
 #' \code{dgCMatrix} or \code{matrix}.
 #'
-#' @return A gene expression vector,
+#' @return A gene expression vector.
+#'
+#' @examples
+#' scObj <- scRNAseq::BaronPancreasData('human')
+#' v <- scGeneExp(scObj, 'AURKA')
 #'
 #' @export
 #'
@@ -103,23 +143,3 @@ scGeneExp <- function(scObj, gene, dataType = c('data',
                                                 'counts',
                                                 'logcounts'))
     UseMethod(generic='scGeneExp', object=scObj)
-
-#' Extracts the expression matrix from object.
-#'
-#' This function extracts an expression matrix from a Seurat or
-#' SingleCellExperiment object.
-#'
-#' @inheritParams scGeneExp
-#' @param genes Selected genes. If \code{NULL}, all genes will be retained
-#' @param densify Whether to convert to dense matrix.
-#'
-#' @return A PCA matrix.
-#'
-#' @export
-#'
-scExpMat <- function(scObj, dataType = c('data',
-                                         'counts',
-                                         'logcounts'),
-                     genes = NULL,
-                     densify = TRUE)
-    UseMethod(generic='scExpMat', object=scObj)

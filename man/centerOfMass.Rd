@@ -18,3 +18,9 @@ A vector containing the coordinates of the center of mass
 This function calculates the coordinates of the center of mass based on a
 matrix of cell embeddings and a vector of weights
 }
+\examples{
+dimMat <- matrix(data=c(2, 3, 1, 3, 6, 8), nrow=3, ncol=2)
+weights <- c(0.8, 6, 16)
+centerOfMass(dimMat, weights)
+
+}

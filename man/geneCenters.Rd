@@ -19,3 +19,11 @@ A data frame containing the coordinates of centers of mass.
 This function calculates the coordinates of the center of mass of the
 expression of input genes.
 }
+\examples{
+sceObj <- scRNAseq::BaronPancreasData('human')
+sceObj <- scuttle::logNormCounts(sceObj)
+sceObj <- scater::runUMAP(sceObj)
+geneCenters(sceObj, c('AURKA', 'MKI67', 'TOP2A'))
+
+
+}

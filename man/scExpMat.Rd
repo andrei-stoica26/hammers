@@ -63,9 +63,14 @@ scExpMat(
 \item{densify}{Whether to convert to dense matrix.}
 }
 \value{
-A PCA matrix.
+An expression matrix.
 }
 \description{
 This function extracts an expression matrix from a Seurat or
 SingleCellExperiment object.
+}
+\examples{
+scObj <- scRNAseq::BaronPancreasData('human')
+mat <- scExpMat(scObj)
+
 }

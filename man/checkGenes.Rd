@@ -19,3 +19,9 @@ None. This function is called for its side effect.
 This function checks if all genes exist in the single-cell expression
 object.
 }
+\examples{
+scObj <- scRNAseq::BaronPancreasData('human')
+checkGenes(scObj, c('AURKA', 'TOP2A', 'MKI67'))
+checkGenes(scObj, c('AURKA', 'TOP2A', 'MKI67', 'DSFDGDG'))
+
+}

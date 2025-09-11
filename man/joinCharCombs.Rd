@@ -18,3 +18,7 @@ A character vector.
 This function joins all combinations of elements from character vectors
 with a separating character.
 }
+\examples{
+joinCharCombs(c('a', 'b', 'c', 'd'), c('eee', 'ff'), c(1, 2, 3))
+
+}

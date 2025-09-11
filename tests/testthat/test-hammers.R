@@ -29,6 +29,60 @@ test_that("geneCenters and colCenters work", {
                  tolerance=0.001)
 })
 
+test_that("compatibility functions and checks work", {
+    scObj <- scRNAseq::BaronPancreasData('human')
+    expect_null(checkGenes(scObj, c('AURKA', 'TOP2A', 'MKI67')))
+    expect_error(checkGenes(scObj, c('AURKA', 'TOP2A', 'MKI67', 'DSFDGDG')))
+
+    expect_equal(colnames(metadataDF(scObj)), c('donor', 'label'))
+    expect_equal(metadataNames(scObj), c('donor', 'label'))
+
+    scObj <- scuttle::logNormCounts(scObj)
+    expect_equal(colnames(metadataDF(scObj)), c('donor', 'label', 'sizeFactor'))
+    expect_equal(metadataNames(scObj), c('donor', 'label', 'sizeFactor'))
+
+    seuratObj <- Seurat::as.Seurat(scObj)
+    expect_equal(colnames(metadataDF(seuratObj)), c('orig.ident',
+                                                    'nCount_originalexp',
+                                                    'nFeature_originalexp',
+                                                    'donor',
+                                                    'label',
+                                                    'sizeFactor'))
+    expect_equal(metadataNames(seuratObj), c('orig.ident',
+                                             'nCount_originalexp',
+                                             'nFeature_originalexp',
+                                             'donor',
+                                             'label',
+                                             'sizeFactor'))
+
+    expect_error(metadataDF(c(1, 2, 3)))
+    expect_error(metadataNames(c(1, 2, 3)))
+
+    expect_equal(scCol(scObj, 'label'), scCol(seuratObj, 'label'))
+    expect_equal(length(scCol(scObj, 'label')), 8569)
+
+    expect_equal(scGeneExp(scObj, 'AURKA'), scGeneExp(seuratObj, 'AURKA'))
+    expect_equal(length(scGeneExp(scObj, 'AURKA')), 8569)
+
+    res <- scExpMat(scObj)
+    expect_equal(res, scExpMat(seuratObj))
+    expect_equal(dim(res), c(20125, 8569))
+
+    scObj <- scater::runPCA(scObj)
+    scObj <- scater::runUMAP(scObj)
+    seuratObj <- suppressWarnings(Seurat::as.Seurat(scObj))
+
+    v <- scPCAMat(scObj)
+    w <- scPCAMat(seuratObj)
+    colnames(v) <- paste0('PC_', seq(50))
+    expect_equal(v, w)
+
+    v <- scUMAPMat(scObj)
+    w <- scUMAPMat(seuratObj)
+    colnames(v) <- paste0('UMAP_', seq(2))
+    expect_equal(v, w)
+})
+
 test_that("joinCharCombs works", {
     res <- joinCharCombs(c('a', 'b', 'c', 'd'), c('eee', 'ff'), c(1, 2, 3))
     expected <- c('a_eee_1', 'a_eee_2', 'a_eee_3', 'a_ff_1', 'a_ff_2', 'a_ff_3',
@@ -60,10 +114,3 @@ test_that("repAnalysis works", {
     expected <- 0.0005422197
     expect_equal(res, expected, tolerance=0.001)
 })
-
-
-
-
-
-
-

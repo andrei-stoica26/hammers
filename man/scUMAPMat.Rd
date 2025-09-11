@@ -16,3 +16,10 @@ A UMAP matrix.
 This function extracts the UMAP matrix from a Seurat or
 SingleCellExperiment object.
 }
+\examples{
+scObj <- scRNAseq::BaronPancreasData('human')
+scObj <- scuttle::logNormCounts(scObj)
+scObj <- scater::runUMAP
+umapMat <- scPCAMat(scObj)
+
+}
