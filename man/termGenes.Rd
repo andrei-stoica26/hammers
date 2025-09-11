@@ -21,3 +21,9 @@ Genes enriched for terms.
 This function extracts genes enriched for term from an \code{enrichResult}
 object.
 }
+\examples{
+m <- genesER(c('AURKA', 'TOP2A', 'CENPF', 'PTTG2', 'MKI67', 'BIRC5', 'RRM2'),
+'human')
+termGenes(m, 'chromosome segregation', 'meiosis I')
+
+}

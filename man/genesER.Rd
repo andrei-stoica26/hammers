@@ -20,3 +20,8 @@ Enrichment result.
 \description{
 This function performs enrichment analysis on a set of genes.
 }
+\examples{
+m <- genesER(c('AURKA', 'TOP2A', 'CENPF', 'PTTG2', 'MKI67', 'BIRC5', 'RRM2'),
+'human')
+
+}

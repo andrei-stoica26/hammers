@@ -83,6 +83,37 @@ test_that("compatibility functions and checks work", {
     expect_equal(v, w)
 })
 
+test_that("repAnalysis works", {
+    sceObj <- scRNAseq::BaronPancreasData('human')
+    df <- repAnalysis(sceObj, 'donor', 'label')
+    expect_equal(ncol(df), 9)
+    res <- mean(df$pvalAdj)
+    expected <- 0.0005422197
+    expect_equal(res, expected, tolerance=0.001)
+})
+
+test_that("repAnalysis works", {
+    sceObj <- scRNAseq::BaronPancreasData('human')
+    df <- repAnalysis(sceObj, 'donor', 'label')
+    expect_equal(ncol(df), 9)
+    expect_equal(mean(df$pvalAdj), 0.0005422197, tolerance=0.001)
+})
+
+test_that("gene enrichment functions work", {
+    m <- genesER(c('AURKA', 'TOP2A', 'CENPF', 'PTTG2', 'MKI67', 'BIRC5', 'RRM2'),
+                 'human')
+    expect_true('chromosome segregation' %in% m@result$Description)
+    expect_equal(termGenes(m, 'chromosome segregation', 'meiosis I'),
+                 c('BIRC5', 'CENPF', 'MKI67'))
+})
+
+m <- genesER(c('AURKA', 'TOP2A', 'CENPF', 'PTTG2', 'MKI67', 'BIRC5', 'RRM2'),
+             'human')
+View(m@result)
+'chromosome segregation' %in% m@result$Description
+
+termGenes(m, 'chromosome segregation', 'meiosis I')
+
 test_that("joinCharCombs works", {
     res <- joinCharCombs(c('a', 'b', 'c', 'd'), c('eee', 'ff'), c(1, 2, 3))
     expected <- c('a_eee_1', 'a_eee_2', 'a_eee_3', 'a_ff_1', 'a_ff_2', 'a_ff_3',
@@ -106,11 +137,4 @@ test_that("nearestNeighbors works", {
     expect_equal(res, expected)
 })
 
-test_that("repAnalysis works", {
-    sceObj <- scRNAseq::BaronPancreasData('human')
-    df <- repAnalysis(sceObj, 'donor', 'label')
-    expect_equal(ncol(df), 9)
-    res <- mean(df$pvalAdj)
-    expected <- 0.0005422197
-    expect_equal(res, expected, tolerance=0.001)
-})
+

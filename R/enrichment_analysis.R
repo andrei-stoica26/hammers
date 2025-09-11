@@ -71,7 +71,6 @@ entrezGenes <- function(genes, species = c('human', 'mouse', 'zebrafish')){
                                            keytype="SYMBOL")[[2]]))
 }
 
-
 #' Perform enrichment analysis on a set of genes
 #'
 #' This function performs enrichment analysis on a set of genes.
@@ -80,6 +79,10 @@ entrezGenes <- function(genes, species = c('human', 'mouse', 'zebrafish')){
 #' @inheritParams getEnrichmentResult
 #'
 #' @return Enrichment result.
+#'
+#' @examples
+#' m <- genesER(c('AURKA', 'TOP2A', 'CENPF', 'PTTG2', 'MKI67', 'BIRC5', 'RRM2'),
+#' 'human')
 #'
 #' @export
 #'
@@ -98,6 +101,11 @@ genesER <- function(genes, species,
 #' genes enriched for \code{terms}.
 #'
 #' @return Genes enriched for terms.
+#'
+#' @examples
+#' m <- genesER(c('AURKA', 'TOP2A', 'CENPF', 'PTTG2', 'MKI67', 'BIRC5', 'RRM2'),
+#' 'human')
+#' termGenes(m, 'chromosome segregation', 'meiosis I')
 #'
 #' @export
 #'
