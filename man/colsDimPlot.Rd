@@ -20,3 +20,14 @@ A ggplot object.
 This function plots a Seurat DimPlot with added labeled points for metadata
 numeric columns.
 }
+\examples{
+sceObj <- scRNAseq::BaronPancreasData('human')
+sceObj <- scuttle::logNormCounts(sceObj)
+seuratObj <- suppressWarnings(as.Seurat(sceObj))
+seuratObj <- Seurat::FindVariableFeatures(seuratObj)
+seuratObj <- Seurat::ScaleData(seuratObj)
+seuratObj <- Seurat::RunPCA(seuratObj)
+seuratObj <- suppressWarnings(Seurat::RunUMAP(seuratObj, dims=1:15))
+colsDimPlot(seuratObj, c('nCount_originalexp', 'nFeature_originalexp'))
+
+}

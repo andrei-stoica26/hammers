@@ -73,10 +73,11 @@ test_that("compatibility functions and checks work", {
     expect_equal(v, w)
 })
 
-test_that("repAnalysis works", {
+test_that("repAnalysis and pvalRiverPlot work", {
     df <- repAnalysis(sceObj, 'donor', 'label')
     expect_equal(ncol(df), 9)
     expect_equal(mean(df$pvalAdj), 0.0005422197, tolerance=0.001)
+    expect_equal(is(pvalRiverPlot(df)), 'gg')
 })
 
 test_that("gene enrichment functions work", {
@@ -125,4 +126,44 @@ test_that("nearestNeighbors works", {
     expect_equal(res, expected)
 })
 
+test_that("proximity works", {
+    expect_equal(proximity(2, 3, 6), 0.8333333, tolerance=0.001)
+})
 
+test_that("safeMinmax works", {
+    expect_equal(safeMinmax(c(2.1, 3.2, 2.8)), c(0, 1, 0.6363636),
+                 tolerance=0.001)
+    expect_equal(safeMinmax(c(8, 8, 8)), c(0, 0, 0))
+})
+
+test_that("safeMessage works", {
+    expect_message(safeMessage('message'), 'message')
+    expect_null(safeMessage('message'))
+    expect_message(safeMessage('message', FALSE), NA)
+})
+
+test_that("shuffleGenes works", {
+    genes <- c('TOP2A', 'BIRC5', 'MKI67', 'RRM2', 'CENPF', 'PTTG2', 'CLSPN')
+    newGenes <- shuffleGenes(sceObj, genes, 0.3, 0.9)
+    expect_equal(length(intersect(genes, newGenes)), 5)
+    expect_equal(length(newGenes), 50)
+})
+
+test_that("distributionPlot works", {
+    expect_equal(is(distributionPlot(sceObj,
+                                     col1='donor', col2='label')), 'gg')
+})
+
+test_that("dimPlot functions work", {
+    pointsDF <- data.frame(x = c(2, 3),
+                           y = c(1, 6),
+                           row.names = c('P1', 'P2'))
+    pointsDimPlot(seuratObj, pointsDF=pointsDF)
+    expect_equal(is(pointsDimPlot(seuratObj, pointsDF=pointsDF)), 'patchwork')
+    expect_equal(is(genesDimPlot(seuratObj, c('AURKA', 'TOP2A', 'MKI67'))),
+                    'patchwork')
+    expect_equal(is(colsDimPlot(seuratObj,
+                                c('nCount_originalexp',
+                                  'nFeature_originalexp'))),
+                    'patchwork')
+})

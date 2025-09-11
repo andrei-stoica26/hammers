@@ -19,3 +19,9 @@ A ggplot object
 \description{
 This function plots representation data frame as an alluvial plot.
 }
+\examples{
+scObj <- scRNAseq::BaronPancreasData('human')
+df <- repAnalysis(scObj, 'donor', 'label')
+pvalRiverPlot(df)
+
+}

@@ -24,6 +24,8 @@ or \code{SingleCellExperiment} object.
 }
 \examples{
 scObj <- scRNAseq::BaronPancreasData('human')
+scObj <- scuttle::logNormCounts(scObj)
+scObj <- scater::runPCA(scObj)
 scObj <- computeSilhouette(scObj, 'label')
 head(scCol(scObj, 'silhouette'))
 

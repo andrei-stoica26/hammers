@@ -39,3 +39,17 @@ A ggplot object.
 \description{
 This function plots a Seurat DimPlot with added labeled points.
 }
+\examples{
+sceObj <- scRNAseq::BaronPancreasData('human')
+sceObj <- scuttle::logNormCounts(sceObj)
+seuratObj <- suppressWarnings(as.Seurat(sceObj))
+seuratObj <- Seurat::FindVariableFeatures(seuratObj)
+seuratObj <- Seurat::ScaleData(seuratObj)
+seuratObj <- Seurat::RunPCA(seuratObj)
+seuratObj <- suppressWarnings(Seurat::RunUMAP(seuratObj, dims=1:15))
+pointsDF <- data.frame(x = c(2, 3),
+y = c(1, 6),
+row.names = c('P1', 'P2'))
+pointsDimPlot(seuratObj, pointsDF=pointsDF)
+
+}

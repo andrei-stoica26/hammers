@@ -20,3 +20,7 @@ A number between 0 and 1.
 This functions computes proximity between two vectors based on Euclidean
 distance and an input maximum distance.
 }
+\examples{
+proximity(2, 3, 6)
+
+}

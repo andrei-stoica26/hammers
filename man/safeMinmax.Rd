@@ -20,3 +20,7 @@ Min-max-normalized scores or a single-value vector.
 This function min-max-normalizes a vector when possible, and otherwise returns
 a single-value vector.
 }
+\examples{
+safeMinmax(c(0, 3, 2, 1, 4, 5.5, 6.32, 8, 1.1))
+
+}

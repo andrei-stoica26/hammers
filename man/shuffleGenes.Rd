@@ -37,3 +37,9 @@ Genes vector after changes.
 \description{
 This function removes and adds genes from vector at random.
 }
+\examples{
+scObj <- scRNAseq::BaronPancreasData('human')
+genes <- c('TOP2A', 'BIRC5', 'MKI67', 'RRM2', 'CENPF', 'PTTG2', 'CLSPN')
+shuffleGenes(scObj, genes, 0.3, 0.9)
+
+}

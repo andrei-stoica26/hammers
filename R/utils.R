@@ -74,6 +74,8 @@ prepAlluvial <- function(df,
 #' @param maxDist Maximum distance.
 #'
 #' @return A number between 0 and 1.
+#' @examples
+#' proximity(2, 3, 6)
 #'
 #' @export
 #'
@@ -91,6 +93,8 @@ proximity <- function(x, y, maxDist)
 #' are the same.
 #'
 #' @return Min-max-normalized scores or a single-value vector.
+#' @examples
+#' safeMinmax(c(0, 3, 2, 1, 4, 5.5, 6.32, 8, 1.1))
 #'
 #' @export
 #'
@@ -110,9 +114,12 @@ safeMinmax <- function(scores, safeVal = 0){
 #' @return No return value. This function is called for its side effect
 #' (messaging the input if \code{verbose} is set to \code{TRUE}).
 #'
+#' @examples
+#' safeMessage('message')
+#'
 #' @export
 #'
-safeMessage <- function(msg, verbose)
+safeMessage <- function(msg, verbose = TRUE)
     if(verbose)
         message(msg)
 
@@ -131,6 +138,11 @@ safeMessage <- function(msg, verbose)
 #' @param verbose Whether the output should be verbose.
 #'
 #' @return Genes vector after changes.
+#'
+#' @examples
+#' scObj <- scRNAseq::BaronPancreasData('human')
+#' genes <- c('TOP2A', 'BIRC5', 'MKI67', 'RRM2', 'CENPF', 'PTTG2', 'CLSPN')
+#' shuffleGenes(scObj, genes, 0.3, 0.9)
 #'
 #' @export
 #'

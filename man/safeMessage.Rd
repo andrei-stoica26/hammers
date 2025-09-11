@@ -4,7 +4,7 @@
 \alias{safeMessage}
 \title{Message an input if verbose is set to TRUE}
 \usage{
-safeMessage(msg, verbose)
+safeMessage(msg, verbose = TRUE)
 }
 \arguments{
 \item{msg}{Message}
@@ -17,4 +17,8 @@ No return value. This function is called for its side effect
 }
 \description{
 This function messages an input if \code{verbose} is set to \code{TRUE}.
+}
+\examples{
+safeMessage('message')
+
 }

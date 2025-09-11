@@ -32,6 +32,14 @@ distributionPlot(
 
 \item{palette}{Color palette.}
 }
+\value{
+A ggplot object.
+}
 \description{
 This function plots the distribution of cells across two columns.
+}
+\examples{
+scObj <- scRNAseq::BaronPancreasData('human')
+distributionPlot(scObj, col1='donor', col2='label')
+
 }
