@@ -45,11 +45,6 @@ bfCorrectDF <- function(df,
 #' @return The data frame with p-values corrected using the method of choice
 #' (Benjamini-Hochberg or Benjamini-Yekutieli)
 #'
-#' @examples
-#' df <- data.frame(elem = c('A', 'B', 'C', 'D', 'E'),
-#' pval = c(0.032, 0.001, 0.0045, 0.051, 0.048))
-#' fdrCorrectDF(df, BH)
-#'
 #' @keywords internal
 #'
 fdrCorrectDF <- function(df,

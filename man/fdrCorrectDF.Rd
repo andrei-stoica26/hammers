@@ -30,10 +30,4 @@ The data frame with p-values corrected using the method of choice
 This function perform multiple testing correction by controlling the false
 discovery rate.
 }
-\examples{
-df <- data.frame(elem = c('A', 'B', 'C', 'D', 'E'),
-pval = c(0.032, 0.001, 0.0045, 0.051, 0.048))
-fdrCorrectDF(df, BH)
-
-}
 \keyword{internal}
