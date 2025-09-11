@@ -18,6 +18,11 @@ NULL
 #' @return The input object (\code{Seurat} or \code{SingleCellExperiment}) with
 #' an added metadata silhouette column.
 #'
+#' @examples
+#' scObj <- scRNAseq::BaronPancreasData('human')
+#' scObj <- computeSilhouette(scObj, 'label')
+#' head(scCol(scObj, 'silhouette'))
+#'
 #' @export
 #'
 computeSilhouette <- function(scObj, idClass, pcaMat = NULL){
@@ -41,7 +46,7 @@ computeSilhouette <- function(scObj, idClass, pcaMat = NULL){
 #' @inheritParams computeSilhouette
 #'
 #' @return A data frame with normalized silhouettes for each unique element in the
-#' identity class
+#' identity class.
 #'
 #' @export
 #'

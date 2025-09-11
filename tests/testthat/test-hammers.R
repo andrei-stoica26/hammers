@@ -5,23 +5,14 @@ test_that("centerOfMass works", {
     expect_equal(res, c(1.561404, 7.298246), tolerance=0.001)
 })
 
-library(hammers)
 test_that("geneCenters and colCenters work", {
-    scObj <- scRNAseq::BaronPancreasData('human')
-    scObj <- scuttle::logNormCounts(scObj)
-    scObj <- Seurat::as.Seurat(scObj)
-    scObj <- Seurat::FindVariableFeatures(scObj)
-    scObj <- Seurat::ScaleData(scObj)
-    scObj <- Seurat::RunPCA(scObj)
-    scObj <- suppressWarnings(Seurat::RunUMAP(scObj, dims=1:15))
-
-    df <- geneCenters(scObj, c('AURKA', 'MKI67', 'TOP2A'))
+    df <- geneCenters(seuratObj, c('AURKA', 'MKI67', 'TOP2A'))
     expect_equal(df$umap_1, c(1.563351, 6.073028, 5.656954),
                  tolerance=0.001)
     expect_equal(df$umap_2, c(-2.3658094, -1.1434781, -0.5404839),
                  tolerance=0.001)
 
-    df <- colCenters(scObj, c('nCount_originalexp',
+    df <- colCenters(seuratObj, c('nCount_originalexp',
                               'nFeature_originalexp',
                               'sizeFactor'))
     expect_equal(df$umap_1, c(0.1617853, -0.1486735, 0.1617853),
@@ -31,18 +22,14 @@ test_that("geneCenters and colCenters work", {
 })
 
 test_that("compatibility functions and checks work", {
-    scObj <- scRNAseq::BaronPancreasData('human')
-    expect_null(checkGenes(scObj, c('AURKA', 'TOP2A', 'MKI67')))
-    expect_error(checkGenes(scObj, c('AURKA', 'TOP2A', 'MKI67', 'DSFDGDG')))
+    expect_null(checkGenes(sceObj, c('AURKA', 'TOP2A', 'MKI67')))
+    expect_error(checkGenes(sceObj, c('AURKA', 'TOP2A', 'MKI67', 'DSFDGDG')))
 
-    expect_equal(colnames(metadataDF(scObj)), c('donor', 'label'))
-    expect_equal(metadataNames(scObj), c('donor', 'label'))
+    expect_equal(colnames(metadataDF(sceObj)), c('donor', 'label', 'sizeFactor',
+                                                 'silhouette'))
+    expect_equal(metadataNames(sceObj), c('donor', 'label', 'sizeFactor',
+                                          'silhouette'))
 
-    scObj <- scuttle::logNormCounts(scObj)
-    expect_equal(colnames(metadataDF(scObj)), c('donor', 'label', 'sizeFactor'))
-    expect_equal(metadataNames(scObj), c('donor', 'label', 'sizeFactor'))
-
-    seuratObj <- Seurat::as.Seurat(scObj)
     expect_equal(colnames(metadataDF(seuratObj)), c('orig.ident',
                                                     'nCount_originalexp',
                                                     'nFeature_originalexp',
@@ -59,42 +46,34 @@ test_that("compatibility functions and checks work", {
     expect_error(metadataDF(c(1, 2, 3)))
     expect_error(metadataNames(c(1, 2, 3)))
 
-    expect_equal(scCol(scObj, 'label'), scCol(seuratObj, 'label'))
-    expect_equal(length(scCol(scObj, 'label')), 8569)
+    expect_equal(scCol(sceObj, 'label'), scCol(seuratObj, 'label'))
+    expect_equal(length(scCol(sceObj, 'label')), 8569)
 
-    expect_equal(scGeneExp(scObj, 'AURKA'), scGeneExp(seuratObj, 'AURKA'))
-    expect_equal(length(scGeneExp(scObj, 'AURKA')), 8569)
+    expect_equal(scColCounts(sceObj, 'label')['acinar'],
+                 setNames(958, 'acinar'))
+    expect_equal(scColPairCounts(sceObj, 'label', 'donor')[1, 3], 110)
 
-    res <- scExpMat(scObj)
+    expect_equal(scGeneExp(sceObj, 'AURKA'), scGeneExp(seuratObj, 'AURKA'))
+    expect_equal(length(scGeneExp(sceObj, 'AURKA')), 8569)
+
+    res <- scExpMat(sceObj)
     expect_equal(res, scExpMat(seuratObj))
     expect_equal(dim(res), c(20125, 8569))
 
-    scObj <- scater::runPCA(scObj)
-    scObj <- scater::runUMAP(scObj)
-    seuratObj <- suppressWarnings(Seurat::as.Seurat(scObj))
+    convSeuratObj <- suppressWarnings(as.Seurat(sceObj))
 
-    v <- scPCAMat(scObj)
-    w <- scPCAMat(seuratObj)
+    v <- scPCAMat(sceObj)
+    w <- scPCAMat(convSeuratObj)
     colnames(v) <- paste0('PC_', seq(50))
     expect_equal(v, w)
 
-    v <- scUMAPMat(scObj)
-    w <- scUMAPMat(seuratObj)
+    v <- scUMAPMat(sceObj)
+    w <- scUMAPMat(convSeuratObj)
     colnames(v) <- paste0('UMAP_', seq(2))
     expect_equal(v, w)
 })
 
 test_that("repAnalysis works", {
-    sceObj <- scRNAseq::BaronPancreasData('human')
-    df <- repAnalysis(sceObj, 'donor', 'label')
-    expect_equal(ncol(df), 9)
-    res <- mean(df$pvalAdj)
-    expected <- 0.0005422197
-    expect_equal(res, expected, tolerance=0.001)
-})
-
-test_that("repAnalysis works", {
-    sceObj <- scRNAseq::BaronPancreasData('human')
     df <- repAnalysis(sceObj, 'donor', 'label')
     expect_equal(ncol(df), 9)
     expect_equal(mean(df$pvalAdj), 0.0005422197, tolerance=0.001)
@@ -117,6 +96,10 @@ test_that("multiple testing functions work", {
     expect_equal(res$pvalAdj, c(0.00500, 0.01125), tolerance=0.001)
     res <- byCorrectDF(df)
     expect_equal(res$pvalAdj, c(0.01141667, 0.02568750), tolerance=0.001)
+})
+
+test_that("silhouette functions work", {
+    expect_equal(mean(scCol(sceObj, 'silhouette')), 0.3981082, tolerance=0.001)
 })
 
 test_that("joinCharCombs works", {

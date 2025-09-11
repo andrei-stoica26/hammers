@@ -20,3 +20,8 @@ two categorical columns.
 \description{
 This function extracts count information from Seurat column.
 }
+\examples{
+scObj <- scRNAseq::BaronPancreasData('human')
+scColPairCounts(scObj, 'donor', 'label')
+
+}

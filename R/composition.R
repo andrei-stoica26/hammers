@@ -44,7 +44,7 @@ repAnalysis <- function(scObj,
     df$pval <- mapply(function(q, m, n, k)
         phyper(q, m, n, k, lower.tail=1 - doOverrep),
         df[, 3] - doOverrep, df[, 4], nCells - df[, 4], df[, 5])
-    fdrControlFun <- eval(as.name(paste0(tolower(fdrMethod), 'correctDF')))
+    fdrControlFun <- eval(as.name(paste0(tolower(fdrMethod), 'CorrectDF')))
     df <- fdrControlFun(df, pvalThr)
     return(df)
 }

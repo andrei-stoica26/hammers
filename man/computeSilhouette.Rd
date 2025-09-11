@@ -22,3 +22,9 @@ an added metadata silhouette column.
 This function computes the silhouette for each cell in the \code{Seurat}
 or \code{SingleCellExperiment} object.
 }
+\examples{
+scObj <- scRNAseq::BaronPancreasData('human')
+scObj <- computeSilhouette(scObj, 'label')
+head(scCol(scObj, 'silhouette'))
+
+}

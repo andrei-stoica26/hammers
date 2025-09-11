@@ -14,7 +14,7 @@ the single-cell expression object.}
 }
 \value{
 A data frame with normalized silhouettes for each unique element in the
-identity class
+identity class.
 }
 \description{
 This function normalizes the already computed silhouette for each identity

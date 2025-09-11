@@ -256,6 +256,10 @@ scDimredMat.SingleCellExperiment <- function(scObj, dimred = c('pca', 'umap')){
 #'
 #' @return A frequency vector with the unique column values as names.
 #'
+#' @examples
+#' scObj <- scRNAseq::BaronPancreasData('human')
+#' scColCounts(scObj, 'label')
+#'
 #' @export
 #'
 scColCounts <- function(scObj, col='orig.ident'){
@@ -274,6 +278,10 @@ scColCounts <- function(scObj, col='orig.ident'){
 #'
 #' @return A data frame listing the counts of all combinations of pairs from
 #' two categorical columns.
+#'
+#' @examples
+#' scObj <- scRNAseq::BaronPancreasData('human')
+#' scColPairCounts(scObj, 'donor', 'label')
 #'
 #' @export
 #'

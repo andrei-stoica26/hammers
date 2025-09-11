@@ -18,3 +18,8 @@ A frequency vector with the unique column values as names.
 This function extracts count information from the column of a Seurat or
 SingleCellExperiment object.
 }
+\examples{
+scObj <- scRNAseq::BaronPancreasData('human')
+scColCounts(scObj, 'label')
+
+}
