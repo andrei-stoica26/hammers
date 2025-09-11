@@ -109,7 +109,7 @@ scDimredMat <- function(scObj, dimred = c('pca', 'umap'))
 #'
 #' @examples
 #' scObj <- scRNAseq::BaronPancreasData('human')
-#' mat <- scExpMat(scObj)
+#' mat <- scExpMat(scObj, 'counts')
 #'
 #' @export
 #'

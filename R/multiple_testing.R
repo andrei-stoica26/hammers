@@ -47,7 +47,6 @@ bfCorrectDF <- function(df,
 #'
 #' @export
 #'
-#'
 byCorrectDF <- function(df,
                         pvalThr = 0.05,
                         colStr = 'pval',

@@ -5,6 +5,7 @@ test_that("centerOfMass works", {
     expect_equal(res, c(1.561404, 7.298246), tolerance=0.001)
 })
 
+library(hammers)
 test_that("geneCenters and colCenters work", {
     scObj <- scRNAseq::BaronPancreasData('human')
     scObj <- scuttle::logNormCounts(scObj)
@@ -12,7 +13,7 @@ test_that("geneCenters and colCenters work", {
     scObj <- Seurat::FindVariableFeatures(scObj)
     scObj <- Seurat::ScaleData(scObj)
     scObj <- Seurat::RunPCA(scObj)
-    scObj <- Seurat::RunUMAP(scObj, dims=1:15)
+    scObj <- suppressWarnings(Seurat::RunUMAP(scObj, dims=1:15))
 
     df <- geneCenters(scObj, c('AURKA', 'MKI67', 'TOP2A'))
     expect_equal(df$umap_1, c(1.563351, 6.073028, 5.656954),
@@ -106,13 +107,6 @@ test_that("gene enrichment functions work", {
     expect_equal(termGenes(m, 'chromosome segregation', 'meiosis I'),
                  c('BIRC5', 'CENPF', 'MKI67'))
 })
-
-m <- genesER(c('AURKA', 'TOP2A', 'CENPF', 'PTTG2', 'MKI67', 'BIRC5', 'RRM2'),
-             'human')
-View(m@result)
-'chromosome segregation' %in% m@result$Description
-
-termGenes(m, 'chromosome segregation', 'meiosis I')
 
 test_that("joinCharCombs works", {
     res <- joinCharCombs(c('a', 'b', 'c', 'd'), c('eee', 'ff'), c(1, 2, 3))

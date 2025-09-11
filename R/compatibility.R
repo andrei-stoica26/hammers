@@ -47,21 +47,21 @@ metadataNames.SingleCellExperiment <- function(scObj)
 #' @rdname scCol
 #' @export
 #'
-scCol.default <- function(scObj, colStr)
+scCol.default <- function(scObj, col)
     stop('Unrecognized input type: scObj must be a Seurat or ',
          'SingleCellExpression object')
 
 #' @rdname scCol
 #' @export
 #'
-scCol.Seurat <- function(scObj, colStr)
-    return(scObj[[]][[colStr]])
+scCol.Seurat <- function(scObj, col)
+    return(scObj[[]][[col]])
 
 #' @rdname scCol
 #' @export
 #'
-scCol.SingleCellExperiment <- function(scObj, colStr)
-    return(scObj[[colStr]])
+scCol.SingleCellExperiment <- function(scObj, col)
+    return(scObj[[col]])
 
 ###############################################################################
 #' @rdname scGeneExp

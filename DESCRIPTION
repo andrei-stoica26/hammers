@@ -27,6 +27,7 @@ Imports:
     org.Mm.eg.db,
     qs,
     rlang,
+    Seurat,
     SeuratObject,
     SingleCellExperiment,
     SummarizedExperiment,
@@ -38,9 +39,9 @@ Imports:
 Suggests:
     knitr,
     rmarkdown,
-    Seurat,
     scater,
     scRNAseq,
+    scuttle,
     testthat (>= 3.0.0)
 Encoding: UTF-8
 RoxygenNote: 7.3.2

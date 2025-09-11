@@ -11,7 +11,6 @@
 #' @examples
 #' scObj <- scRNAseq::BaronPancreasData('human')
 #' checkGenes(scObj, c('AURKA', 'TOP2A', 'MKI67'))
-#' checkGenes(scObj, c('AURKA', 'TOP2A', 'MKI67', 'DSFDGDG'))
 #'
 #' @export
 #'

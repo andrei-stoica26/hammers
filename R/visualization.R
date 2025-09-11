@@ -2,6 +2,7 @@
 #' @importFrom ggrepel geom_text_repel
 #' @importFrom henna centerTitle riverPlot
 #' @importFrom rlang .data
+#' @importFrom Seurat DimPlot
 #'
 NULL
 
@@ -62,6 +63,7 @@ pvalRiverPlot <- function(df, weightExp = 1/2, ...){
 #' This function plots a Seurat DimPlot with added labeled points.
 #'
 #' @param seuratObj A Seurat object.
+#' @param plotTitle Plot title.
 #' @param pointsDF A data frame of points with two columns representing the x
 #' and y coordinates.
 #' @param pointShape Point shape.

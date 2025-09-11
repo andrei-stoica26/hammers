@@ -18,6 +18,8 @@ pointsDimPlot(
 \arguments{
 \item{seuratObj}{A Seurat object.}
 
+\item{plotTitle}{Plot title.}
+
 \item{pointsDF}{A data frame of points with two columns representing the x
 and y coordinates.}
 

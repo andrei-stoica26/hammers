@@ -7,11 +7,11 @@
 \alias{scCol}
 \title{Extract a metadata/coldata column from object.}
 \usage{
-\method{scCol}{default}(scObj, colStr)
+\method{scCol}{default}(scObj, col)
 
-\method{scCol}{Seurat}(scObj, colStr)
+\method{scCol}{Seurat}(scObj, col)
 
-\method{scCol}{SingleCellExperiment}(scObj, colStr)
+\method{scCol}{SingleCellExperiment}(scObj, col)
 
 scCol(scObj, col)
 }

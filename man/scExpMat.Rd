@@ -71,6 +71,6 @@ SingleCellExperiment object.
 }
 \examples{
 scObj <- scRNAseq::BaronPancreasData('human')
-mat <- scExpMat(scObj)
+mat <- scExpMat(scObj, 'counts')
 
 }
