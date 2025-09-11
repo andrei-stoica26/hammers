@@ -138,7 +138,7 @@ pointsDimPlot <- function(seuratObj,
 #' @examples
 #' sceObj <- scRNAseq::BaronPancreasData('human')
 #' sceObj <- scuttle::logNormCounts(sceObj)
-#' seuratObj <- suppressWarnings(as.Seurat(sceObj))
+#' seuratObj <- suppressWarnings(Seurat::as.Seurat(sceObj))
 #' seuratObj <- Seurat::FindVariableFeatures(seuratObj)
 #' seuratObj <- Seurat::ScaleData(seuratObj)
 #' seuratObj <- Seurat::RunPCA(seuratObj)
@@ -166,7 +166,7 @@ genesDimPlot <- function(seuratObj, genes, ...){
 #' @examples
 #' sceObj <- scRNAseq::BaronPancreasData('human')
 #' sceObj <- scuttle::logNormCounts(sceObj)
-#' seuratObj <- suppressWarnings(as.Seurat(sceObj))
+#' seuratObj <- suppressWarnings(Seurat::as.Seurat(sceObj))
 #' seuratObj <- Seurat::FindVariableFeatures(seuratObj)
 #' seuratObj <- Seurat::ScaleData(seuratObj)
 #' seuratObj <- Seurat::RunPCA(seuratObj)

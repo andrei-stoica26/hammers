@@ -23,7 +23,7 @@ numeric columns.
 \examples{
 sceObj <- scRNAseq::BaronPancreasData('human')
 sceObj <- scuttle::logNormCounts(sceObj)
-seuratObj <- suppressWarnings(as.Seurat(sceObj))
+seuratObj <- suppressWarnings(Seurat::as.Seurat(sceObj))
 seuratObj <- Seurat::FindVariableFeatures(seuratObj)
 seuratObj <- Seurat::ScaleData(seuratObj)
 seuratObj <- Seurat::RunPCA(seuratObj)
