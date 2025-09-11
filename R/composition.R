@@ -1,6 +1,5 @@
 #' @importFrom dplyr count
 #' @import SeuratObject
-#' @importFrom sgof BY
 #' @importFrom stats phyper setNames
 #'
 NULL
@@ -12,6 +11,8 @@ NULL
 #' @inheritParams scColPairCounts
 #' @param doOverrep Whether to perform overrepresentation analysis. If
 #' \code{FALSE}, underrepresentation analysis will be performed instead.
+#' @param fdrMethod False discovery rate control method. Options are 'BY'
+#' (Benjamini-Yekutieli) and 'BH' (Benjamini-Hochberg).
 #' @param pvalThr p-value threshold.
 #'
 #' @return An overrepresentation or underrepresentation data frame.
@@ -24,10 +25,12 @@ NULL
 #' @export
 #'
 repAnalysis <- function(scObj,
-                        col1='seurat_clusters',
-                        col2='orig.ident',
-                        doOverrep=TRUE,
-                        pvalThr=0.05){
+                        col1 = 'seurat_clusters',
+                        col2 = 'orig.ident',
+                        doOverrep = TRUE,
+                        fdrMethod = c('BY', 'BH'),
+                        pvalThr = 0.05){
+    fdrMethod <- match.arg(fdrMethod, c('BY', 'BH'))
     nCells <- ncol(scObj)
     df <- scColPairCounts(scObj, col1, col2)
     colnames(df)[3] <- 'sharedCount'
@@ -41,8 +44,7 @@ repAnalysis <- function(scObj,
     df$pval <- mapply(function(q, m, n, k)
         phyper(q, m, n, k, lower.tail=1 - doOverrep),
         df[, 3] - doOverrep, df[, 4], nCells - df[, 4], df[, 5])
-    df <- df[order(df$pval), ]
-    df$pvalAdj <- BY(df$pval, pvalThr)$Adjusted.pvalues
-    df <- df[df[, 'pvalAdj'] < pvalThr, ]
+    fdrControlFun <- eval(as.name(paste0(tolower(fdrMethod), 'correctDF')))
+    df <- fdrControlFun(df, pvalThr)
     return(df)
 }

@@ -9,6 +9,7 @@ repAnalysis(
   col1 = "seurat_clusters",
   col2 = "orig.ident",
   doOverrep = TRUE,
+  fdrMethod = c("BY", "BH"),
   pvalThr = 0.05
 )
 }
@@ -21,6 +22,9 @@ repAnalysis(
 
 \item{doOverrep}{Whether to perform overrepresentation analysis. If
 \code{FALSE}, underrepresentation analysis will be performed instead.}
+
+\item{fdrMethod}{False discovery rate control method. Options are 'BY'
+(Benjamini-Yekutieli) and 'BH' (Benjamini-Hochberg).}
 
 \item{pvalThr}{p-value threshold.}
 }

@@ -108,6 +108,17 @@ test_that("gene enrichment functions work", {
                  c('BIRC5', 'CENPF', 'MKI67'))
 })
 
+test_that("multiple testing functions work", {
+    df <- data.frame(elem = c('A', 'B', 'C', 'D', 'E'),
+                     pval = c(0.032, 0.001, 0.0045, 0.051, 0.048))
+    res <- bfCorrectDF(df, 5)
+    expect_equal(res$pvalAdj, c(0.0050, 0.0225), tolerance=0.001)
+    res <- bhCorrectDF(df)
+    expect_equal(res$pvalAdj, c(0.00500, 0.01125), tolerance=0.001)
+    res <- byCorrectDF(df)
+    expect_equal(res$pvalAdj, c(0.01141667, 0.02568750), tolerance=0.001)
+})
+
 test_that("joinCharCombs works", {
     res <- joinCharCombs(c('a', 'b', 'c', 'd'), c('eee', 'ff'), c(1, 2, 3))
     expected <- c('a_eee_1', 'a_eee_2', 'a_eee_3', 'a_ff_1', 'a_ff_2', 'a_ff_3',
