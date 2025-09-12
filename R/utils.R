@@ -173,3 +173,38 @@ shuffleGenes <- function(scObj, genes, lossFrac, noiseFrac,
 
     return(genes)
 }
+
+#' Convert a vector to a data frame based on input row and column names
+#'
+#' This function converts a vector to a data frame based on input row and
+#' column names. Optionally, it also calculates the row means.
+#'
+#' @param v A vector.
+#' @param rowNames A character vector.
+#' @param colNames A character vector.
+#' @param addRowMeans Whether to add the row means to the data frame.
+#' @param sortByRowMeans Whether to sort by row means.
+#'
+#' @return A data frame.
+
+#' @examples
+#' v <- c(2, 3, 4, 19, 15, 25, 32, 8)
+#' res <- tabulateVector(v, paste0('r', seq(4)), paste0('c', seq(2)))
+#'
+#' @export
+#'
+tabulateVector <- function(v,
+                           rowNames,
+                           colNames,
+                           addRowMeans=FALSE,
+                           sortByRowMeans=FALSE){
+    df <- data.frame(matrix(v, length(rowNames), length(colNames)))
+    rownames(df) <- rowNames
+    colnames(df) <- colNames
+    if(addRowMeans){
+        df$avg <- rowMeans(df)
+        if(sortByRowMeans)
+            df <- df[order(df$avg), ]
+    }
+    return(df)
+}

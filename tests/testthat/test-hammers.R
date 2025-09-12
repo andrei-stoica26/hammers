@@ -149,6 +149,15 @@ test_that("shuffleGenes works", {
     expect_equal(length(newGenes), 50)
 })
 
+test_that("tabulateVector works", {
+    v <- c(2, 3, 4, 19, 15, 25, 32, 8)
+    res <- tabulateVector(v, paste0('r', seq(4)), paste0('c', seq(2)))
+    df <- data.frame(c1 = c(2, 3, 4, 19),
+                     c2 = c(15, 25, 32, 8),
+                     row.names = paste0('r', seq(4)))
+    expect_equal(res, df)
+})
+
 test_that("distributionPlot works", {
     expect_equal(is(distributionPlot(sceObj,
                                      col1='donor', col2='label')), 'gg')
