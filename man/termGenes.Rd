@@ -2,7 +2,7 @@
 % Please edit documentation in R/enrichment_analysis.R
 \name{termGenes}
 \alias{termGenes}
-\title{Extract genes enriched for term}
+\title{Extract genes enriched for terms}
 \usage{
 termGenes(er, terms, negTerms = NULL)
 }
@@ -18,7 +18,7 @@ genes enriched for \code{terms}.}
 Genes enriched for terms.
 }
 \description{
-This function extracts genes enriched for term from an \code{enrichResult}
+This function extracts genes enriched for terms from an \code{enrichResult}
 object.
 }
 \examples{

@@ -90,13 +90,29 @@ genesER <- function(genes, species,
                     funString = c('enrichGO','enrichKEGG', 'enrichWP'))
     return(getEnrichmentResult(entrezGenes(genes, species), species, funString))
 
-#' Extract genes enriched for term
+#' Extract genes enriched for terms
 #'
 #' This function extracts genes enriched for term from an \code{enrichResult}
 #' object.
 #'
 #' @param er Enrichment result.
 #' @param terms Terms for which enriched genes should be extracted.
+#'
+#' @return Genes enriched for terms.
+#'
+#' @keywords internal
+#'
+termGenesHelper <- function(er, terms)
+    return(unique(unlist(lapply(er@result[er@result$Description %in%
+                                       terms, ]$geneID,
+                         function(x) str_split(x, "/")[[1]]))))
+
+#' Extract genes enriched for terms
+#'
+#' This function extracts genes enriched for terms from an \code{enrichResult}
+#' object.
+#'
+#' @inheritParams termGenesHelper
 #' @param negTerms Terms for which enriched genes should be subtracted from the
 #' genes enriched for \code{terms}.
 #'
@@ -110,11 +126,9 @@ genesER <- function(genes, species,
 #' @export
 #'
 termGenes <- function(er, terms, negTerms = NULL){
-    posGenes <- str_split(er@result[er@result$Description %in%
-                                        terms, ]$geneID, '/')[[1]]
+    posGenes <- termGenesHelper(er, terms)
     if(!is.null(negTerms))
-        negGenes <- str_split(er@result[er@result$Description %in%
-                                            negTerms, ]$geneID, '/')[[1]] else
-                                                negGenes <- NULL
+        negGenes <- termGenesHelper(er, negTerms) else
+            negGenes <- NULL
     return(sort(setdiff(posGenes, negGenes)))
 }
