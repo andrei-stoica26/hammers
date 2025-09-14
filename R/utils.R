@@ -186,7 +186,7 @@ shuffleGenes <- function(scObj, genes, lossFrac, noiseFrac,
 #' @param sortByRowMeans Whether to sort by row means.
 #'
 #' @return A data frame.
-
+#'
 #' @examples
 #' v <- c(2, 3, 4, 19, 15, 25, 32, 8)
 #' res <- tabulateVector(v, paste0('r', seq(4)), paste0('c', seq(2)))
@@ -207,4 +207,27 @@ tabulateVector <- function(v,
             df <- df[order(df$avg), ]
     }
     return(df)
+}
+
+#' Time a function
+#'
+#' This function prints the time required to run a function and returns the
+#' function output.
+#'
+#' @param fun A function.
+#' @param ... Additional parameters passed to the function.
+#'
+#' @return The function output.
+#'
+#' @examples
+#' res <- timeFun(sum, 2, 3, 4))
+#'
+#' @export
+#'
+timeFun <- function(fun, ...){
+    x <- Sys.time()
+    res <- fun(...)
+    y <- Sys.time()
+    print(y - x)
+    return(res)
 }

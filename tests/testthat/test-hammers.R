@@ -158,6 +158,11 @@ test_that("tabulateVector works", {
     expect_equal(res, df)
 })
 
+test_that("timeFun works", {
+    expect_output(res <- timeFun(sum, 2, 3, 4))
+    expect_equal(res, 9)
+})
+
 test_that("distributionPlot works", {
     expect_equal(is(distributionPlot(sceObj,
                                      col1='donor', col2='label')), 'gg')
