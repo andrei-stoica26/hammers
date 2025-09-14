@@ -19,6 +19,6 @@ This function prints the time required to run a function and returns the
 function output.
 }
 \examples{
-res <- timeFun(sum, 2, 3, 4))
+res <- timeFun(sum, 2, 3, 4)
 
 }

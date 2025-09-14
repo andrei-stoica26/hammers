@@ -1,6 +1,7 @@
 #' @importFrom SeuratObject Embeddings Reductions
-#' @importFrom SingleCellExperiment colData reducedDim reducedDims
-#' @importFrom SummarizedExperiment assay
+#' @importFrom SingleCellExperiment reducedDim reducedDims
+#' @importFrom SummarizedExperiment assay colData colData<-
+#' @importFrom S4Vectors DataFrame
 #'
 NULL
 
@@ -8,8 +9,15 @@ NULL
 #' @export
 #'
 metadataDF.default <- function(scObj)
-    stop('Unrecognized input type: scObj must be a Seurat or ',
-         'SingleCellExpression object')
+    stop('Unrecognized input type: `scObj` must be a Seurat or ',
+         'SingleCellExpression object.')
+
+#' @rdname metadataDF
+#' @export
+#'
+`metadataDF<-.default` <- function(scObj, value)
+    stop('Unrecognized input type: `scObj` must be a Seurat or ',
+         'SingleCellExpression object.')
 
 #' @rdname metadataDF
 #' @export
@@ -20,8 +28,31 @@ metadataDF.Seurat <- function(scObj)
 #' @rdname metadataDF
 #' @export
 #'
+`metadataDF<-.Seurat` <- function(scObj, value) {
+    if (!is.data.frame(value))
+        stop('`value` must be a data.frame.')
+    scObj@meta.data <- value
+    return(scObj)
+}
+
+#' @rdname metadataDF
+#' @export
+#'
 metadataDF.SingleCellExperiment <- function(scObj)
-    return(data.frame(colData(scObj)))
+    return(as.data.frame(colData(scObj)))
+
+#' @rdname metadataDF
+#' @export
+#'
+`metadataDF<-.SingleCellExperiment` <- function(scObj, value) {
+    if (!is.data.frame(value))
+        stop('`value` must be a data.frame.')
+    colData(scObj) <- DataFrame(value)
+    return(scObj)
+}
+
+
+
 
 ###############################################################################
 #' @rdname metadataNames
@@ -301,7 +332,7 @@ scColPairCounts <- function(scObj, col1='seurat_clusters', col2='orig.ident')
 #' @examples
 #' scObj <- scRNAseq::BaronPancreasData('human')
 #' scObj <- scuttle::logNormCounts(scObj)
-#' scObj <- scater::runPCA
+#' scObj <- scater::runPCA(scObj)
 #' pcaMat <- scPCAMat(scObj)
 #'
 #' @export

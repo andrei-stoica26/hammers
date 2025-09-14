@@ -27,6 +27,7 @@ Imports:
     org.Mm.eg.db,
     qs,
     rlang,
+    S4Vectors,
     Seurat,
     SeuratObject,
     SingleCellExperiment,

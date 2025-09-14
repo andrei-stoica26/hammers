@@ -31,6 +31,7 @@ devPlot <- function(plotObject, ...)
 #' SingleCellExperiment object as a data frame.
 #'
 #' @param scObj A \code{Seurat} or \code{SingleCellExperiment} object.
+#' @param value A data frame to replace metadata with.
 #'
 #' @return A metadata data frame.
 #'
@@ -43,6 +44,11 @@ devPlot <- function(plotObject, ...)
 metadataDF <- function(scObj)
     UseMethod(generic='metadataDF', object=scObj)
 
+#' @rdname metadataDF
+#' @export
+`metadataDF<-` <- function(scObj, value) {
+    UseMethod("metadataDF<-")
+}
 
 #' Return metadata names.
 #'

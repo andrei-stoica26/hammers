@@ -220,7 +220,7 @@ tabulateVector <- function(v,
 #' @return The function output.
 #'
 #' @examples
-#' res <- timeFun(sum, 2, 3, 4))
+#' res <- timeFun(sum, 2, 3, 4)
 #'
 #' @export
 #'
