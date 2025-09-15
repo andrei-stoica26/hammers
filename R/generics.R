@@ -68,6 +68,11 @@ metadataDF <- function(scObj)
 scCol <- function(scObj, col)
     UseMethod(generic='scCol', object=scObj)
 
+#' @rdname scCol
+#' @export
+`scCol<-` <- function(scObj, col, value)
+    UseMethod("scCol<-")
+
 #' Extracts a dimensionality reduction matrix from object.
 #'
 #' This function extracts a dimensionality reduction matrix (PCA or UMAP)

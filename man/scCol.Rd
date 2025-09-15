@@ -2,23 +2,37 @@
 % Please edit documentation in R/compatibility.R, R/generics.R
 \name{scCol.default}
 \alias{scCol.default}
+\alias{scCol<-.default}
 \alias{scCol.Seurat}
+\alias{scCol<-.Seurat}
 \alias{scCol.SingleCellExperiment}
+\alias{scCol<-.SingleCellExperiment}
 \alias{scCol}
+\alias{scCol<-}
 \title{Extract a metadata/coldata column from object.}
 \usage{
 \method{scCol}{default}(scObj, col)
 
+\method{scCol}{default}(scObj, col) <- value
+
 \method{scCol}{Seurat}(scObj, col)
+
+\method{scCol}{Seurat}(scObj, col) <- value
 
 \method{scCol}{SingleCellExperiment}(scObj, col)
 
+\method{scCol}{SingleCellExperiment}(scObj, col) <- value
+
 scCol(scObj, col)
+
+scCol(scObj, col) <- value
 }
 \arguments{
 \item{scObj}{A \code{Seurat} or \code{SingleCellExperiment} object.}
 
 \item{col}{Column name.}
+
+\item{value}{A data frame to replace metadata with.}
 }
 \value{
 A vector.
