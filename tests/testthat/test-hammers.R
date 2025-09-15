@@ -77,7 +77,8 @@ test_that("repAnalysis and pvalRiverPlot work", {
     df <- repAnalysis(sceObj, 'donor', 'label')
     expect_equal(ncol(df), 9)
     expect_equal(mean(df$pvalAdj), 0.0005422197, tolerance=0.001)
-    expect_equal(is(pvalRiverPlot(df)), 'gg')
+    p <- pvalRiverPlot(df)
+    expect_equal(length(intersect(is(p), c('gg', 'ggplot2::ggplot'))), 1)
 })
 
 test_that("gene enrichment functions work", {
@@ -89,7 +90,7 @@ test_that("gene enrichment functions work", {
 })
 
 test_that("addMetadataCategory works", {
-    scObjExt <- addMetadataCategory(scObj,
+    sceObjExt <- addMetadataCategory(sceObj,
                                     'label',
                                     'initial',
                                     list(c('acinar',
@@ -105,7 +106,7 @@ test_that("addMetadataCategory works", {
                                          't_cell'),
                                     c('a', 'b', 'd', 'e', 'g', 'q', 'm',
                                       's', 't'))
-    expect_equal(unique(metadataDF(scObjExt)[['initial']]),
+    expect_equal(unique(metadataDF(sceObjExt)[['initial']]),
                  c('a', 'b', 'd', 'e', 'g', 'q', 'm', 's', 't'))
 })
 
@@ -185,8 +186,8 @@ test_that("timeFun works", {
 })
 
 test_that("distributionPlot works", {
-    expect_equal(is(distributionPlot(sceObj,
-                                     col1='donor', col2='label')), 'gg')
+    p <- distributionPlot(sceObj, col1='donor', col2='label')
+    expect_equal(length(intersect(is(p), c('gg', 'ggplot2::ggplot'))), 1)
 })
 
 test_that("dimPlot functions work", {
