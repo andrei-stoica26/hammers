@@ -19,7 +19,14 @@ knitr::opts_chunk$set(
 
 # Introduction
 
-hammers is a tool fo
+hammers is a utilities suite for scRNA-seq data analysis and package 
+development. The goal of hammers is twofold:
+
+1) Provide a series of functions that can equally operate on Seurat and
+SingleCellExperiment objects. These functions are intended to help
+developers build tools compatible with both types of input.
+
+2)
 
 # Installation
 
@@ -53,9 +60,7 @@ sceObj <- BaronPancreasData('human')
 
 # Providing compatibility between Seurat and SingleCellExperiment objects
 
-hammers provides a series of functions that can equally operate on Seurat and
-SingleCellExperiment objects. These functions are mainly intended to help
-developers build tools compatible with both types of input.
+hammers 
 
 To illustrate this functionality of hammers, we will first normalize and 
 log-transform the data using the `logNormCounts` function from `scuttle` 

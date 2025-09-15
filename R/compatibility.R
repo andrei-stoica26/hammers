@@ -31,7 +31,7 @@ metadataDF.Seurat <- function(scObj)
 `metadataDF<-.Seurat` <- function(scObj, value) {
     if (!is.data.frame(value))
         stop('`value` must be a data.frame.')
-    scObj@meta.data <- value
+    scObj[[]] <- value
     return(scObj)
 }
 
@@ -52,24 +52,32 @@ metadataDF.SingleCellExperiment <- function(scObj)
 }
 
 ###############################################################################
-#' @rdname metadataNames
+#' Return metadata names
+#'
+#' This function extracts metadata names from a Seurat or
+#' SingleCellExperiment object. It can also be used to modify metadata names.
+#'
+#' @inheritParams metadataDF
+#'
+#' @return The names of the metadata columns.
+#'
+#' @examples
+#' scObj <- scRNAseq::BaronPancreasData('human')
+#' colNames <- metadataNames(scObj)
+#'
 #' @export
 #'
-metadataNames.default <- function(scObj)
-    stop('Unrecognized input type: scObj must be a Seurat or ',
-         'SingleCellExpression object')
+metadataNames <- function(scObj)
+    return(colnames(metadataDF(scObj)))
 
 #' @rdname metadataNames
 #' @export
-#'
-metadataNames.Seurat <- function(scObj)
-    return(colnames(scObj[[]]))
-
-#' @rdname metadataNames
-#' @export
-#'
-metadataNames.SingleCellExperiment <- function(scObj)
-    return(names(colData(scObj)))
+`metadataNames<-` <- function(scObj, value){
+    if (!is.character(value))
+        stop('`value` must be a character.')
+    colnames(metadataDF(scObj)) <- value
+    return(scObj)
+}
 
 ###############################################################################
 #' @rdname scCol

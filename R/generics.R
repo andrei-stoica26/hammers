@@ -46,28 +46,8 @@ metadataDF <- function(scObj)
 
 #' @rdname metadataDF
 #' @export
-`metadataDF<-` <- function(scObj, value) {
+`metadataDF<-` <- function(scObj, value)
     UseMethod("metadataDF<-")
-}
-
-#' Return metadata names.
-#'
-#' This function extracts metadata names from a Seurat or
-#' SingleCellExperiment object.
-#'
-#' @inheritParams metadataDF
-#'
-#' @return The names of the metadata columns.
-#'
-#' @examples
-#' scObj <- scRNAseq::BaronPancreasData('human')
-#' colNames <- metadataNames(scObj)
-#'
-#' @export
-#'
-metadataNames <- function(scObj)
-    UseMethod(generic='metadataNames', object=scObj)
-
 
 #' Extract a metadata/coldata column from object.
 #'
