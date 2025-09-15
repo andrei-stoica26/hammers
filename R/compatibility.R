@@ -51,9 +51,6 @@ metadataDF.SingleCellExperiment <- function(scObj)
     return(scObj)
 }
 
-
-
-
 ###############################################################################
 #' @rdname metadataNames
 #' @export
@@ -352,8 +349,8 @@ scPCAMat <- function(scObj)
 #' @examples
 #' scObj <- scRNAseq::BaronPancreasData('human')
 #' scObj <- scuttle::logNormCounts(scObj)
-#' scObj <- scater::runUMAP
-#' umapMat <- scPCAMat(scObj)
+#' scObj <- scater::runUMAP(scObj)
+#' umapMat <- scUMAPMat(scObj)
 #'
 #' @export
 #'

@@ -19,7 +19,7 @@ SingleCellExperiment object.
 \examples{
 scObj <- scRNAseq::BaronPancreasData('human')
 scObj <- scuttle::logNormCounts(scObj)
-scObj <- scater::runUMAP
-umapMat <- scPCAMat(scObj)
+scObj <- scater::runUMAP(scObj)
+umapMat <- scUMAPMat(scObj)
 
 }
