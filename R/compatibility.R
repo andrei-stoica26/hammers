@@ -251,7 +251,7 @@ scExpMat.matrix <- function(scObj,
 #' @noRd
 #'
 scDimredMat.default <- function(scObj, dimred = c('pca', 'umap'))
-    stop('Unrecognized input type: scObj must be a Seurat or ',
+    stop('Unrecognized input type: `scObj` must be a Seurat or ',
          'SingleCellExpression object')
 
 #' @noRd
