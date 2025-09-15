@@ -1,12 +1,12 @@
 #' Calculate the coordinates of the center of mass
 #'
 #' This function calculates the coordinates of the center of mass based on a
-#' matrix of cell embeddings and a vector of weights
+#' matrix of cell embeddings and a vector of weights.
 #'
-#' @param dimMat A matrix of cell embeddings
-#' @param weights A vector of weights
+#' @param dimMat A matrix of cell embeddings.
+#' @param weights A vector of weights.
 #'
-#' @return A vector containing the coordinates of the center of mass
+#' @return A vector containing the coordinates of the center of mass.
 #'
 #' @examples
 #' dimMat <- matrix(data=c(2, 3, 1, 3, 6, 8), nrow=3, ncol=2)

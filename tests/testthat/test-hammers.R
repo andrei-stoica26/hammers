@@ -88,6 +88,27 @@ test_that("gene enrichment functions work", {
                  c('BIRC5', 'CENPF', 'MKI67'))
 })
 
+test_that("addMetadataCategory works", {
+    scObjExt <- addMetadataCategory(scObj,
+                                    'label',
+                                    'initial',
+                                    list(c('acinar',
+                                           'activated_stellate',
+                                           'alpha'),
+                                         'beta',
+                                         c('delta', 'ductal'),
+                                         c('epsilon', 'endothelial'),
+                                         'gamma',
+                                         'quiescent_stellate',
+                                         c('macrophage', 'mast'),
+                                         'schwann',
+                                         't_cell'),
+                                    c('a', 'b', 'd', 'e', 'g', 'q', 'm',
+                                      's', 't'))
+    expect_equal(unique(metadataDF(scObjExt)[['initial']]),
+                 c('a', 'b', 'd', 'e', 'g', 'q', 'm', 's', 't'))
+})
+
 test_that("multiple testing functions work", {
     df <- data.frame(elem = c('A', 'B', 'C', 'D', 'E'),
                      pval = c(0.032, 0.001, 0.0045, 0.051, 0.048))

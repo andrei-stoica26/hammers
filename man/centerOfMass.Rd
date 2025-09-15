@@ -7,16 +7,16 @@
 centerOfMass(dimMat, weights)
 }
 \arguments{
-\item{dimMat}{A matrix of cell embeddings}
+\item{dimMat}{A matrix of cell embeddings.}
 
-\item{weights}{A vector of weights}
+\item{weights}{A vector of weights.}
 }
 \value{
-A vector containing the coordinates of the center of mass
+A vector containing the coordinates of the center of mass.
 }
 \description{
 This function calculates the coordinates of the center of mass based on a
-matrix of cell embeddings and a vector of weights
+matrix of cell embeddings and a vector of weights.
 }
 \examples{
 dimMat <- matrix(data=c(2, 3, 1, 3, 6, 8), nrow=3, ncol=2)
