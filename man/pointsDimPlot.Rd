@@ -40,16 +40,16 @@ A ggplot object.
 This function plots a Seurat DimPlot with added labeled points.
 }
 \examples{
-sceObj <- scRNAseq::BaronPancreasData('human')
-sceObj <- scuttle::logNormCounts(sceObj)
-seuratObj <- suppressWarnings(Seurat::as.Seurat(sceObj))
-seuratObj <- Seurat::FindVariableFeatures(seuratObj)
-seuratObj <- Seurat::ScaleData(seuratObj)
-seuratObj <- Seurat::RunPCA(seuratObj)
-seuratObj <- suppressWarnings(Seurat::RunUMAP(seuratObj, dims=1:15))
+scObj <- withr::with_seed(1, scuttle::mockSCE(ngenes=20000))
+scObj <- suppressWarnings(Seurat::as.Seurat(scObj, data=NULL))
+scObj <- Seurat::NormalizeData(scObj)
+scObj <- Seurat::FindVariableFeatures(scObj)
+scObj <- Seurat::ScaleData(scObj)
+scObj <- suppressWarnings(Seurat::RunPCA(scObj))
+scObj <- suppressWarnings(Seurat::RunUMAP(scObj, dims=1:15))
 pointsDF <- data.frame(x = c(2, 3),
-y = c(1, 6),
+y = c(1, 0),
 row.names = c('P1', 'P2'))
-pointsDimPlot(seuratObj, pointsDF=pointsDF)
+pointsDimPlot(scObj, pointsDF=pointsDF)
 
 }

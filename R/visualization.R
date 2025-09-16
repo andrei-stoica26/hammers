@@ -83,9 +83,6 @@ pvalRiverPlot <- function(df, weightExp = 1/2, ...){
     return(p)
 }
 
-sceObj <- scRNAseq::BaronPancreasData()
-View(sceObj)
-
 #' Plot Seurat DimPlot with added labeled points
 #'
 #' This function plots a Seurat DimPlot with added labeled points.
@@ -103,15 +100,15 @@ View(sceObj)
 #' @return A ggplot object.
 #'
 #' @examples
-#' scObj <- scRNAseq::BaronPancreasData('human')
-#' scObj <- scuttle::logNormCounts(scObj)
-#' scObj <- suppressWarnings(Seurat::as.Seurat(scObj))
+#' scObj <- withr::with_seed(1, scuttle::mockSCE(ngenes=20000))
+#' scObj <- suppressWarnings(Seurat::as.Seurat(scObj, data=NULL))
+#' scObj <- Seurat::NormalizeData(scObj)
 #' scObj <- Seurat::FindVariableFeatures(scObj)
 #' scObj <- Seurat::ScaleData(scObj)
-#' scObj <- Seurat::RunPCA(scObj)
+#' scObj <- suppressWarnings(Seurat::RunPCA(scObj))
 #' scObj <- suppressWarnings(Seurat::RunUMAP(scObj, dims=1:15))
 #' pointsDF <- data.frame(x = c(2, 3),
-#' y = c(1, 6),
+#' y = c(1, 0),
 #' row.names = c('P1', 'P2'))
 #' pointsDimPlot(scObj, pointsDF=pointsDF)
 #'
@@ -153,14 +150,14 @@ pointsDimPlot <- function(seuratObj,
 #' @return A ggplot object.
 #'
 #' @examples
-#' sceObj <- scRNAseq::BaronPancreasData('human')
-#' sceObj <- scuttle::logNormCounts(sceObj)
-#' seuratObj <- suppressWarnings(Seurat::as.Seurat(sceObj))
-#' seuratObj <- Seurat::FindVariableFeatures(seuratObj)
-#' seuratObj <- Seurat::ScaleData(seuratObj)
-#' seuratObj <- Seurat::RunPCA(seuratObj)
-#' seuratObj <- suppressWarnings(Seurat::RunUMAP(seuratObj, dims=1:15))
-#' genesDimPlot(seuratObj, c('AURKA', 'TOP2A', 'MKI67'))
+#' scObj <- withr::with_seed(1, scuttle::mockSCE(ngenes=20000))
+#' scObj <- suppressWarnings(Seurat::as.Seurat(scObj, data=NULL))
+#' scObj <- Seurat::NormalizeData(scObj)
+#' scObj <- Seurat::FindVariableFeatures(scObj)
+#' scObj <- Seurat::ScaleData(scObj)
+#' scObj <- suppressWarnings(Seurat::RunPCA(scObj))
+#' scObj <- suppressWarnings(Seurat::RunUMAP(scObj, dims=1:15))
+#' genesDimPlot(scObj, c('Spike-0021', 'Spike-0053', 'Spike-0018'))
 #'
 #' @export
 #'
@@ -181,14 +178,14 @@ genesDimPlot <- function(seuratObj, genes, ...){
 #' @return A ggplot object.
 #'
 #' @examples
-#' sceObj <- scRNAseq::BaronPancreasData('human')
-#' sceObj <- scuttle::logNormCounts(sceObj)
-#' seuratObj <- suppressWarnings(Seurat::as.Seurat(sceObj))
-#' seuratObj <- Seurat::FindVariableFeatures(seuratObj)
-#' seuratObj <- Seurat::ScaleData(seuratObj)
-#' seuratObj <- Seurat::RunPCA(seuratObj)
-#' seuratObj <- suppressWarnings(Seurat::RunUMAP(seuratObj, dims=1:15))
-#' colsDimPlot(seuratObj, c('nCount_originalexp', 'nFeature_originalexp'))
+#' scObj <- withr::with_seed(1, scuttle::mockSCE(ngenes=20000))
+#' scObj <- suppressWarnings(Seurat::as.Seurat(scObj, data=NULL))
+#' scObj <- Seurat::NormalizeData(scObj)
+#' scObj <- Seurat::FindVariableFeatures(scObj)
+#' scObj <- Seurat::ScaleData(scObj)
+#' scObj <- suppressWarnings(Seurat::RunPCA(scObj))
+#' scObj <- suppressWarnings(Seurat::RunUMAP(scObj, dims=1:15))
+#' colsDimPlot(scObj, c('nCount_originalexp', 'nFeature_originalexp'))
 #'
 #' @export
 #'

@@ -20,13 +20,13 @@ A ggplot object.
 This function plots a Seurat DimPlot with added labeled points for genes.
 }
 \examples{
-sceObj <- scRNAseq::BaronPancreasData('human')
-sceObj <- scuttle::logNormCounts(sceObj)
-seuratObj <- suppressWarnings(Seurat::as.Seurat(sceObj))
-seuratObj <- Seurat::FindVariableFeatures(seuratObj)
-seuratObj <- Seurat::ScaleData(seuratObj)
-seuratObj <- Seurat::RunPCA(seuratObj)
-seuratObj <- suppressWarnings(Seurat::RunUMAP(seuratObj, dims=1:15))
-genesDimPlot(seuratObj, c('AURKA', 'TOP2A', 'MKI67'))
+scObj <- withr::with_seed(1, scuttle::mockSCE(ngenes=20000))
+scObj <- suppressWarnings(Seurat::as.Seurat(scObj, data=NULL))
+scObj <- Seurat::NormalizeData(scObj)
+scObj <- Seurat::FindVariableFeatures(scObj)
+scObj <- Seurat::ScaleData(scObj)
+scObj <- suppressWarnings(Seurat::RunPCA(scObj))
+scObj <- suppressWarnings(Seurat::RunUMAP(scObj, dims=1:15))
+genesDimPlot(scObj, c('Spike-0021', 'Spike-0053', 'Spike-0018'))
 
 }
