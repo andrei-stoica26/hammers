@@ -20,7 +20,7 @@ This function checks if all genes exist in the single-cell expression
 object.
 }
 \examples{
-scObj <- scRNAseq::BaronPancreasData('human')
-checkGenes(scObj, c('AURKA', 'TOP2A', 'MKI67'))
+scObj <- withr::with_seed(1, scuttle::mockSCE(ngenes=20000))
+checkGenes(scObj, c('Gene_0980', 'Gene_0981', 'Gene_0982'))
 
 }

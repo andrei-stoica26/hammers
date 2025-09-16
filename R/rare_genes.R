@@ -19,7 +19,7 @@
 findRareGenes <- function(scObj, nCells = 10){
     expMat <- scExpMat(scObj, "counts")
     df <- data.frame(Count = rowSums(expMat != 0))
-    df <- subset(df, Count < nCells)
+    df <- df[df[, 1] < nCells, ]
     return(df)
 }
 
@@ -31,6 +31,7 @@ findRareGenes <- function(scObj, nCells = 10){
 #' @inheritParams metadataDF
 #' @param nCells Minimum number of cells in which a gene must be expressed to
 #' be retained.
+#' @param verbose Logical; whether the output should be verbose.
 #'
 #' @return A Seurat or SingleCellExpression object with rare genes removed.
 #'

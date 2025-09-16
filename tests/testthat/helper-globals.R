@@ -11,3 +11,6 @@ sceObj <- scater::runPCA(sceObj)
 sceObj <- computeSilhouette(sceObj, 'label')
 sceObj <- scater::runUMAP(sceObj)
 
+scObj <- withr::with_seed(1, scuttle::mockSCE(ngenes=20000))
+scObj <- scuttle::logNormCounts(scObj)
+scObj <- scater::runPCA(scObj)

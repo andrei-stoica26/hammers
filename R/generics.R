@@ -36,7 +36,7 @@ devPlot <- function(plotObject, ...)
 #' @return A metadata data frame.
 #'
 #' @examples
-#' scObj <- scRNAseq::BaronPancreasData('human')
+#' scObj <- withr::with_seed(1, scuttle::mockSCE(ngenes=20000))
 #' df <- metadataDF(scObj)
 #'
 #' @export
@@ -60,8 +60,8 @@ metadataDF <- function(scObj)
 #' @return A vector.
 #'
 #' @examples
-#' scObj <- scRNAseq::BaronPancreasData('human')
-#' v <- scCol(scObj, 'label')
+#' scObj <- withr::with_seed(1, scuttle::mockSCE(ngenes=20000))
+#' v <- scCol(scObj, 'Mutation_Status')
 #'
 #' @export
 #'
@@ -99,7 +99,7 @@ scDimredMat <- function(scObj, dimred = c('pca', 'umap'))
 #' @return An expression matrix.
 #'
 #' @examples
-#' scObj <- scRNAseq::BaronPancreasData('human')
+#' scObj <- withr::with_seed(1, scuttle::mockSCE(ngenes=20000))
 #' mat <- scExpMat(scObj, 'counts')
 #'
 #' @export
@@ -125,8 +125,8 @@ scExpMat <- function(scObj, dataType = c('data',
 #' @return A gene expression vector.
 #'
 #' @examples
-#' scObj <- scRNAseq::BaronPancreasData('human')
-#' v <- scGeneExp(scObj, 'AURKA')
+#' scObj <- withr::with_seed(1, scuttle::mockSCE(ngenes=20000))
+#' v <- scGeneExp(scObj, 'Gene_0991')
 #'
 #' @export
 #'

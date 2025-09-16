@@ -17,7 +17,7 @@ This function extracts the PCA matrix from a Seurat or
 SingleCellExperiment object.
 }
 \examples{
-scObj <- scRNAseq::BaronPancreasData('human')
+scObj <- withr::with_seed(1, scuttle::mockSCE(ngenes=20000))
 scObj <- scuttle::logNormCounts(scObj)
 scObj <- scater::runPCA(scObj)
 pcaMat <- scPCAMat(scObj)

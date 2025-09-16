@@ -23,10 +23,11 @@ This function computes the silhouette for each cell in the \code{Seurat}
 or \code{SingleCellExperiment} object.
 }
 \examples{
-scObj <- scRNAseq::BaronPancreasData('human')
+scObj <- withr::with_seed(1, scuttle::mockSCE(ngenes=20000))
 scObj <- scuttle::logNormCounts(scObj)
 scObj <- scater::runPCA(scObj)
-scObj <- computeSilhouette(scObj, 'label')
-head(scCol(scObj, 'silhouette'))
+scCol(scObj, 'Cluster') <- withr::with_seed(1,
+sample(paste0('Cluster', seq(5)), dim(scObj)[2], replace=TRUE))
+scObj <- computeSilhouette(scObj, 'Cluster')
 
 }

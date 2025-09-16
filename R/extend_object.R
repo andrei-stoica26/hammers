@@ -48,7 +48,6 @@ hashMap <- function(hashKeys, hashValues){
 #'                 'banana',
 #'                 'grape'),
 #'                 c('red', 'yellow', 'purple'))
-#'
 #' @export
 #'
 addCategory <- function(df, col, newCol, hashKeys, hashValues){
@@ -65,7 +64,6 @@ addCategory <- function(df, col, newCol, hashKeys, hashValues){
     return(df)
 }
 
-
 #' Add a categorical column to a Seurat metadata or SingleCellExperiment
 #' coldata
 #'
@@ -80,14 +78,9 @@ addCategory <- function(df, col, newCol, hashKeys, hashValues){
 #' categorical column(s) in the metadata/coldata.
 #'
 #' @examples
-#' df <- data.frame(fruit = c('apple', 'banana', 'cherry', 'grape'))
-#' df <- addCategory(df,
-#'                 'fruit',
-#'                 'color',
-#'                 list(c('apple', 'cherry'),
-#'                 'banana',
-#'                 'grape'),
-#'                 c('red', 'yellow', 'purple'))
+#' scObj <- withr::with_seed(1, scuttle::mockSCE(ngenes=20000))
+#' scObj <- addMetadataCategory(scObj, 'Cell_Cycle', 'Type',
+#' list(c('G0', 'G1'), 'G2M', 'S'), c(2, 3, 1))
 #'
 #' @export
 #'

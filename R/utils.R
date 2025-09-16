@@ -140,8 +140,9 @@ safeMessage <- function(msg, verbose = TRUE)
 #' @return Genes vector after changes.
 #'
 #' @examples
-#' scObj <- scRNAseq::BaronPancreasData('human')
-#' genes <- c('TOP2A', 'BIRC5', 'MKI67', 'RRM2', 'CENPF', 'PTTG2', 'CLSPN')
+#' scObj <- withr::with_seed(1, scuttle::mockSCE(ngenes=20000))
+#' genes <- c('Gene_0826', 'Gene_0610', 'Gene_0380', 'Gene_0602',
+#' 'Gene_0613', 'Gene_0201', 'Gene_0295')
 #' shuffleGenes(scObj, genes, 0.3, 0.9)
 #'
 #' @export

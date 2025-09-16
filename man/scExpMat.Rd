@@ -70,7 +70,7 @@ This function extracts an expression matrix from a Seurat or
 SingleCellExperiment object.
 }
 \examples{
-scObj <- scRNAseq::BaronPancreasData('human')
+scObj <- withr::with_seed(1, scuttle::mockSCE(ngenes=20000))
 mat <- scExpMat(scObj, 'counts')
 
 }

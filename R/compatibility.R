@@ -62,7 +62,7 @@ metadataDF.SingleCellExperiment <- function(scObj)
 #' @return The names of the metadata columns.
 #'
 #' @examples
-#' scObj <- scRNAseq::BaronPancreasData('human')
+#' scObj <- withr::with_seed(1, scuttle::mockSCE(ngenes=20000))
 #' colNames <- metadataNames(scObj)
 #'
 #' @export
@@ -184,7 +184,7 @@ scGeneExp.matrix <- function(scObj,
                                           'logcounts'))
     return(scObj[gene, ])
 
-###############################################################################
+################################################################################
 #' @rdname scExpMat
 #' @export
 #'
@@ -316,8 +316,8 @@ scDimredMat.SingleCellExperiment <- function(scObj, dimred = c('pca', 'umap')){
 #' @return A frequency vector with the unique column values as names.
 #'
 #' @examples
-#' scObj <- scRNAseq::BaronPancreasData('human')
-#' scColCounts(scObj, 'label')
+#' scObj <- withr::with_seed(1, scuttle::mockSCE(ngenes=20000))
+#' scColCounts(scObj, 'Mutation_Status')
 #'
 #' @export
 #'
@@ -339,8 +339,8 @@ scColCounts <- function(scObj, col='orig.ident'){
 #' two categorical columns.
 #'
 #' @examples
-#' scObj <- scRNAseq::BaronPancreasData('human')
-#' scColPairCounts(scObj, 'donor', 'label')
+#' scObj <- withr::with_seed(1, scuttle::mockSCE(ngenes=20000))
+#' scColPairCounts(scObj, 'Mutation_Status', 'Cell_Cycle')
 #'
 #' @export
 #'
@@ -358,7 +358,7 @@ scColPairCounts <- function(scObj, col1='seurat_clusters', col2='orig.ident')
 #' @return A PCA matrix.
 #'
 #' @examples
-#' scObj <- scRNAseq::BaronPancreasData('human')
+#' scObj <- withr::with_seed(1, scuttle::mockSCE(ngenes=20000))
 #' scObj <- scuttle::logNormCounts(scObj)
 #' scObj <- scater::runPCA(scObj)
 #' pcaMat <- scPCAMat(scObj)
@@ -378,7 +378,7 @@ scPCAMat <- function(scObj)
 #' @return A UMAP matrix.
 #'
 #' @examples
-#' scObj <- scRNAseq::BaronPancreasData('human')
+#' scObj <- withr::with_seed(1, scuttle::mockSCE(ngenes=20000))
 #' scObj <- scuttle::logNormCounts(scObj)
 #' scObj <- scater::runUMAP(scObj)
 #' umapMat <- scUMAPMat(scObj)

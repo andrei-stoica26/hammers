@@ -11,6 +11,8 @@ removeRareGenes(scObj, nCells = 10, verbose = TRUE)
 
 \item{nCells}{Minimum number of cells in which a gene must be expressed to
 be retained.}
+
+\item{verbose}{Logical; whether the output should be verbose.}
 }
 \value{
 A Seurat or SingleCellExpression object with rare genes removed.

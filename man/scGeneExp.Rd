@@ -38,7 +38,7 @@ This function extracts the expression of a single gene from a Seurat,
 SingleCellExperiment, dgCMatrix or matrix object.
 }
 \examples{
-scObj <- scRNAseq::BaronPancreasData('human')
-v <- scGeneExp(scObj, 'AURKA')
+scObj <- withr::with_seed(1, scuttle::mockSCE(ngenes=20000))
+v <- scGeneExp(scObj, 'Gene_0991')
 
 }

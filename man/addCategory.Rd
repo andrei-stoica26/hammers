@@ -35,5 +35,4 @@ df <- addCategory(df,
                 'banana',
                 'grape'),
                 c('red', 'yellow', 'purple'))
-
 }

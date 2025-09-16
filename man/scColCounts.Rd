@@ -19,7 +19,7 @@ This function extracts count information from the column of a Seurat or
 SingleCellExperiment object.
 }
 \examples{
-scObj <- scRNAseq::BaronPancreasData('human')
-scColCounts(scObj, 'label')
+scObj <- withr::with_seed(1, scuttle::mockSCE(ngenes=20000))
+scColCounts(scObj, 'Mutation_Status')
 
 }

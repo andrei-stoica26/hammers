@@ -30,11 +30,10 @@ centerOfMass <- function(dimMat, weights){
 #' @return A data frame containing the coordinates of centers of mass.
 #'
 #' @examples
-#' sceObj <- scRNAseq::BaronPancreasData('human')
-#' sceObj <- scuttle::logNormCounts(sceObj)
-#' sceObj <- scater::runUMAP(sceObj)
-#' geneCenters(sceObj, c('AURKA', 'MKI67', 'TOP2A'))
-#'
+#' scObj <- withr::with_seed(1, scuttle::mockSCE(ngenes=20000))
+#' scObj <- scuttle::logNormCounts(scObj)
+#' scObj <- scater::runUMAP(scObj)
+#' geneCenters(scObj, c('Gene_0980', 'Gene_0981', 'Gene_0982'))
 #'
 #' @export
 #'
@@ -66,5 +65,3 @@ colCenters <- function(scObj, columns){
                                     function(x) centerOfMass(dimMat, x))))
     return(centersDF)
 }
-
-

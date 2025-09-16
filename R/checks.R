@@ -9,8 +9,8 @@
 #' @return None. This function is called for its side effect.
 #'
 #' @examples
-#' scObj <- scRNAseq::BaronPancreasData('human')
-#' checkGenes(scObj, c('AURKA', 'TOP2A', 'MKI67'))
+#' scObj <- withr::with_seed(1, scuttle::mockSCE(ngenes=20000))
+#' checkGenes(scObj, c('Gene_0980', 'Gene_0981', 'Gene_0982'))
 #'
 #' @export
 #'

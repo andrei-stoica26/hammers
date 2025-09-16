@@ -39,7 +39,11 @@ A ggplot object.
 This function plots the distribution of cells across two columns.
 }
 \examples{
-scObj <- scRNAseq::BaronPancreasData('human')
-distributionPlot(scObj, col1='donor', col2='label')
+scObj <- withr::with_seed(1, scuttle::mockSCE(ngenes=20000))
+scCol(scObj, 'Cluster') <- withr::with_seed(1,
+sample(paste0('Cluster', seq(5)), dim(scObj)[2], replace=TRUE))
+scCol(scObj, 'Donor') <- withr::with_seed(1,
+sample(paste0('Donor', seq(6)), dim(scObj)[2], replace=TRUE))
+p <- distributionPlot(scObj, col1='Cluster', col2='Donor')
 
 }

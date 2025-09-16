@@ -35,8 +35,17 @@ An overrepresentation or underrepresentation data frame.
 This function find the differential representation of two Seurat columns.
 }
 \examples{
-sceObj <- scRNAseq::BaronPancreasData('human')
-repAnalysis(sceObj, 'donor', 'label')
-
+scObj <- withr::with_seed(1, scuttle::mockSCE(ngenes=20000))
+scCol(scObj, 'Cluster') <- withr::with_seed(1,
+sample(paste0('Cluster', seq(5)), dim(scObj)[2], replace=TRUE))
+scCol(scObj, 'Donor') <- rep('Donor1', dim(scObj)[2])
+for (i in seq(5)){
+scCol(scObj, 'Donor')[sample(which(scCol(scObj, 'Cluster') ==
+paste0('Cluster', i)), 15)]<- paste0('Donor', i)
+scCol(scObj, 'Donor')[sample(which(scCol(scObj, 'Cluster') ==
+paste0('Cluster', i))
+, 15)]<- paste0('Donor', i + 1)
+}
+repAnalysis(scObj, 'Cluster', 'Donor')
 
 }

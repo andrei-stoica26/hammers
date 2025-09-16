@@ -19,11 +19,12 @@ NULL
 #' an added metadata silhouette column.
 #'
 #' @examples
-#' scObj <- scRNAseq::BaronPancreasData('human')
+#' scObj <- withr::with_seed(1, scuttle::mockSCE(ngenes=20000))
 #' scObj <- scuttle::logNormCounts(scObj)
 #' scObj <- scater::runPCA(scObj)
-#' scObj <- computeSilhouette(scObj, 'label')
-#' head(scCol(scObj, 'silhouette'))
+#' scCol(scObj, 'Cluster') <- withr::with_seed(1,
+#' sample(paste0('Cluster', seq(5)), dim(scObj)[2], replace=TRUE))
+#' scObj <- computeSilhouette(scObj, 'Cluster')
 #'
 #' @export
 #'
@@ -47,8 +48,17 @@ computeSilhouette <- function(scObj, idClass, pcaMat = NULL){
 #'
 #' @inheritParams computeSilhouette
 #'
-#' @return A data frame with normalized silhouettes for each unique element in the
-#' identity class.
+#' @return A data frame with normalized silhouettes for each unique element in
+#' the identity class.
+#'
+#' @examples
+#' scObj <- withr::with_seed(1, scuttle::mockSCE(ngenes=20000))
+#' scObj <- scuttle::logNormCounts(scObj)
+#' scObj <- scater::runPCA(scObj)
+#' scCol(scObj, 'Cluster') <- withr::with_seed(1,
+#' sample(paste0('Cluster', seq(5)), dim(scObj)[2], replace=TRUE))
+#' scObj <- computeSilhouette(scObj, 'Cluster')
+#' df <- normalizeSilhouette(scObj, 'Cluster')
 #'
 #' @export
 #'
@@ -62,7 +72,8 @@ normalizeSilhouette <- function(scObj, idClass){
     dfSub <- df[df[, 1] == group, ]
     sortedSil <- dfSub$silhouette
     auxMin <- 2 * sortedSil[1] - sortedSil[2]
-    normSilVals <- liver::minmax(c(dfSub$silhouette, auxMin))[seq_along(dfSub$silhouette)]
+    normSilVals <- liver::minmax(c(dfSub$silhouette,
+                                   auxMin))[seq_along(dfSub$silhouette)]
     res[rownames(dfSub), group] <- normSilVals
   }
   return(res)

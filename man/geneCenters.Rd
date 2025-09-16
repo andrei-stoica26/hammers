@@ -20,10 +20,9 @@ This function calculates the coordinates of the center of mass of the
 expression of input genes.
 }
 \examples{
-sceObj <- scRNAseq::BaronPancreasData('human')
-sceObj <- scuttle::logNormCounts(sceObj)
-sceObj <- scater::runUMAP(sceObj)
-geneCenters(sceObj, c('AURKA', 'MKI67', 'TOP2A'))
-
+scObj <- withr::with_seed(1, scuttle::mockSCE(ngenes=20000))
+scObj <- scuttle::logNormCounts(scObj)
+scObj <- scater::runUMAP(scObj)
+geneCenters(scObj, c('Gene_0980', 'Gene_0981', 'Gene_0982'))
 
 }

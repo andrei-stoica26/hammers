@@ -16,11 +16,3 @@
 joinCharCombs <- function(..., joinChar = '_')
     return(sort(apply(expand.grid(...), 1,
                function(x) paste0(x, collapse = joinChar))))
-
-
-
-
-
-
-
-

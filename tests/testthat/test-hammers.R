@@ -74,9 +74,25 @@ test_that("compatibility functions and checks work", {
 })
 
 test_that("repAnalysis and pvalRiverPlot work", {
-    df <- repAnalysis(sceObj, 'donor', 'label')
+    scObj <- withr::with_seed(1, scuttle::mockSCE(ngenes=20000))
+    scCol(scObj, 'Cluster') <- withr::with_seed(1,
+                                                sample(paste0('Cluster', seq(5)), dim(scObj)[2], replace=TRUE))
+    scCol(scObj, 'Donor') <- rep('Donor1', dim(scObj)[2])
+    for (i in seq(5)){
+        scCol(scObj, 'Donor')[withr::with_seed(1,
+                                               sample(which(scCol(scObj,
+                                                                  'Cluster') ==
+                                               paste0('Cluster', i))
+                                     , 15))]<- paste0('Donor', i)
+        scCol(scObj, 'Donor')[withr::with_seed(1,
+                                               sample(which(scCol(scObj,
+                                                                  'Cluster') ==
+                                               paste0('Cluster', i))
+                                     , 15))]<- paste0('Donor', i + 1)
+    }
+    df <- repAnalysis(scObj, 'Cluster', 'Donor')
     expect_equal(ncol(df), 9)
-    expect_equal(mean(df$pvalAdj), 0.0005422197, tolerance=0.001)
+    expect_equal(mean(df$pvalAdj), 7.30162e-11, tolerance=0.001)
     p <- pvalRiverPlot(df)
     expect_equal(length(intersect(is(p), c('gg', 'ggplot2::ggplot'))), 1)
 })
@@ -121,8 +137,15 @@ test_that("multiple testing functions work", {
     expect_equal(res$pvalAdj, c(0.01141667, 0.02568750), tolerance=0.001)
 })
 
-test_that("silhouette functions work", {
-    expect_equal(mean(scCol(sceObj, 'silhouette')), 0.3981082, tolerance=0.001)
+test_that("silhouette functions and scCol work", {
+    scCol(scObj, 'Cluster') <- withr::with_seed(1,
+                                                sample(paste0('Cluster',
+                                                              seq(5)),
+                                                       dim(scObj)[2],
+                                                       replace=TRUE))
+    scObj <- computeSilhouette(scObj, 'Cluster')
+    df <- normalizeSilhouette(scObj, 'Cluster')
+    expect_equal(sum(df), 100.2515, tolerance=0.001)
 })
 
 test_that("joinCharCombs works", {
@@ -186,7 +209,16 @@ test_that("timeFun works", {
 })
 
 test_that("distributionPlot works", {
-    p <- distributionPlot(sceObj, col1='donor', col2='label')
+    scCol(scObj, 'Cluster') <- withr::with_seed(1,
+                                                sample(paste0('Cluster',
+                                                              seq(5)),
+                                                       dim(scObj)[2],
+                                                       replace=TRUE))
+    scCol(scObj, 'Donor') <- withr::with_seed(1,
+                                              sample(paste0('Donor', seq(6)),
+                                                     dim(scObj)[2],
+                                                     replace=TRUE))
+    p <- distributionPlot(scObj, col1='Cluster', col2='Donor')
     expect_equal(length(intersect(is(p), c('gg', 'ggplot2::ggplot'))), 1)
 })
 

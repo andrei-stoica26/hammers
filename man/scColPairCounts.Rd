@@ -21,7 +21,7 @@ two categorical columns.
 This function extracts count information from Seurat column.
 }
 \examples{
-scObj <- scRNAseq::BaronPancreasData('human')
-scColPairCounts(scObj, 'donor', 'label')
+scObj <- withr::with_seed(1, scuttle::mockSCE(ngenes=20000))
+scColPairCounts(scObj, 'Mutation_Status', 'Cell_Cycle')
 
 }

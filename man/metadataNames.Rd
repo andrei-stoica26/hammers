@@ -22,7 +22,7 @@ This function extracts metadata names from a Seurat or
 SingleCellExperiment object. It can also be used to modify metadata names.
 }
 \examples{
-scObj <- scRNAseq::BaronPancreasData('human')
+scObj <- withr::with_seed(1, scuttle::mockSCE(ngenes=20000))
 colNames <- metadataNames(scObj)
 
 }

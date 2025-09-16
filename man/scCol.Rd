@@ -42,7 +42,7 @@ This function extracts a metadata/coldata column from a Seurat or
 SingleCellExperiment object.
 }
 \examples{
-scObj <- scRNAseq::BaronPancreasData('human')
-v <- scCol(scObj, 'label')
+scObj <- withr::with_seed(1, scuttle::mockSCE(ngenes=20000))
+v <- scCol(scObj, 'Mutation_Status')
 
 }
