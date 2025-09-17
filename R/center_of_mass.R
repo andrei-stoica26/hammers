@@ -56,10 +56,16 @@ geneCenters <- function(scObj, genes){
 #'
 #' @return A data frame containing the coordinates of centers of mass.
 #'
+#' @examples
+#' scObj <- withr::with_seed(1, scuttle::mockSCE(ngenes=20000))
+#' scObj <- scuttle::logNormCounts(scObj)
+#' scObj <- scater::runUMAP(scObj)
+#' colCenters(scObj, c('sizeFactor'))
+#'
 #' @export
 #'
 colCenters <- function(scObj, columns){
-    cols <- metadataDF(scObj)[, columns]
+    cols <- metadataDF(scObj)[, columns, drop=FALSE]
     dimMat <- scUMAPMat(scObj)
     centersDF <- data.frame(t(apply(cols, 2,
                                     function(x) centerOfMass(dimMat, x))))

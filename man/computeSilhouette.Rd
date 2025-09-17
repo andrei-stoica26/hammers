@@ -4,7 +4,7 @@
 \alias{computeSilhouette}
 \title{Compute cluster silhouette for single-cell expression object}
 \usage{
-computeSilhouette(scObj, idClass, pcaMat = NULL)
+computeSilhouette(scObj, idClass, silCol = "silhouette")
 }
 \arguments{
 \item{scObj}{A \code{Seurat} or \code{SingleCellExperiment} object.}
@@ -12,7 +12,7 @@ computeSilhouette(scObj, idClass, pcaMat = NULL)
 \item{idClass}{Identity class. Must be present among the metadata columns of
 the single-cell expression object.}
 
-\item{pcaMat}{PCA matrix.}
+\item{silCol}{Silhouette column.}
 }
 \value{
 The input object (\code{Seurat} or \code{SingleCellExperiment}) with

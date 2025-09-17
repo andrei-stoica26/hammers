@@ -6,69 +6,45 @@ test_that("centerOfMass works", {
 })
 
 test_that("geneCenters and colCenters work", {
-    df <- geneCenters(seuratObj, c('AURKA', 'MKI67', 'TOP2A'))
-    expect_equal(df$umap_1, c(1.563351, 6.073028, 5.656954),
+    df <- geneCenters(scObj, c('Gene_0980', 'Gene_0981', 'Gene_0982'))
+    expect_equal(df$UMAP1, c(0.022384739, -0.003861012, -0.003507070),
                  tolerance=0.001)
-    expect_equal(df$umap_2, c(-2.3658094, -1.1434781, -0.5404839),
+    expect_equal(df$UMAP2, c(0.0111317786, -0.0004384431, -0.0139794494),
                  tolerance=0.001)
 
-    df <- colCenters(seuratObj, c('nCount_originalexp',
-                              'nFeature_originalexp',
-                              'sizeFactor'))
-    expect_equal(df$umap_1, c(0.1617853, -0.1486735, 0.1617853),
-                 tolerance=0.001)
-    expect_equal(df$umap_2, c(-1.197215, -0.509185, -1.197215),
-                 tolerance=0.001)
+    df <- colCenters(scObj, c('sizeFactor'))
+    expect_equal(df$UMAP1, c(0.0008518303), tolerance=0.001)
+    expect_equal(df$UMAP1, c(0.0006236511), tolerance=0.001)
 })
 
 test_that("compatibility functions and checks work", {
-    expect_null(checkGenes(sceObj, c('AURKA', 'TOP2A', 'MKI67')))
-    expect_error(checkGenes(sceObj, c('AURKA', 'TOP2A', 'MKI67', 'DSFDGDG')))
+    expect_null(checkGenes(scObj, c('Gene_0980', 'Gene_0981', 'Gene_0982')))
+    expect_error(checkGenes(scObj, c('Gene_0980', 'Gene_0981', 'Gene_0982',
+                                     'DSFDGDG')))
 
-    expect_equal(colnames(metadataDF(sceObj)), c('donor', 'label', 'sizeFactor',
-                                                 'silhouette'))
-    expect_equal(metadataNames(sceObj), c('donor', 'label', 'sizeFactor',
-                                          'silhouette'))
+    expect_equal(metadataNames(scObj), c('Mutation_Status',
+                                         'Cell_Cycle',
+                                         'Treatment',
+                                         'sizeFactor'))
 
-    expect_equal(colnames(metadataDF(seuratObj)), c('orig.ident',
-                                                    'nCount_originalexp',
-                                                    'nFeature_originalexp',
-                                                    'donor',
-                                                    'label',
-                                                    'sizeFactor'))
-    expect_equal(metadataNames(seuratObj), c('orig.ident',
-                                             'nCount_originalexp',
-                                             'nFeature_originalexp',
-                                             'donor',
-                                             'label',
-                                             'sizeFactor'))
-
-    expect_error(metadataDF(c(1, 2, 3)))
     expect_error(metadataNames(c(1, 2, 3)))
+    expect_equal(length(scCol(scObj, 'Cell_Cycle')), 200)
 
-    expect_equal(scCol(sceObj, 'label'), scCol(seuratObj, 'label'))
-    expect_equal(length(scCol(sceObj, 'label')), 8569)
+    expect_equal(scColCounts(scObj, 'Cell_Cycle')['G2M'],
+                 setNames(47, 'G2M'))
+    expect_equal(scColPairCounts(scObj, 'Mutation_Status', 'Cell_Cycle')[1, 3],
+                 28)
 
-    expect_equal(scColCounts(sceObj, 'label')['acinar'],
-                 setNames(958, 'acinar'))
-    expect_equal(scColPairCounts(sceObj, 'label', 'donor')[1, 3], 110)
+    expect_equal(length(scGeneExp(scObj, 'Gene_0980')), 200)
+    expect_equal(dim(scExpMat(scObj)), c(20000, 200))
 
-    expect_equal(scGeneExp(sceObj, 'AURKA'), scGeneExp(seuratObj, 'AURKA'))
-    expect_equal(length(scGeneExp(sceObj, 'AURKA')), 8569)
-
-    res <- scExpMat(sceObj)
-    expect_equal(res, scExpMat(seuratObj))
-    expect_equal(dim(res), c(20125, 8569))
-
-    convSeuratObj <- suppressWarnings(as.Seurat(sceObj))
-
-    v <- scPCAMat(sceObj)
-    w <- scPCAMat(convSeuratObj)
+    v <- scPCAMat(scObj)
+    w <- scPCAMat(seuratObj)
     colnames(v) <- paste0('PC_', seq(50))
     expect_equal(v, w)
 
-    v <- scUMAPMat(sceObj)
-    w <- scUMAPMat(convSeuratObj)
+    v <- scUMAPMat(scObj)
+    w <- scUMAPMat(seuratObj)
     colnames(v) <- paste0('UMAP_', seq(2))
     expect_equal(v, w)
 })
@@ -76,7 +52,10 @@ test_that("compatibility functions and checks work", {
 test_that("repAnalysis and pvalRiverPlot work", {
     scObj <- withr::with_seed(1, scuttle::mockSCE(ngenes=20000))
     scCol(scObj, 'Cluster') <- withr::with_seed(1,
-                                                sample(paste0('Cluster', seq(5)), dim(scObj)[2], replace=TRUE))
+                                                sample(paste0('Cluster',
+                                                              seq(5)),
+                                                       dim(scObj)[2],
+                                                       replace=TRUE))
     scCol(scObj, 'Donor') <- rep('Donor1', dim(scObj)[2])
     for (i in seq(5)){
         scCol(scObj, 'Donor')[withr::with_seed(1,
@@ -106,24 +85,10 @@ test_that("gene enrichment functions work", {
 })
 
 test_that("addMetadataCategory works", {
-    sceObjExt <- addMetadataCategory(sceObj,
-                                    'label',
-                                    'initial',
-                                    list(c('acinar',
-                                           'activated_stellate',
-                                           'alpha'),
-                                         'beta',
-                                         c('delta', 'ductal'),
-                                         c('epsilon', 'endothelial'),
-                                         'gamma',
-                                         'quiescent_stellate',
-                                         c('macrophage', 'mast'),
-                                         'schwann',
-                                         't_cell'),
-                                    c('a', 'b', 'd', 'e', 'g', 'q', 'm',
-                                      's', 't'))
-    expect_equal(unique(metadataDF(sceObjExt)[['initial']]),
-                 c('a', 'b', 'd', 'e', 'g', 'q', 'm', 's', 't'))
+    scObj <- addMetadataCategory(scObj, 'Cell_Cycle', 'Type',
+                                 list(c('G0', 'G1'), 'G2M', 'S'), c(2, 3, 1))
+    expect_equal(unique(metadataDF(scObj)[['Type']]),
+                 c(2, 3, 1))
 })
 
 test_that("multiple testing functions work", {
@@ -138,14 +103,9 @@ test_that("multiple testing functions work", {
 })
 
 test_that("silhouette functions and scCol work", {
-    scCol(scObj, 'Cluster') <- withr::with_seed(1,
-                                                sample(paste0('Cluster',
-                                                              seq(5)),
-                                                       dim(scObj)[2],
-                                                       replace=TRUE))
-    scObj <- computeSilhouette(scObj, 'Cluster')
-    df <- normalizeSilhouette(scObj, 'Cluster')
-    expect_equal(sum(df), 100.2515, tolerance=0.001)
+    scObj <- computeSilhouette(scObj, 'Cell_Cycle')
+    df <- normalizeSilhouette(scObj, 'Cell_Cycle')
+    expect_equal(sum(df), 112.3134, tolerance=0.001)
 })
 
 test_that("joinCharCombs works", {
@@ -188,8 +148,9 @@ test_that("safeMessage works", {
 })
 
 test_that("shuffleGenes works", {
-    genes <- c('TOP2A', 'BIRC5', 'MKI67', 'RRM2', 'CENPF', 'PTTG2', 'CLSPN')
-    newGenes <- shuffleGenes(sceObj, genes, 0.3, 0.9)
+    genes <- c('Gene_0826', 'Gene_0610', 'Gene_0380', 'Gene_0602',
+               'Gene_0613', 'Gene_0201', 'Gene_0295')
+    newGenes <- shuffleGenes(scObj, genes, 0.3, 0.9)
     expect_equal(length(intersect(genes, newGenes)), 5)
     expect_equal(length(newGenes), 50)
 })
@@ -209,26 +170,18 @@ test_that("timeFun works", {
 })
 
 test_that("distributionPlot works", {
-    scCol(scObj, 'Cluster') <- withr::with_seed(1,
-                                                sample(paste0('Cluster',
-                                                              seq(5)),
-                                                       dim(scObj)[2],
-                                                       replace=TRUE))
-    scCol(scObj, 'Donor') <- withr::with_seed(1,
-                                              sample(paste0('Donor', seq(6)),
-                                                     dim(scObj)[2],
-                                                     replace=TRUE))
-    p <- distributionPlot(scObj, col1='Cluster', col2='Donor')
+    p <- distributionPlot(scObj, col1='Mutation_Status', col2='Cell_Cycle')
     expect_equal(length(intersect(is(p), c('gg', 'ggplot2::ggplot'))), 1)
 })
 
 test_that("dimPlot functions work", {
     pointsDF <- data.frame(x = c(2, 3),
-                           y = c(1, 6),
+                           y = c(1, 0.5),
                            row.names = c('P1', 'P2'))
     pointsDimPlot(seuratObj, pointsDF=pointsDF)
     expect_equal(is(pointsDimPlot(seuratObj, pointsDF=pointsDF)), 'patchwork')
-    expect_equal(is(genesDimPlot(seuratObj, c('AURKA', 'TOP2A', 'MKI67'))),
+    expect_equal(is(genesDimPlot(seuratObj, c('Spike-0001', 'Spike-0074',
+                                              'Spike-0067'))),
                     'patchwork')
     expect_equal(is(colsDimPlot(seuratObj,
                                 c('nCount_originalexp',

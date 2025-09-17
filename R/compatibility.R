@@ -194,7 +194,7 @@ scExpMat.default <- function(scObj,
                                           'logcounts'),
                              genes = NULL,
                              densify = TRUE)
-    stop('Unrecognized input type: scObj must be a Seurat, ',
+    stop('Unrecognized input type: `scObj` must be a Seurat, ',
          'SingleCellExpression, matrix or dgCMatrix object')
 
 #' @rdname scExpMat

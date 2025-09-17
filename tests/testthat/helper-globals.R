@@ -1,16 +1,5 @@
-sceObj <- scRNAseq::BaronPancreasData('human')
-sceObj <- scuttle::logNormCounts(sceObj)
-
-seuratObj <- suppressWarnings(Seurat::as.Seurat(sceObj))
-seuratObj <- Seurat::FindVariableFeatures(seuratObj)
-seuratObj <- Seurat::ScaleData(seuratObj)
-seuratObj <- Seurat::RunPCA(seuratObj)
-seuratObj <- suppressWarnings(Seurat::RunUMAP(seuratObj, dims=1:15))
-
-sceObj <- scater::runPCA(sceObj)
-sceObj <- computeSilhouette(sceObj, 'label')
-sceObj <- scater::runUMAP(sceObj)
-
 scObj <- withr::with_seed(1, scuttle::mockSCE(ngenes=20000))
 scObj <- scuttle::logNormCounts(scObj)
 scObj <- scater::runPCA(scObj)
+scObj <- withr::with_seed(1, scater::runUMAP(scObj))
+seuratObj <- suppressWarnings(Seurat::as.Seurat(scObj, data=NULL))

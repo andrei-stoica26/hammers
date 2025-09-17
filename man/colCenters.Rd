@@ -19,3 +19,10 @@ This function calculates the coordinates of the center of mass of the
 selected metadata/coldata columns from a Seurat or SingleCellExpression
 object.
 }
+\examples{
+scObj <- withr::with_seed(1, scuttle::mockSCE(ngenes=20000))
+scObj <- scuttle::logNormCounts(scObj)
+scObj <- scater::runUMAP(scObj)
+colCenters(scObj, c('sizeFactor'))
+
+}

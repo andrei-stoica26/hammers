@@ -4,13 +4,15 @@
 \alias{normalizeSilhouette}
 \title{Normalize silhouette by identity class for single-cell expression object}
 \usage{
-normalizeSilhouette(scObj, idClass)
+normalizeSilhouette(scObj, idClass, silCol = "silhouette")
 }
 \arguments{
 \item{scObj}{A \code{Seurat} or \code{SingleCellExperiment} object.}
 
 \item{idClass}{Identity class. Must be present among the metadata columns of
 the single-cell expression object.}
+
+\item{silCol}{Silhouette column.}
 }
 \value{
 A data frame with normalized silhouettes for each unique element in
