@@ -44,6 +44,11 @@ Suggests:
     scRNAseq,
     scuttle,
     testthat (>= 3.0.0)
+biocViews: 
+    Software,
+    SingleCell,
+    GeneExpression,
+    MultipleComparison
 Encoding: UTF-8
 RoxygenNote: 7.3.3
 VignetteBuilder: knitr
