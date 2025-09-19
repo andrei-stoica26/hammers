@@ -19,7 +19,7 @@
 findRareGenes <- function(scObj, nCells = 10){
     expMat <- scExpMat(scObj, "counts")
     df <- data.frame(Count = rowSums(expMat != 0))
-    df <- df[df[, 1] < nCells, ]
+    df <- df[df[, 1] < nCells, , drop=FALSE]
     return(df)
 }
 
