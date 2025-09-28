@@ -49,6 +49,12 @@ test_that("compatibility functions and checks work", {
     expect_equal(v, w)
 })
 
+test_that("geneCounts works", {
+    scObj <- withr::with_seed(1, scuttle::mockSCE(ngenes=200))
+    df <- geneCounts(scObj)
+    expect_identical(mean(df[, 2]), 144.775, tolerance=0.001)
+})
+
 test_that("repAnalysis and pvalRiverPlot work", {
     scObj <- withr::with_seed(1, scuttle::mockSCE(ngenes=20000))
     scCol(scObj, 'Cluster') <- withr::with_seed(1,

@@ -40,7 +40,7 @@ This function extracts the metadata from a Seurat or
 SingleCellExperiment object as a data frame.
 }
 \examples{
-scObj <- withr::with_seed(1, scuttle::mockSCE(ngenes=20000))
+scObj <- withr::with_seed(1, scuttle::mockSCE(ngenes=200))
 df <- metadataDF(scObj)
 
 }

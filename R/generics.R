@@ -36,7 +36,7 @@ devPlot <- function(plotObject, ...)
 #' @return A metadata data frame.
 #'
 #' @examples
-#' scObj <- withr::with_seed(1, scuttle::mockSCE(ngenes=20000))
+#' scObj <- withr::with_seed(1, scuttle::mockSCE(ngenes=200))
 #' df <- metadataDF(scObj)
 #'
 #' @export
