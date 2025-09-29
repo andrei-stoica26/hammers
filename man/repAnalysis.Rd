@@ -9,8 +9,8 @@ repAnalysis(
   col1 = "seurat_clusters",
   col2 = "orig.ident",
   doOverrep = TRUE,
-  fdrMethod = c("BY", "BH"),
-  pvalThr = 0.05
+  mtMethod = c("by", "bf", "bh"),
+  ...
 )
 }
 \arguments{
@@ -23,10 +23,11 @@ repAnalysis(
 \item{doOverrep}{Whether to perform overrepresentation analysis. If
 \code{FALSE}, underrepresentation analysis will be performed instead.}
 
-\item{fdrMethod}{False discovery rate control method. Options are 'BY'
-(Benjamini-Yekutieli) and 'BH' (Benjamini-Hochberg).}
+\item{mtMethod}{Multiple testing correction method. Options are
+Bonferroni ('bf'), Benjamini-Hochberg('bh'), and Benjamini-Yekutieli ('by').}
 
-\item{pvalThr}{p-value threshold.}
+\item{...}{Additional arguments passed to the multiple testing correction
+method.}
 }
 \value{
 An overrepresentation or underrepresentation data frame.

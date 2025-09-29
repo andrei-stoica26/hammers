@@ -4,12 +4,19 @@
 \alias{bfCorrectDF}
 \title{Perform multiple testing correction and filtering with Bonferroni}
 \usage{
-bfCorrectDF(df, nTests, pvalThr = 0.05, colStr = "pval", newColStr = "pvalAdj")
+bfCorrectDF(
+  df,
+  nTests = nrow(df),
+  pvalThr = 0.05,
+  colStr = "pval",
+  newColStr = "pvalAdj"
+)
 }
 \arguments{
 \item{df}{A dataframe with a column of p-values.}
 
-\item{nTests}{Number of tests.}
+\item{nTests}{Number of tests. Default to the number of rows in the data
+frame.}
 
 \item{pvalThr}{p-value threshold.}
 

@@ -9,11 +9,10 @@ NULL
 #' This function find the differential representation of two Seurat columns.
 #'
 #' @inheritParams scColPairCounts
+#'
 #' @param doOverrep Whether to perform overrepresentation analysis. If
 #' \code{FALSE}, underrepresentation analysis will be performed instead.
-#' @param fdrMethod False discovery rate control method. Options are 'BY'
-#' (Benjamini-Yekutieli) and 'BH' (Benjamini-Hochberg).
-#' @param pvalThr p-value threshold.
+#' @inheritParams mtCorrectDF
 #'
 #' @return An overrepresentation or underrepresentation data frame.
 #'
@@ -37,9 +36,9 @@ repAnalysis <- function(scObj,
                         col1 = 'seurat_clusters',
                         col2 = 'orig.ident',
                         doOverrep = TRUE,
-                        fdrMethod = c('BY', 'BH'),
-                        pvalThr = 0.05){
-    fdrMethod <- match.arg(fdrMethod, c('BY', 'BH'))
+                        mtMethod = c('by', 'bf', 'bh'),
+                        ...){
+    mtMethod <- match.arg(mtMethod, c('by', 'bf', 'bh'))
     nCells <- ncol(scObj)
     df <- scColPairCounts(scObj, col1, col2)
     colnames(df)[3] <- 'sharedCount'
@@ -53,7 +52,6 @@ repAnalysis <- function(scObj,
     df$pval <- mapply(function(q, m, n, k)
         phyper(q, m, n, k, lower.tail=1 - doOverrep),
         df[, 3] - doOverrep, df[, 4], nCells - df[, 4], df[, 5])
-    fdrControlFun <- eval(as.name(paste0(tolower(fdrMethod), 'CorrectDF')))
-    df <- fdrControlFun(df, pvalThr)
+    df <- mtCorrectDF(df, mtMethod, ...)
     return(df)
 }

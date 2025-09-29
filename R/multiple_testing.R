@@ -10,7 +10,8 @@ NULL
 #' based on p-values.
 #'
 #' @param df A dataframe with a column of p-values.
-#' @param nTests Number of tests.
+#' @param nTests Number of tests. Default to the number of rows in the data
+#' frame.
 #' @param pvalThr p-value threshold.
 #' @param colStr Name of the column of p-values.
 #' @param newColStr Name of the column of adjusted p-values that will be
@@ -26,7 +27,7 @@ NULL
 #' @export
 #'
 bfCorrectDF <- function(df,
-                        nTests,
+                        nTests = nrow(df),
                         pvalThr = 0.05,
                         colStr = 'pval',
                         newColStr = 'pvalAdj'){
@@ -99,3 +100,26 @@ bhCorrectDF <- function(df, ...)
 #'
 byCorrectDF <- function(df, ...)
     return(fdrCorrectDF(df, BY, ...))
+
+#' Perform multiple testing correction
+#'
+#' This function performs correction for multiple testing in a dataframe column
+#' of p-values and filters the data-frame based on p-values.
+#'
+#' @inheritParams bfCorrectDF
+#' @param mtMethod Multiple testing correction method. Options are
+#' Bonferroni ('bf'), Benjamini-Hochberg('bh'), and Benjamini-Yekutieli ('by').
+#' @param ... Additional arguments passed to the multiple testing correction
+#' method.
+#'
+#' @examples
+#' df <- data.frame(elem = c('A', 'B', 'C', 'D', 'E'),
+#' pval = c(0.032, 0.001, 0.0045, 0.051, 0.048))
+#' mtCorrectDF(df)
+#'
+mtCorrectDF <- function(df, mtMethod = c('bf', 'bh', 'by'), ...){
+    method <- match.arg(mtMethod, c('bf', 'bh', 'by'))
+    fun <- eval(as.name(paste0(mtMethod, 'CorrectDF')))
+    return(fun(df, ...))
+}
+
