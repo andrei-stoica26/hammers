@@ -19,12 +19,7 @@ NULL
 #'
 #' @return The data frame with Benjamini-Yekutieli-corrected p-values.
 #'
-#' @examples
-#' df <- data.frame(elem = c('A', 'B', 'C', 'D', 'E'),
-#' pval = c(0.032, 0.001, 0.0045, 0.051, 0.048))
-#' bfCorrectDF(df, 5)
-#'
-#' @export
+#' @keywords internal
 #'
 bfCorrectDF <- function(df,
                         nTests = nrow(df),
@@ -70,12 +65,7 @@ fdrCorrectDF <- function(df,
 #'
 #' @return The data frame with Benjamini-Hochberg-corrected p-values.
 #'
-#' @examples
-#' df <- data.frame(elem = c('A', 'B', 'C', 'D', 'E'),
-#' pval = c(0.032, 0.001, 0.0045, 0.051, 0.048))
-#' bhCorrectDF(df)
-#'
-#' @export
+#' @keywords internal
 #'
 bhCorrectDF <- function(df, ...)
     return(fdrCorrectDF(df, BH, ...))
@@ -91,12 +81,7 @@ bhCorrectDF <- function(df, ...)
 #'
 #' @return The data frame with Benjamini-Yekutieli-corrected p-values.
 #'
-#' @examples
-#' df <- data.frame(elem = c('A', 'B', 'C', 'D', 'E'),
-#' pval = c(0.032, 0.001, 0.0045, 0.051, 0.048))
-#' byCorrectDF(df)
-#'
-#' @export
+#' @keywords internal
 #'
 byCorrectDF <- function(df, ...)
     return(fdrCorrectDF(df, BY, ...))
@@ -116,6 +101,8 @@ byCorrectDF <- function(df, ...)
 #' df <- data.frame(elem = c('A', 'B', 'C', 'D', 'E'),
 #' pval = c(0.032, 0.001, 0.0045, 0.051, 0.048))
 #' mtCorrectDF(df)
+#'
+#' @export
 #'
 mtCorrectDF <- function(df, mtMethod = c('bf', 'bh', 'by'), ...){
     method <- match.arg(mtMethod, c('bf', 'bh', 'by'))

@@ -25,3 +25,4 @@ pval = c(0.032, 0.001, 0.0045, 0.051, 0.048))
 byCorrectDF(df)
 
 }
+\keyword{internal}

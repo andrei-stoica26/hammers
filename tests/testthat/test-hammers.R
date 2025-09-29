@@ -101,11 +101,11 @@ test_that("addMetadataCategory works", {
 test_that("multiple testing functions work", {
     df <- data.frame(elem = c('A', 'B', 'C', 'D', 'E'),
                      pval = c(0.032, 0.001, 0.0045, 0.051, 0.048))
-    res <- bfCorrectDF(df, 5)
+    res <- mtCorrectDF(df, 'bf', 5)
     expect_equal(res$pvalAdj, c(0.0050, 0.0225), tolerance=0.001)
-    res <- bhCorrectDF(df)
+    res <- mtCorrectDF(df, 'bh')
     expect_equal(res$pvalAdj, c(0.00500, 0.01125), tolerance=0.001)
-    res <- byCorrectDF(df)
+    res <- mtCorrectDF(df, 'by')
     expect_equal(res$pvalAdj, c(0.01141667, 0.02568750), tolerance=0.001)
 })
 
