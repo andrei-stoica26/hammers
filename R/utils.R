@@ -41,7 +41,7 @@ nearestNeighbors <- function(distMat)
 #' @param colIndices A vector respresenting the indices of the two categorical
 #' columns from the data frame that will be used.
 #' @param weightExp Exponent used in constructing weight from p-values.
-#' @param offset Offset used to avoid zeros inside the logarithm function.
+#' @param pvalOffset Offset used to avoid zeros inside the logarithm function.
 #'
 #' @return A data frame with weight scores in lieu of p-values.
 #'
@@ -51,9 +51,9 @@ prepAlluvial <- function(df,
                          pvalCol = 'pvalAdj',
                          colIndices = c(1, 2),
                          weightExp = 1/2,
-                         offset = 1e-317){
+                         pvalOffset = 1e-317){
     pvals <- sort(df[[pvalCol]])
-    pvals[-1] <- -log(pvals[-1] + offset)
+    pvals[-1] <- -log(pvals[-1] + pvalOffset)
     if (pvals[1])
         pvals[1] <- -log(pvals[1]) else
             if (length(pvals) > 2)

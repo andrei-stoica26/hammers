@@ -80,6 +80,8 @@ entrezGenes <- function(genes, species = c('human', 'mouse', 'zebrafish')){
 #' @param pvalThr p-value threshold.
 #' @param addNegLog Whether to compute the negative log10 of the adjusted
 #' p-value.
+#' @param pvalOffset Offset used to avoid zeros inside the logarithm function.
+#' Ignored if \code{addNegLog} is \code{FALSE} (as default).
 #'
 #' @return Enrichment result.
 #'
@@ -93,11 +95,13 @@ genesER <- function(genes,
                     species,
                     funString = c('enrichGO','enrichKEGG', 'enrichWP'),
                     pvalThr = 0.05,
-                    addNegLog = FALSE){
+                    addNegLog = FALSE,
+                    pvalOffset = 1e-317
+                    ){
     m <- getEnrichmentResult(entrezGenes(genes, species), species, funString)
     m@result <- m@result[m@result$p.adjust < pvalThr, ]
-    if(doMutate)
-        m@result$nlog.padj <- -log(m@result$p.adjust, base=10)
+    if(addNegLog)
+        m@result$nlog.padj <- -log(m@result$p.adjust + pvalOffset, base=10)
     return(m)
 }
 
@@ -106,10 +110,10 @@ genesER <- function(genes,
 #' This function extracts genes enriched for term from an \code{enrichResult}
 #' object.
 #'
-#' @param er Enrichment result.
+#' @param er Enrichment result of the \code{enrichResult} class.
 #' @param terms Terms for which enriched genes should be extracted.
 #'
-#' @return Genes enriched for terms.
+#' @return A character vector of genes enriched for the input terms.
 #'
 #' @keywords internal
 #'
@@ -142,4 +146,57 @@ termGenes <- function(er, terms, negTerms = NULL){
         negGenes <- termGenesHelper(er, negTerms) else
             negGenes <- NULL
     return(sort(setdiff(posGenes, negGenes)))
+}
+
+#' Join the data frames of two enrichment results
+#'
+#' This function joins the data frames of two \code{enrichResult} objects.
+#'
+#' @param er1 An \code{enrichResult} object.
+#' @param er2 An \code{enrichResult} object.
+#' @param sharedCols Columns from the \code{enrichResult} objects used for the
+#' join that have the same values for each term shared by the two objects.
+#' @param specificCols Columns from the \code{enrichResult} objects used for the
+#' join that have potentially different values for terms shared by the
+#' two objects.
+#'
+#' @return Genes enriched for terms.
+#'
+#' @examples
+#' m1 <- genesER(c('AURKA', 'PTTG2', 'MKI67', 'RRM2'),
+#' 'human')
+#' m2 <- genesER(c('AURKA', 'TOP2A', 'CENPF', 'BIRC5'),
+#' 'human')
+#' df <- joinER(m1, m2)
+#'
+#'
+#' @export
+#'
+joinER <- function(er1,
+                   er2,
+                   sharedCols = c('Description', 'BgRatio'),
+                   specificCols = c('GeneRatio', 'p.adjust',
+                                    'geneID', 'Count')){
+    if (length(setdiff(sharedCols, c('ID', 'Description', 'BgRatio'))))
+        stop('`sharedCols` must be included in ',
+        'c("ID", "Description", "BgRatio")')
+    if (length(setdiff(specificCols, c('GeneRatio', 'pvalue', 'p.adjust',
+                                       'qvalue', 'geneID', 'Count'))))
+        stop('`specificCols` must be included in ',
+             'c("GeneRatio", "pvalue", "p.adjust", ',
+             '"qvalue", "geneID", "Count")')
+
+    df1 <- er1@result
+    df2 <- er2@result
+    sharedIDs <- intersect(rownames(df1), rownames(df2))
+
+    dfTemp1 <- df1[sharedIDs, specificCols]
+    dfTemp2 <- df2[sharedIDs, specificCols]
+    colnames(dfTemp1) <- paste0(specificCols, '_1')
+    colnames(dfTemp2) <- paste0(specificCols, '_2')
+    res <- do.call(cbind, list(df1[sharedIDs, sharedCols],
+                               dfTemp1,
+                               dfTemp2))
+
+    return(res)
 }

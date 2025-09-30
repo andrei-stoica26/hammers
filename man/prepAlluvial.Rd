@@ -9,7 +9,7 @@ prepAlluvial(
   pvalCol = "pvalAdj",
   colIndices = c(1, 2),
   weightExp = 1/2,
-  offset = 1.00000023069254e-317
+  pvalOffset = 1.00000023069254e-317
 )
 }
 \arguments{
@@ -22,7 +22,7 @@ columns from the data frame that will be used.}
 
 \item{weightExp}{Exponent used in constructing weight from p-values.}
 
-\item{offset}{Offset used to avoid zeros inside the logarithm function.}
+\item{pvalOffset}{Offset used to avoid zeros inside the logarithm function.}
 }
 \value{
 A data frame with weight scores in lieu of p-values.

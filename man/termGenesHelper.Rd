@@ -7,12 +7,12 @@
 termGenesHelper(er, terms)
 }
 \arguments{
-\item{er}{Enrichment result.}
+\item{er}{Enrichment result of the \code{enrichResult} class.}
 
 \item{terms}{Terms for which enriched genes should be extracted.}
 }
 \value{
-Genes enriched for terms.
+A character vector of genes enriched for the input terms.
 }
 \description{
 This function extracts genes enriched for term from an \code{enrichResult}

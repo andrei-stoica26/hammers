@@ -7,7 +7,7 @@
 termGenes(er, terms, negTerms = NULL)
 }
 \arguments{
-\item{er}{Enrichment result.}
+\item{er}{Enrichment result of the \code{enrichResult} class.}
 
 \item{terms}{Terms for which enriched genes should be extracted.}
 

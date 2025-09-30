@@ -9,7 +9,8 @@ genesER(
   species,
   funString = c("enrichGO", "enrichKEGG", "enrichWP"),
   pvalThr = 0.05,
-  addNegLog = FALSE
+  addNegLog = FALSE,
+  pvalOffset = 1.00000023069254e-317
 )
 }
 \arguments{
@@ -24,6 +25,9 @@ Must be a character selected from 'enrichGO', 'enrichKEGG' and 'enrichWP'.}
 
 \item{addNegLog}{Whether to compute the negative log10 of the adjusted
 p-value.}
+
+\item{pvalOffset}{Offset used to avoid zeros inside the logarithm function.
+Ignored if \code{addNegLog} is \code{FALSE} (as default).}
 }
 \value{
 Enrichment result.
