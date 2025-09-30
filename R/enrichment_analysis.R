@@ -77,6 +77,9 @@ entrezGenes <- function(genes, species = c('human', 'mouse', 'zebrafish')){
 #'
 #' @inheritParams entrezGenes
 #' @inheritParams getEnrichmentResult
+#' @param pvalThr p-value threshold.
+#' @param addNegLog Whether to compute the negative log10 of the adjusted
+#' p-value.
 #'
 #' @return Enrichment result.
 #'
@@ -86,9 +89,17 @@ entrezGenes <- function(genes, species = c('human', 'mouse', 'zebrafish')){
 #'
 #' @export
 #'
-genesER <- function(genes, species,
-                    funString = c('enrichGO','enrichKEGG', 'enrichWP'))
-    return(getEnrichmentResult(entrezGenes(genes, species), species, funString))
+genesER <- function(genes,
+                    species,
+                    funString = c('enrichGO','enrichKEGG', 'enrichWP'),
+                    pvalThr = 0.05,
+                    addNegLog = FALSE){
+    m <- getEnrichmentResult(entrezGenes(genes, species), species, funString)
+    m@result <- m@result[m@result$p.adjust < pvalThr, ]
+    if(doMutate)
+        m@result$nlog.padj <- -log(m@result$p.adjust, base=10)
+    return(m)
+}
 
 #' Extract genes enriched for terms
 #'

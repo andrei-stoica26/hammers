@@ -4,7 +4,13 @@
 \alias{genesER}
 \title{Perform enrichment analysis on a set of genes}
 \usage{
-genesER(genes, species, funString = c("enrichGO", "enrichKEGG", "enrichWP"))
+genesER(
+  genes,
+  species,
+  funString = c("enrichGO", "enrichKEGG", "enrichWP"),
+  pvalThr = 0.05,
+  addNegLog = FALSE
+)
 }
 \arguments{
 \item{genes}{A character vector of gene symbols.}
@@ -13,6 +19,11 @@ genesER(genes, species, funString = c("enrichGO", "enrichKEGG", "enrichWP"))
 
 \item{funString}{Name of enrichment function from \code{clusterProfiler}.
 Must be a character selected from 'enrichGO', 'enrichKEGG' and 'enrichWP'.}
+
+\item{pvalThr}{p-value threshold.}
+
+\item{addNegLog}{Whether to compute the negative log10 of the adjusted
+p-value.}
 }
 \value{
 Enrichment result.
