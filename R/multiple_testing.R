@@ -2,98 +2,121 @@
 #'
 NULL
 
+#' Perform the Bonferroni multiple testing correction on a vector of p-values
+#'
+#' This function performs the Bonferroni multiple testing correction on a
+#' vector of p-values.
+#'
+#' @param pvals A vector of p-values.
+#' @param nTests Number of tests.
+#' @param replaceHigh Whether to replace adjusted p-values greater than 1
+#' with 1.
+#'
+#' @return A vector of Bonferroni-corrected p-values.
+#'
+#' @keywords internal
+#'
+bfCorrectV <- function(pvals, nTests, replaceHigh = TRUE){
+    pvalsAdj <- pvals * nTests
+    if (replaceHigh)
+        pvalsAdj[pvalsAdj > 1] <- 1
+    return(pvalsAdj)
+}
 
-#' Perform multiple testing correction and filtering with Bonferroni
+#' Perform the Benjamini-Hochberg multiple testing correction on a vector of
+#' p-values
 #'
-#' This function performs the Bonferroni correction for multiple
-#' testing in a dataframe column of p-values and filters the data-frame
-#' based on p-values.
+#' This function performs the Benjamini-Hochberg multiple testing correction on
+#' a vector of p-values.
 #'
-#' @param df A dataframe with a column of p-values.
-#' @param nTests Number of tests. Default to the number of rows in the data
-#' frame.
+#' @inheritParams bfCorrectV
+#' @param keepInputOrder Whether to keep the input order of p-values as opposed
+#' to returning them as sorted.
+#'
+#' @return A vector of Benjamini-Hochberg-corrected p-values.
+#'
+#' @keywords internal
+#'
+bhCorrectV <- function(pvals, keepInputOrder = TRUE){
+    pvalObj <- BH(pvals)
+    pvalsAdj <- pvalObj$Adjusted.pvalues
+    if (keepInputOrder)
+        return(unname(setNames(pvalsAdj,
+                               pvalObj$data)[as.character(pvals)]))
+    return(pvalsAdj)
+}
+
+#' Perform the Benjamini-Yekutieli multiple testing correction on a vector of
+#' p-values
+#'
+#' This function performs the Benjamini-Yekutieli multiple testing correction
+#' on a vector of p-values.
+#'
+#' @inheritParams bfCorrectV
+#' @param keepInputOrder Whether to keep the input order of p-values as opposed
+#' to returning them as sorted.
+#'
+#' @return A vector of Benjamini-Yekutieli-corrected p-values.
+#'
+#' @keywords internal
+#'
+byCorrectV <- function(pvals, keepInputOrder = TRUE){
+    pvalObj <- BY(pvals)
+    pvalsAdj <- pvalObj$Adjusted.pvalues
+    if (keepInputOrder)
+        return(unname(setNames(pvalsAdj,
+                               pvalObj$data)[as.character(pvals)]))
+    return(pvalsAdj)
+}
+
+#' Perform multiple testing correction with Benjamini-Yekutieli on a vector of
+#' p-values
+#'
+#' This function perform multiple testing correction with Benjamini-Yekutieli
+#' on a vector of p-values.
+#'
+#' @inheritParams bfCorrectV
+#' @param mtMethod Multiple testing correction method. Choices are
+#' Bonferroni ('bf'), Benjamini-Hochberg('bh'), and Benjamini-Yekutieli ('by').
+#' @param mtStat A statistics to be optionally computed. Choices are 'identity'
+#' (no statistics will be computed and the adjusted p-values will be returned
+#' as such), 'median', 'mean', 'max' and 'min'.
+#' @param pvalThr p-value threshold.
+#' @return A vector of p-values corrected for multiple testing.
+#'
+#' @examples
+#' pvals <- c(0.032, 0.001, 0.0045, 0.051, 0.048))
+#' mtCorrectV(pvals)
+#'
+#' @export
+#'
+mtCorrectV <- function(pvals,
+                       mtMethod = c('bf', 'bh', 'by'),
+                       mtStat = c('identity', 'median', 'mean', 'max', 'min'),
+                       ...){
+
+    mtMethod <- match.arg(mtMethod, c('bf', 'bh', 'by'))
+    mtStat <- match.arg(mtStat, c('identity', 'median', 'mean', 'max', 'min'))
+
+    methodFun <- eval(as.name(paste0(mtMethod, 'CorrectV')))
+    statFun <- eval(as.name(mtStat))
+
+    if(mtMethod %in% c('bh', 'by') & mtStat == 'identity')
+        return(statFun(methodFun(pvals, FALSE, ...))) else
+            return(statFun(methodFun(pvals, ...)))
+}
+
+#' Perform multiple testing correction on a data frame column
+#'
+#' This function orders a data frame based on a column of p-values, performs
+#' multiple testing on the column, and filters the data-frame based on it.
+#'
+#' @param df A data frame with a p-values columnn.
+#' @inheritParams mtCorrectV
 #' @param pvalThr p-value threshold.
 #' @param colStr Name of the column of p-values.
 #' @param newColStr Name of the column of adjusted p-values that will be
 #' created.
-#'
-#' @return The data frame with Benjamini-Yekutieli-corrected p-values.
-#'
-#' @keywords internal
-#'
-bfCorrectDF <- function(df,
-                        nTests = nrow(df),
-                        pvalThr = 0.05,
-                        colStr = 'pval',
-                        newColStr = 'pvalAdj'){
-    df[[newColStr]] <- df[[colStr]] * nTests
-    df <- df[df[, newColStr] < pvalThr, ]
-    return(df)
-}
-
-#' Perform multiple testing correction by controlling the false discovery rate
-#'
-#' This function perform multiple testing correction by controlling the false
-#' discovery rate.
-#'
-#' @inheritParams bfCorrectDF
-#'
-#' @return The data frame with p-values corrected using the method of choice
-#' (Benjamini-Hochberg or Benjamini-Yekutieli)
-#'
-#' @keywords internal
-#'
-fdrCorrectDF <- function(df,
-                         fdrControlFun,
-                         pvalThr = 0.05,
-                         colStr = 'pval',
-                         newColStr = 'pvalAdj'){
-    df <- df[order(df[[colStr]]), ]
-    df[[newColStr]] <- fdrControlFun(df[[colStr]], pvalThr)$Adjusted.pvalues
-    df <- df[df[, newColStr] < pvalThr, ]
-    return(df)
-}
-
-#' Perform multiple testing correction and filtering with Benjamini-Hochberg
-#'
-#' This function performs the Benjamini-Hochberg correction for multiple
-#' testing in a dataframe column of p-values and filters the data-frame
-#' based on p-values.
-#'
-#' @inheritParams bfCorrectDF
-#' @param ... Additional arguments passed to \code{fdrCorrectDF}.
-#'
-#' @return The data frame with Benjamini-Hochberg-corrected p-values.
-#'
-#' @keywords internal
-#'
-bhCorrectDF <- function(df, ...)
-    return(fdrCorrectDF(df, BH, ...))
-
-#' Perform multiple testing correction and filtering with Benjamini-Yekutieli
-#'
-#' This function performs the Benjamini-Yekutieli correction for multiple
-#' testing in a dataframe column of p-values and filters the data-frame
-#' based on p-values.
-#'
-#' @inheritParams bfCorrectDF
-#' @param ... Additional arguments passed to \code{fdrCorrectDF}.
-#'
-#' @return The data frame with Benjamini-Yekutieli-corrected p-values.
-#'
-#' @keywords internal
-#'
-byCorrectDF <- function(df, ...)
-    return(fdrCorrectDF(df, BY, ...))
-
-#' Perform multiple testing correction
-#'
-#' This function performs correction for multiple testing in a dataframe column
-#' of p-values and filters the data-frame based on p-values.
-#'
-#' @inheritParams bfCorrectDF
-#' @param mtMethod Multiple testing correction method. Options are
-#' Bonferroni ('bf'), Benjamini-Hochberg('bh'), and Benjamini-Yekutieli ('by').
 #' @param ... Additional arguments passed to the multiple testing correction
 #' method.
 #'
@@ -104,9 +127,16 @@ byCorrectDF <- function(df, ...)
 #'
 #' @export
 #'
-mtCorrectDF <- function(df, mtMethod = c('bf', 'bh', 'by'), ...){
-    method <- match.arg(mtMethod, c('bf', 'bh', 'by'))
-    fun <- eval(as.name(paste0(mtMethod, 'CorrectDF')))
-    return(fun(df, ...))
+mtCorrectDF <- function(df,
+                        mtMethod = c('bf', 'bh', 'by'),
+                        pvalThr = 0.05,
+                        colStr = 'pval',
+                        newColStr = 'pvalAdj',
+                        ...){
+    mtMethod <- match.arg(mtMethod, c('bf', 'bh', 'by'))
+    fun <- eval(as.name(paste0(mtMethod, 'CorrectV')))
+    df <- df[order(df[[colStr]]), ]
+    df[[newColStr]] <- fun(df[[colStr]], ...)
+    df <- df[df[, newColStr] < pvalThr, ]
+    return(df)
 }
-

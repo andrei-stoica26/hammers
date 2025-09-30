@@ -2,22 +2,36 @@
 % Please edit documentation in R/multiple_testing.R
 \name{mtCorrectDF}
 \alias{mtCorrectDF}
-\title{Perform multiple testing correction}
+\title{Perform multiple testing correction on a data frame column}
 \usage{
-mtCorrectDF(df, mtMethod = c("bf", "bh", "by"), ...)
+mtCorrectDF(
+  df,
+  mtMethod = c("bf", "bh", "by"),
+  pvalThr = 0.05,
+  colStr = "pval",
+  newColStr = "pvalAdj",
+  ...
+)
 }
 \arguments{
-\item{df}{A dataframe with a column of p-values.}
+\item{df}{A data frame with a p-values columnn.}
 
-\item{mtMethod}{Multiple testing correction method. Options are
+\item{mtMethod}{Multiple testing correction method. Choices are
 Bonferroni ('bf'), Benjamini-Hochberg('bh'), and Benjamini-Yekutieli ('by').}
+
+\item{pvalThr}{p-value threshold.}
+
+\item{colStr}{Name of the column of p-values.}
+
+\item{newColStr}{Name of the column of adjusted p-values that will be
+created.}
 
 \item{...}{Additional arguments passed to the multiple testing correction
 method.}
 }
 \description{
-This function performs correction for multiple testing in a dataframe column
-of p-values and filters the data-frame based on p-values.
+This function orders a data frame based on a column of p-values, performs
+multiple testing on the column, and filters the data-frame based on it.
 }
 \examples{
 df <- data.frame(elem = c('A', 'B', 'C', 'D', 'E'),

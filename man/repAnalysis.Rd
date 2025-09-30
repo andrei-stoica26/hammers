@@ -23,7 +23,7 @@ repAnalysis(
 \item{doOverrep}{Whether to perform overrepresentation analysis. If
 \code{FALSE}, underrepresentation analysis will be performed instead.}
 
-\item{mtMethod}{Multiple testing correction method. Options are
+\item{mtMethod}{Multiple testing correction method. Choices are
 Bonferroni ('bf'), Benjamini-Hochberg('bh'), and Benjamini-Yekutieli ('by').}
 
 \item{...}{Additional arguments passed to the multiple testing correction
