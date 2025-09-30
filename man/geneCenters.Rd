@@ -10,7 +10,7 @@ geneCenters(scObj, genes)
 \item{scObj}{A \code{Seurat}, \code{SingleCellExperiment},
 \code{dgCMatrix} or \code{matrix} object.}
 
-\item{genes}{Selected genes. If \code{NULL}, all genes will be retained}
+\item{genes}{Selected genes. If \code{NULL}, all genes will be retained.}
 }
 \value{
 A data frame containing the coordinates of centers of mass.

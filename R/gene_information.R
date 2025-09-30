@@ -36,3 +36,34 @@ genePresence <- function(scObj,
         df <- df[df$nCells <= maxCutoff, ]
     return(df)
 }
+
+#' Generates cell sets for each input gene
+#'
+#' This function constructs, for each input gene, sets of cells expressing
+#' the gene
+#'
+#' @inheritParams scExpMat
+#'
+#' @return A named list of character vectors of cell names.
+#'
+#' @examples
+#' mat <- matrix(0, 1000, 500)
+#' rownames(mat) <- paste0('G', seq(1000))
+#' colnames(mat) <- paste0('C', seq(500))
+#' mat[sample(length(mat), 70000)] <- sample(50, 70000, TRUE)
+#' mat <- mat[paste0('G', sample(1000, 3)), ]
+#' geneCellSets(mat)
+#'
+#' @export
+#'
+geneCellSets <- function(scObj, genes = NULL){
+    expMat <- scExpMat(scObj, 'counts', genes)
+    genes <- rownames(expMat)
+    cellSets <- setNames(lapply(genes, function(x){
+        geneExp <- expMat[x, ]
+        geneExp  <- geneExp[geneExp > 0]
+        return(names(geneExp))
+    }), genes)
+    cellSets <- cellSets[vapply(cellSets, length, numeric(1)) > 0]
+    return(cellSets)
+}

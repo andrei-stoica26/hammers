@@ -93,7 +93,7 @@ scDimredMat <- function(scObj, dimred = c('pca', 'umap'))
 #' SingleCellExperiment object.
 #'
 #' @inheritParams scGeneExp
-#' @param genes Selected genes. If \code{NULL}, all genes will be retained
+#' @param genes Selected genes. If \code{NULL}, all genes will be retained.
 #' @param densify Whether to convert to dense matrix.
 #'
 #' @return An expression matrix.

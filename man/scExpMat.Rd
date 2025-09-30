@@ -58,7 +58,7 @@ scExpMat(
 \item{dataType}{Expression data type. Ignored if \code{scObj} is of class
 \code{dgCMatrix} or \code{matrix}.}
 
-\item{genes}{Selected genes. If \code{NULL}, all genes will be retained}
+\item{genes}{Selected genes. If \code{NULL}, all genes will be retained.}
 
 \item{densify}{Whether to convert to dense matrix.}
 }

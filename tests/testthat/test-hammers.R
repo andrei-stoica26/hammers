@@ -49,10 +49,23 @@ test_that("compatibility functions and checks work", {
     expect_equal(v, w)
 })
 
-test_that("genePresence works", {
+test_that("gene information functions work", {
     scObj <- withr::with_seed(1, scuttle::mockSCE(ngenes=200))
     df <- genePresence(scObj)
     expect_identical(mean(df[, 2]), 144.775, tolerance=0.001)
+
+    mat <- matrix(0, 1000, 500)
+    rownames(mat) <- paste0('G', seq(1000))
+    colnames(mat) <- paste0('C', seq(500))
+    mat[withr::with_seed(1,
+                         sample(length(mat),
+                                70000))] <- withr::with_seed(1,
+                                                             sample(50,
+                                                                    70000,
+                                                                    TRUE))
+    mat <- mat[paste0('G', withr::with_seed(1, sample(1000, 3))), ]
+    res <- mean(vapply(geneCellSets(mat), length, numeric(1)))
+    expect_identical(res, 72.33333, tolerance=0.001)
 })
 
 test_that("repAnalysis and pvalRiverPlot work", {

@@ -1,6 +1,6 @@
 #' @importFrom dplyr count
 #' @import SeuratObject
-#' @importFrom stats phyper setNames
+#' @importFrom stats phyper quantile setNames
 #'
 NULL
 
