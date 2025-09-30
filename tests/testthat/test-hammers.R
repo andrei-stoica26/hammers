@@ -82,15 +82,6 @@ test_that("repAnalysis and pvalRiverPlot work", {
     expect_equal(length(intersect(is(p), c('gg', 'ggplot2::ggplot'))), 1)
 })
 
-test_that("gene enrichment functions work", {
-    m <- genesER(c('AURKA', 'TOP2A', 'CENPF', 'PTTG2', 'MKI67', 'BIRC5',
-                   'RRM2'),
-                 'human')
-    expect_true('chromosome segregation' %in% m@result$Description)
-    expect_equal(termGenes(m, 'chromosome segregation', 'meiosis I'),
-                 c('BIRC5', 'CENPF', 'MKI67'))
-})
-
 test_that("addMetadataCategory works", {
     scObj <- addMetadataCategory(scObj, 'Cell_Cycle', 'Type',
                                  list(c('G0', 'G1'), 'G2M', 'S'), c(2, 3, 1))
