@@ -72,6 +72,7 @@ metadataNames <- function(scObj)
 
 #' @rdname metadataNames
 #' @export
+#'
 `metadataNames<-` <- function(scObj, value){
     if (!is.character(value))
         stop('`value` must be a character.')
@@ -148,7 +149,8 @@ scGeneExp.Seurat <- function(scObj,
     return(LayerData(scObj, dataType)[gene, ])
 }
 
-#' @param dataType Expression data type. Must be one of 'counts' and 'logcounts'.
+#' @param dataType Expression data type. Must be one of 'counts' and
+#' 'logcounts'.
 #'
 #' @rdname scGeneExp
 #' @export

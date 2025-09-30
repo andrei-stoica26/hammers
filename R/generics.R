@@ -46,6 +46,7 @@ metadataDF <- function(scObj)
 
 #' @rdname metadataDF
 #' @export
+#'
 `metadataDF<-` <- function(scObj, value)
     UseMethod("metadataDF<-")
 
@@ -70,6 +71,7 @@ scCol <- function(scObj, col)
 
 #' @rdname scCol
 #' @export
+#'
 `scCol<-` <- function(scObj, col, value)
     UseMethod("scCol<-")
 

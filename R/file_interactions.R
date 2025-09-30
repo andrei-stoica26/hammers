@@ -1,5 +1,4 @@
 #' @importFrom grDevices dev.new dev.off hcl.colors
-#' @importFrom qs qread
 #'
 NULL
 
@@ -30,24 +29,3 @@ devPlot.ggplot <- function(plotObject, ...)
 #'
 devPlot.list <- function(plotObject, ...)
     invisible(lapply(plotObject, devPlot.ggplot))
-
-#' Read and delete a .qs file
-#'
-#' This functions reads a .qs file, deletes it, and returns its content.
-#'
-#' @param qsFile Name of .qs file with path.
-#'
-#' @return The content of the .qs file.
-#'
-#' @examples
-#' library(qs)
-#' qsave(c(1, 2, 3), 'temp.qs')
-#' qGrab('temp.qs')
-#'
-#' @export
-#'
-qGrab <- function(qsFile){
-    res <- qread(qsFile)
-    file.remove(qsFile)
-    return(res)
-}
