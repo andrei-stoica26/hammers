@@ -19,14 +19,20 @@ knitr::opts_chunk$set(
 
 # Introduction
 
-hammers is a utilities suite for scRNA-seq data analysis and package 
-development. The goal of hammers is twofold:
+`hammers` is a utilities suite for scRNA-seq data analysis and package 
+development. It provides the following:
 
-1) Provide a series of functions that can equally operate on Seurat and
-SingleCellExperiment objects. These functions are intended to help
-developers build tools compatible with both types of input.
+1) Functions (getters and setters) that can equally operate on Seurat and
+SingleCellExperiment objects, intended to help developers build tools 
+compatible with both types of input.
 
-2)
+2) Other simple tools to address common tasks in scRNA-seq data analysis. These
+tasks include:
+
+- Aggregate gene statistics.
+- The selection and removal of rare genes.
+- Multiple testing correction.
+- Silhouette and cluster-normalized silhouette calculation.
 
 # Installation
 

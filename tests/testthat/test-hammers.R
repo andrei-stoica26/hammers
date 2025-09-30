@@ -49,9 +49,9 @@ test_that("compatibility functions and checks work", {
     expect_equal(v, w)
 })
 
-test_that("geneCounts works", {
+test_that("genePresence works", {
     scObj <- withr::with_seed(1, scuttle::mockSCE(ngenes=200))
-    df <- geneCounts(scObj)
+    df <- genePresence(scObj)
     expect_identical(mean(df[, 2]), 144.775, tolerance=0.001)
 })
 
