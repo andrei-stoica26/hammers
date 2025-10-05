@@ -8,7 +8,7 @@ NULL
 #' vector of p-values.
 #'
 #' @param pvals A vector of p-values.
-#' @param nTests Number of tests.
+#' @param nTests Number of tests. Defaults to the number of p-values.
 #' @param replaceHigh Whether to replace adjusted p-values greater than 1
 #' with 1.
 #'
@@ -16,7 +16,7 @@ NULL
 #'
 #' @keywords internal
 #'
-bfCorrectV <- function(pvals, nTests, replaceHigh = TRUE){
+bfCorrectV <- function(pvals, nTests = length(pvals), replaceHigh = TRUE){
     pvalsAdj <- pvals * nTests
     if (replaceHigh)
         pvalsAdj[pvalsAdj > 1] <- 1
@@ -81,11 +81,12 @@ byCorrectV <- function(pvals, keepInputOrder = TRUE){
 #' @param mtStat A statistics to be optionally computed. Choices are 'identity'
 #' (no statistics will be computed and the adjusted p-values will be returned
 #' as such), 'median', 'mean', 'max' and 'min'.
-#' @param pvalThr p-value threshold.
+#' @param ... Additional parameters passed to the multiple testing function.
+#'
 #' @return A vector of p-values corrected for multiple testing.
 #'
 #' @examples
-#' pvals <- c(0.032, 0.001, 0.0045, 0.051, 0.048))
+#' pvals <- c(0.032, 0.001, 0.0045, 0.051, 0.048)
 #' mtCorrectV(pvals)
 #'
 #' @export

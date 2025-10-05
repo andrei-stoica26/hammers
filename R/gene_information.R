@@ -9,7 +9,7 @@
 #' included in the assessment.
 #' @param minCutoff Minimum cutoff for gene counts. Genes with counts below
 #' this value will be omitted.
-#' @param minCutoff Maximum cutoff for gene counts. Genes with counts above
+#' @param maxCutoff Maximum cutoff for gene counts. Genes with counts above
 #' this value will be omitted.
 #'
 #' @return A data frame with two columns. The first column lists the genes

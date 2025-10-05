@@ -4,12 +4,12 @@
 \alias{bfCorrectV}
 \title{Perform the Bonferroni multiple testing correction on a vector of p-values}
 \usage{
-bfCorrectV(pvals, nTests, replaceHigh = TRUE)
+bfCorrectV(pvals, nTests = length(pvals), replaceHigh = TRUE)
 }
 \arguments{
 \item{pvals}{A vector of p-values.}
 
-\item{nTests}{Number of tests.}
+\item{nTests}{Number of tests. Defaults to the number of p-values.}
 
 \item{replaceHigh}{Whether to replace adjusted p-values greater than 1
 with 1.}

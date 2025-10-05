@@ -122,7 +122,7 @@ pointsDimPlot <- function(seuratObj,
                           labelSize = 2.5,
                           maxOverlaps = 30,
                           ...){
-    p <- DimPlot(seuratObj, ...)
+    p <- suppressWarnings(DimPlot(seuratObj, ...))
     if(!is.null(pointsDF))
         p <- p + geom_point(aes(.data[[names(pointsDF)[1]]],
                                 .data[[names(pointsDF)[2]]]),

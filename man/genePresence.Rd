@@ -13,7 +13,10 @@ genePresence(scObj, genes = NULL, minCutoff = NULL, maxCutoff = NULL)
 expressed will be computed. If \code{NULL} (as default), all genes will be
 included in the assessment.}
 
-\item{minCutoff}{Maximum cutoff for gene counts. Genes with counts above
+\item{minCutoff}{Minimum cutoff for gene counts. Genes with counts below
+this value will be omitted.}
+
+\item{maxCutoff}{Maximum cutoff for gene counts. Genes with counts above
 this value will be omitted.}
 }
 \value{

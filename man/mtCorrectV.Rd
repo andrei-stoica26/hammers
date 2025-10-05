@@ -22,7 +22,7 @@ Bonferroni ('bf'), Benjamini-Hochberg('bh'), and Benjamini-Yekutieli ('by').}
 (no statistics will be computed and the adjusted p-values will be returned
 as such), 'median', 'mean', 'max' and 'min'.}
 
-\item{pvalThr}{p-value threshold.}
+\item{...}{Additional parameters passed to the multiple testing function.}
 }
 \value{
 A vector of p-values corrected for multiple testing.
@@ -32,7 +32,7 @@ This function perform multiple testing correction with Benjamini-Yekutieli
 on a vector of p-values.
 }
 \examples{
-pvals <- c(0.032, 0.001, 0.0045, 0.051, 0.048))
+pvals <- c(0.032, 0.001, 0.0045, 0.051, 0.048)
 mtCorrectV(pvals)
 
 }
