@@ -20,19 +20,14 @@ knitr::opts_chunk$set(
 # Introduction
 
 `hammers` is a utilities suite for scRNA-seq data analysis and package 
-development. It provides the following:
+development. It offers functions (getters and setters) that can equally operate 
+on `Seurat` and `SingleCellExperiment` objects. These are intended to help 
+developers build tools compatible with both types of input.
 
-1) Functions (getters and setters) that can equally operate on Seurat and
-SingleCellExperiment objects, intended to help developers build tools 
-compatible with both types of input.
-
-2) Other simple tools to address common tasks in scRNA-seq data analysis. These
-tasks include:
-
-- Aggregate gene statistics.
-- The selection and removal of rare genes.
-- Multiple testing correction.
-- Silhouette and cluster-normalized silhouette calculation.
+Additionally, `hammers` includes simple tools to address frequent tasks in 
+scRNA-seq data analysis, such as retrieving aggregate gene statistics, 
+finding and removing rare genes, performing multiple testing correction, and 
+calculating silhouette and cluster-normalized silhouette.
 
 # Installation
 
@@ -66,11 +61,9 @@ sceObj <- BaronPancreasData('human')
 
 # Providing compatibility between Seurat and SingleCellExperiment objects
 
-hammers 
-
 To illustrate this functionality of hammers, we will first normalize and 
 log-transform the data using the `logNormCounts` function from `scuttle` 
-(loaded with `scater`).
+(loaded automatically with `scater`).
 
 
 ```{r message=FALSE, warning=FALSE, results=FALSE}
@@ -106,7 +99,7 @@ expression data, so it looks for the `data` assay for a Seurat object and for
 the `logcounts` one for a SingleCellExperiment object. This behavior can be
 changed by setting the `dataType` parameter to `counts`.
 
-`scExpMat` can also take a matrix as input. This option is useful when building
+`scExpMat` can also take a matrix as an argument. This option is useful when building
 functions allowing users to use either a single-cell expression matrix or an
 object of a dedicated class (Seurat, SingleCellExperiment) as input:
 
@@ -125,7 +118,7 @@ mat2 <- scExpMat(sceObj, densify=FALSE)
 is(mat2)[2]
 ```
 
-The function can also extract the expression data only for selected genes:
+`scExpMat`can also extract the expression data only for selected genes:
 
 ```{r message=FALSE, warning=FALSE}
 mat2 <- scExpMat(sceObj, genes=rownames(sceObj)[seq(30, 80)])
@@ -140,6 +133,14 @@ col1 <- scCol(seuratObj, 'label')
 col2 <- scCol(sceObj, 'label')
 identical(col1, col2)
 head(col1)
+```
+
+It can also be used to insert a new column. Here, we just make a modified
+copy of the `label` column for the Seurat object:
+
+```{r message=FALSE, warning=FALSE}
+scCol(seuratObj, 'labelCopy') <- paste0(scCol(seuratObj, 'label'), '_copy')
+head(seuratObj[['labelCopy']])
 ```
 
 The `metadataDF` function extracts the metadata/coldata data frame from a
@@ -162,6 +163,9 @@ identical(colNames1, colNames2)
 head(colNames1)
 ```
 
+Just like `scCol`, the `metadataDF` and `metadataNames` functions have setters
+which allow users to alter the value of the stored objects.
+
 Finally, the `scColCounts` and `scColPairCounts` functions are wrappers around 
 `dplyr::count` which enable counting frequencies of elements from one or two 
 categorical columns in a Seurat or SingleCellExpression object:
@@ -176,8 +180,29 @@ freq2 <- scColPairCounts(seuratObj, 'donor', 'label')
 identical(freq1, freq2)
 head(freq1)
 ```
+# Extracting gene information
 
-# Extracting statistical information from single-cell data
+The `genePresence` function extracts the `genes` from `scObj `that appear in at 
+least `minCutoff` and at most `maxCutoff` cells. It returns a data frame 
+listing the number of cells in which each gene meeting these criteria is 
+expressed:
+
+```{r message=FALSE, warning=FALSE}
+df <- genePresence(sceObj, rownames(sceObj)[seq(100)], 300, 2000)
+dim(df)
+head(df)
+```
+
+The `geneCellSets` function lists all the cells in which selected genes are 
+expressed:
+
+```{r message=FALSE, warning=FALSE}
+cellSets <- geneCellSets(sceObj, rownames(sceObj)[seq(100)])
+length(cellSets)
+head(cellSets[[1]])
+```
+
+# Representation analysis and multiple testing
 
 The `repAnalysis` function shows which pairs selected from two categorical 
 columns of a single-cell object are:
@@ -189,3 +214,14 @@ columns of a single-cell object are:
 head(repAnalysis(sceObj, 'donor', 'label'))
 head(repAnalysis(sceObj, 'donor', 'label', doOverrep=FALSE))
 ```
+
+`repAnalysis` relies upon the `mtCorrectDF` function for multiple testing.
+By default, `repAnalysis` calls `mtCorrectDF` with the mtMethod parameter set
+to `by` (Benjamini-Yekutieli). Other options are `bf` (Bonferroni) and `bh`
+(Benjamini-Hochberg):
+
+```{r message=FALSE, warning=FALSE}
+head(repAnalysis(sceObj, 'donor', 'label', mtMethod='bf'))
+head(repAnalysis(sceObj, 'donor', 'label', mtMethod='bh'))
+```
+

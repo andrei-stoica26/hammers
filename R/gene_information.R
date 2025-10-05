@@ -27,7 +27,7 @@ genePresence <- function(scObj,
                          minCutoff = NULL,
                          maxCutoff = NULL){
     expMat <- scExpMat(scObj, 'counts', genes)
-    df <- data.frame(Gene = rownames(scObj),
+    df <- data.frame(Gene = rownames(expMat),
                      nCells = rowSums(expMat != 0))
     df <- df[order(df$nCells, decreasing=TRUE), ]
     if (!is.null(minCutoff))
