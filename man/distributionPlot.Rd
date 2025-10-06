@@ -6,19 +6,19 @@
 \usage{
 distributionPlot(
   scObj,
-  plotTitle = "Distribution plot",
+  title = "Distribution plot",
   col1 = "seurat_clusters",
   col2 = "orig.ident",
-  xLab = "Column 1",
+  xLab = col1,
   yLab = "Count",
-  legendLab = "Column 2",
+  legendLab = col2,
   palette = "Spectral"
 )
 }
 \arguments{
 \item{scObj}{A \code{Seurat} or \code{SingleCellExperiment} object.}
 
-\item{plotTitle}{Plot title.}
+\item{title}{Plot title.}
 
 \item{col1}{Column as string.}
 

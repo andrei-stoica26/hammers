@@ -103,7 +103,7 @@ changed by setting the `dataType` parameter to `counts`.
 functions allowing users to use either a single-cell expression matrix or an
 object of a dedicated class (Seurat, SingleCellExperiment) as input:
 
-```{r message=FALSE, warning=FALSE}
+```{r}
 mat2 <- scExpMat(mat1)
 identical(mat1, mat2)
 ```
@@ -112,7 +112,7 @@ By default, `scExpMat`converts the expression matrix to a dense matrix.
 If this behavior is not desired, conversion can be skipped by setting `densify`
 to `FALSE`:
 
-```{r message=FALSE, warning=FALSE}
+```{r}
 is(mat1)[1]
 mat2 <- scExpMat(sceObj, densify=FALSE)
 is(mat2)[2]
@@ -120,15 +120,15 @@ is(mat2)[2]
 
 `scExpMat`can also extract the expression data only for selected genes:
 
-```{r message=FALSE, warning=FALSE}
+```{r}
 mat2 <- scExpMat(sceObj, genes=rownames(sceObj)[seq(30, 80)])
 dim(mat2)
 ```
 
-The `scCol` function extracts a column from the metadata of the Seurat object or
-the coldata of the SingleCellExperiment object:
+The `scCol` function extracts a column from the metadata of the `Seurat` object or
+the coldata of the `SingleCellExperiment` object:
 
-```{r message=FALSE, warning=FALSE}
+```{r}
 col1 <- scCol(seuratObj, 'label')
 col2 <- scCol(sceObj, 'label')
 identical(col1, col2)
@@ -136,17 +136,17 @@ head(col1)
 ```
 
 It can also be used to insert a new column. Here, we just make a modified
-copy of the `label` column for the Seurat object:
+copy of the `label` column for the `Seurat` object:
 
-```{r message=FALSE, warning=FALSE}
+```{r}
 scCol(seuratObj, 'labelCopy') <- paste0(scCol(seuratObj, 'label'), '_copy')
 head(seuratObj[['labelCopy']])
 ```
 
 The `metadataDF` function extracts the metadata/coldata data frame from a
-Seurat or SingleCellExpression object:
+`Seurat` or `SingleCellExpression` object:
 
-```{r message=FALSE, warning=FALSE}
+```{r}
 df1 <- metadataDF(seuratObj)
 df2 <- metadataDF(sceObj)
 identical(df1, df2)
@@ -154,23 +154,23 @@ head(df1)[, c(1, 2)]
 ```
 
 The `metadataNames` function extracts the column names of the metadata/coldata 
-data frame from a Seurat or SingleCellExpression object:
+data frame from a `Seurat` or `SingleCellExpression` object:
 
-```{r message=FALSE, warning=FALSE}
+```{r}
 colNames1 <- metadataNames(seuratObj)
 colNames2 <- metadataNames(sceObj)
 identical(colNames1, colNames2)
 head(colNames1)
 ```
 
-Just like `scCol`, the `metadataDF` and `metadataNames` functions have setters
+**Note**: Just like `scCol`, the `metadataDF` and `metadataNames` functions have setters
 which allow users to alter the value of the stored objects.
 
-Finally, the `scColCounts` and `scColPairCounts` functions are wrappers around 
+The`scColCounts` and `scColPairCounts` functions are wrappers around 
 `dplyr::count` which enable counting frequencies of elements from one or two 
-categorical columns in a Seurat or SingleCellExpression object:
+categorical columns in a `Seurat` or `SingleCellExpression` object:
 
-```{r message=FALSE, warning=FALSE}
+```{r}
 freq1 <- scColCounts(sceObj, 'donor')
 freq2 <- scColCounts(seuratObj, 'donor')
 identical(freq1, freq2)
@@ -180,14 +180,23 @@ freq2 <- scColPairCounts(seuratObj, 'donor', 'label')
 identical(freq1, freq2)
 head(freq1)
 ```
+
+The `distributionPlot`function calls `scColPairCounts` in order to plot
+the frequencies of elements from two categorical columns:
+
+```{r}
+distributionPlot(sceObj, NULL, 'donor', 'label')
+```
+
+
 # Extracting gene information
 
-The `genePresence` function extracts the `genes` from `scObj `that appear in at 
+The `genePresence` function extracts the `genes` that appear in at 
 least `minCutoff` and at most `maxCutoff` cells. It returns a data frame 
 listing the number of cells in which each gene meeting these criteria is 
 expressed:
 
-```{r message=FALSE, warning=FALSE}
+```{r}
 df <- genePresence(sceObj, rownames(sceObj)[seq(100)], 300, 2000)
 dim(df)
 head(df)
@@ -196,10 +205,27 @@ head(df)
 The `geneCellSets` function lists all the cells in which selected genes are 
 expressed:
 
-```{r message=FALSE, warning=FALSE}
+```{r}
 cellSets <- geneCellSets(sceObj, rownames(sceObj)[seq(100)])
-length(cellSets)
 head(cellSets[[1]])
+```
+
+`findRareGenes` is a wrapper around `genePresence` that can extract the
+genes that appear in at least `nCells` cells:
+
+```{r}
+df <- findRareGenes(sceObj, 10)
+dim(df)
+head(df)
+```
+
+The `removeRareGenes` function calls `findRareGenes` and subsequently removes
+the identified rare genes from the single-cell expression object:
+
+```{r}
+dim(sceObj)
+sceObj <- removeRareGenes(sceObj, 10)
+dim(sceObj)
 ```
 
 # Representation analysis and multiple testing
@@ -210,8 +236,9 @@ columns of a single-cell object are:
 - Statistically overrepresented. This is the default setting.
 - Statistically underrepresented. This requires setting `doOverrep` to `FALSE`.
 
-```{r message=FALSE, warning=FALSE}
-head(repAnalysis(sceObj, 'donor', 'label'))
+```{r}
+df <- repAnalysis(sceObj, 'donor', 'label')
+head(df)
 head(repAnalysis(sceObj, 'donor', 'label', doOverrep=FALSE))
 ```
 
@@ -220,8 +247,18 @@ By default, `repAnalysis` calls `mtCorrectDF` with the mtMethod parameter set
 to `by` (Benjamini-Yekutieli). Other options are `bf` (Bonferroni) and `bh`
 (Benjamini-Hochberg):
 
-```{r message=FALSE, warning=FALSE}
+```{r}
 head(repAnalysis(sceObj, 'donor', 'label', mtMethod='bf'))
 head(repAnalysis(sceObj, 'donor', 'label', mtMethod='bh'))
 ```
+
+The output of `repAnalysis` can be visualized using the `pvalRiverPlot` 
+function. Thicker connecting bands represent lower p-values:
+
+```{r}
+pvalRiverPlot(df, title=NULL)
+```
+
+More generally, `pvalRiverPlot` can create an alluvial plot for any data frame
+with a p-value column.
 

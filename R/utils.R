@@ -37,7 +37,7 @@ nearestNeighbors <- function(distMat)
 #' p-values to be used as weights for the alluvia.
 #'
 #' @param df A data frame.
-#' @param pvalCol Name of p-value column.
+#' @param pvalCol Name of p-value column to be used by the alluvial plot.
 #' @param colIndices A vector respresenting the indices of the two categorical
 #' columns from the data frame that will be used.
 #' @param weightExp Exponent used in constructing weight from p-values.

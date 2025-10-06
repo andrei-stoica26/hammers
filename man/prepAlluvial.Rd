@@ -15,7 +15,7 @@ prepAlluvial(
 \arguments{
 \item{df}{A data frame.}
 
-\item{pvalCol}{Name of p-value column.}
+\item{pvalCol}{Name of p-value column to be used by the alluvial plot.}
 
 \item{colIndices}{A vector respresenting the indices of the two categorical
 columns from the data frame that will be used.}

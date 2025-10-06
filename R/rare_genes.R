@@ -16,12 +16,8 @@
 #'
 #' @export
 #'
-findRareGenes <- function(scObj, nCells = 10){
-    expMat <- scExpMat(scObj, "counts")
-    df <- data.frame(Count = rowSums(expMat != 0))
-    df <- df[df[, 1] < nCells, , drop=FALSE]
-    return(df)
-}
+findRareGenes <- function(scObj, nCells = 10)
+    return(genePresence(scObj, minCutoff=nCells - 1))
 
 #' Remove rare genes from a Seurat or SingleCellExpression object
 #'
@@ -42,7 +38,7 @@ findRareGenes <- function(scObj, nCells = 10){
 #' @export
 #'
 removeRareGenes <- function(scObj, nCells = 10, verbose = TRUE){
-    rareGenes <- rownames(findRareGenes(scObj, nCells))
+    rareGenes <- findRareGenes(scObj, nCells)[, 1]
     genes <- setdiff(rownames(scObj), rareGenes)
     scObj <- scObj[genes, ]
     if (verbose){

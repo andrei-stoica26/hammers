@@ -11,7 +11,7 @@ NULL
 #' This function plots the distribution of cells across two columns.
 #'
 #' @inheritParams scColPairCounts
-#' @param plotTitle Plot title.
+#' @param title Plot title.
 #' @param xLab x axis label.
 #' @param yLab y axis label.
 #' @param legendLab Legend label.
@@ -30,12 +30,12 @@ NULL
 #' @export
 #'
 distributionPlot <- function(scObj,
-                             plotTitle = 'Distribution plot',
+                             title = 'Distribution plot',
                              col1 = 'seurat_clusters',
                              col2 = 'orig.ident',
-                             xLab = 'Column 1',
+                             xLab = col1,
                              yLab = 'Count',
-                             legendLab = 'Column 2',
+                             legendLab = col2,
                              palette = 'Spectral'){
     df <- scColPairCounts(scObj, col1, col2)
     nColors <- length(unique(df[, 2]))
@@ -47,7 +47,7 @@ distributionPlot <- function(scObj,
                      y=.data[[names(df)[3]]])) +
         theme_classic() + labs(x=xLab, y=yLab, fill=legendLab) +
         scale_fill_manual(values=hcl.colors(nColors, palette))
-    p <- centerTitle(p, plotTitle)
+    p <- centerTitle(p, title)
     return(p)
 }
 
@@ -77,8 +77,13 @@ distributionPlot <- function(scObj,
 #'
 #' @export
 #'
-pvalRiverPlot <- function(df, weightExp = 1/2, ...){
-    resDF <- prepAlluvial(df, weightExp=weightExp)
+pvalRiverPlot <- function(df,
+                          pvalCol = 'pvalAdj',
+                          colIndices = c(1, 2),
+                          weightExp = 1/2,
+                          pvalOffset = 1e-317,
+                          ...){
+    resDF <- prepAlluvial(df, pvalCol, colIndices, weightExp, pvalOffset)
     p <- riverPlot(resDF, ...)
     return(p)
 }
