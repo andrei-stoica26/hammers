@@ -77,5 +77,5 @@ normalizeSilhouette <- function(scObj, idClass, silCol='silhouette'){
                                        auxMin))[seq_along(dfSub[, silCol])]
         res[rownames(dfSub), group] <- normSilVals
     }
-  return(res)
+    return(res)
 }

@@ -100,5 +100,6 @@ addMetadataCategory <- function(scObj,
         metadataDF(scObj) <- addCategory(metadataDF(scObj), col, newCol2,
                                      hashKeys, hashValues2)
     }
+
     return(scObj)
 }

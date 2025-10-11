@@ -2,7 +2,7 @@
 title: "hammers"
 author: "Andrei-Florian Stoica"
 package: hammers
-date: September 7, 2025
+date: October 9, 2025
 output: BiocStyle::html_document
 vignette: >
     %\VignetteIndexEntry{Getting started with CSOA}
@@ -20,14 +20,14 @@ knitr::opts_chunk$set(
 # Introduction
 
 `hammers` is a utilities suite for scRNA-seq data analysis and package 
-development. It offers functions (getters and setters) that can equally operate 
-on `Seurat` and `SingleCellExperiment` objects. These are intended to help 
-developers build tools compatible with both types of input.
-
-Additionally, `hammers` includes simple tools to address frequent tasks in 
-scRNA-seq data analysis, such as retrieving aggregate gene statistics, 
-finding and removing rare genes, performing multiple testing correction, and 
-calculating silhouette and cluster-normalized silhouette.
+development. It offers functions—getters and setters—that can equally operate 
+on `Seurat` and `SingleCellExperiment` objects, intended to help 
+developers build tools compatible with both types of input. Additionally, 
+`hammers` provides simple tools to address tasks in scRNA-seq data analysis, 
+such as retrieving aggregate gene statistics, finding and removing rare genes, 
+performing multiple testing correction, computing the center of mass for the 
+expression of a gene of interest in low-dimensional space, and calculating 
+silhouette and cluster-normalized silhouette.
 
 # Installation
 
@@ -41,7 +41,7 @@ BiocManager::install("hammers")
 ```
 
 # Prerequisites
-In addition to hammers, you need to install [scater](https://bioconductor.org/packages/release/bioc/html/scater.html) and [scRNAseq](https://bioconductor.org/packages/release/data/experiment/html/scRNAseq.html)
+In addition to hammers, you need to install [scater](https://bioconductor.org/packages/release/bioc/html/scater.html)and [scRNAseq](https://bioconductor.org/packages/release/data/experiment/html/scRNAseq.html)
 for this tutorial.
 
 # Loading data
@@ -64,7 +64,6 @@ sceObj <- BaronPancreasData('human')
 To illustrate this functionality of hammers, we will first normalize and 
 log-transform the data using the `logNormCounts` function from `scuttle` 
 (loaded automatically with `scater`).
-
 
 ```{r message=FALSE, warning=FALSE, results=FALSE}
 sceObj <- logNormCounts(sceObj)
@@ -99,9 +98,9 @@ expression data, so it looks for the `data` assay for a Seurat object and for
 the `logcounts` one for a SingleCellExperiment object. This behavior can be
 changed by setting the `dataType` parameter to `counts`.
 
-`scExpMat` can also take a matrix as an argument. This option is useful when building
-functions allowing users to use either a single-cell expression matrix or an
-object of a dedicated class (Seurat, SingleCellExperiment) as input:
+`scExpMat` can also take a matrix as an argument. This option is useful when 
+building functions allowing users to use either a single-cell expression matrix 
+or an object of a dedicated class (Seurat, SingleCellExperiment) as input:
 
 ```{r}
 mat2 <- scExpMat(mat1)
@@ -125,8 +124,8 @@ mat2 <- scExpMat(sceObj, genes=rownames(sceObj)[seq(30, 80)])
 dim(mat2)
 ```
 
-The `scCol` function extracts a column from the metadata of the `Seurat` object or
-the coldata of the `SingleCellExperiment` object:
+The `scCol` function extracts a column from the metadata of the `Seurat` object 
+or the coldata of the `SingleCellExperiment` object:
 
 ```{r}
 col1 <- scCol(seuratObj, 'label')
@@ -163,8 +162,8 @@ identical(colNames1, colNames2)
 head(colNames1)
 ```
 
-**Note**: Just like `scCol`, the `metadataDF` and `metadataNames` functions have setters
-which allow users to alter the value of the stored objects.
+**Note**: Just like `scCol`, the `metadataDF` and `metadataNames` functions 
+allow users to alter the value of the stored objects.
 
 The`scColCounts` and `scColPairCounts` functions are wrappers around 
 `dplyr::count` which enable counting frequencies of elements from one or two 
@@ -181,13 +180,12 @@ identical(freq1, freq2)
 head(freq1)
 ```
 
-The `distributionPlot`function calls `scColPairCounts` in order to plot
+The `distributionPlot` function calls `scColPairCounts` in order to plot
 the frequencies of elements from two categorical columns:
 
 ```{r}
 distributionPlot(sceObj, NULL, 'donor', 'label')
 ```
-
 
 # Extracting gene information
 
@@ -243,9 +241,9 @@ head(repAnalysis(sceObj, 'donor', 'label', doOverrep=FALSE))
 ```
 
 `repAnalysis` relies upon the `mtCorrectDF` function for multiple testing.
-By default, `repAnalysis` calls `mtCorrectDF` with the mtMethod parameter set
-to `by` (Benjamini-Yekutieli). Other options are `bf` (Bonferroni) and `bh`
-(Benjamini-Hochberg):
+By default, `repAnalysis` calls `mtCorrectDF` with the `mtMethod` parameter 
+set to `by` (Benjamini-Yekutieli). Other options are `bf` (Bonferroni) and 
+`bh` (Benjamini-Hochberg):
 
 ```{r}
 head(repAnalysis(sceObj, 'donor', 'label', mtMethod='bf'))
@@ -259,6 +257,5 @@ function. Thicker connecting bands represent lower p-values:
 pvalRiverPlot(df, title=NULL)
 ```
 
-More generally, `pvalRiverPlot` can create an alluvial plot for any data frame
+**Note**: `pvalRiverPlot` can create an alluvial plot for any data frame
 with a p-value column.
-

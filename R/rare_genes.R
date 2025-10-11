@@ -17,7 +17,7 @@
 #' @export
 #'
 findRareGenes <- function(scObj, nCells = 10)
-    return(genePresence(scObj, minCutoff=nCells - 1))
+    return(genePresence(scObj, maxCutoff=nCells - 1))
 
 #' Remove rare genes from a Seurat or SingleCellExpression object
 #'
