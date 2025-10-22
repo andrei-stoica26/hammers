@@ -2,7 +2,7 @@
 title: "hammers"
 author: "Andrei-Florian Stoica"
 package: hammers
-date: October 9, 2025
+date: October 22, 2025
 output: BiocStyle::html_document
 vignette: >
     %\VignetteIndexEntry{Getting started with CSOA}
@@ -20,8 +20,8 @@ knitr::opts_chunk$set(
 # Introduction
 
 `hammers` is a utilities suite for scRNA-seq data analysis and package 
-development. It offers functions—getters and setters—that can equally operate 
-on `Seurat` and `SingleCellExperiment` objects, intended to help 
+development. It offers functions (both getters and setters) that can operate 
+on both `Seurat` and `SingleCellExperiment` objects, intended to help 
 developers build tools compatible with both types of input. Additionally, 
 `hammers` provides simple tools to address tasks in scRNA-seq data analysis, 
 such as retrieving aggregate gene statistics, finding and removing rare genes, 
@@ -259,3 +259,9 @@ pvalRiverPlot(df, title=NULL)
 
 **Note**: `pvalRiverPlot` can create an alluvial plot for any data frame
 with a p-value column.
+
+# Session information {-}
+```{r}
+sessionInfo()
+```
+

@@ -1,14 +1,20 @@
 Package: hammers
 Type: Package
-Title: A collection of simple tools addressing common tasks in scRNA-seq analysis
+Title: A collection of simple tools for scRNA-seq analysis and package development
 Version: 0.1.0
 Authors@R: person('Andrei-Florian', 'Stoica', 
       email='andreistoica@foxmail.com',
      role=c('aut','cre'),
      comment=c(ORCID='0000-0002-5253-0826'))
-Description: hammers is an evolving collection of simple tools designed to address 
-    common tasks in scRNA-seq data analysis. The included tools are intended to 
-    combine wide applicability with ease of use.
+Description: hammers is a utilities suite for scRNA-seq data analysis and package 
+    development. It offers functions (both getters and setters) that can operate 
+    on both Seurat and SingleCellExperiment objects, intended to help 
+    developers build tools compatible with both types of input. Additionally, 
+    hammers provides simple tools to address tasks in scRNA-seq data analysis, 
+    such as retrieving aggregate gene statistics, finding and removing rare genes, 
+    performing multiple testing correction, computing the center of mass for the 
+    expression of a gene of interest in low-dimensional space, and calculating 
+    silhouette and cluster-normalized silhouette.
 License: MIT + file LICENSE
 Imports: 
     abdiv,
@@ -44,4 +50,6 @@ biocViews:
 Encoding: UTF-8
 RoxygenNote: 7.3.3
 VignetteBuilder: knitr
+URL: https://github.com/andrei-stoica26/hammers
+BugReports: https://github.com/andrei-stoica26/hammers/issues
 Config/testthat/edition: 3

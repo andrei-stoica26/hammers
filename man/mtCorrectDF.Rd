@@ -29,6 +29,9 @@ created.}
 \item{...}{Additional arguments passed to the multiple testing correction
 method.}
 }
+\value{
+A data frame with the p-value column corrected for multiple testing.
+}
 \description{
 This function orders a data frame based on a column of p-values, performs
 multiple testing on the column, and filters the data-frame based on it.
