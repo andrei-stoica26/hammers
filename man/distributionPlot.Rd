@@ -12,7 +12,12 @@ distributionPlot(
   xLab = col1,
   yLab = "Count",
   legendLab = col2,
-  palette = "Spectral"
+  palette = "Spectral",
+  legendPos = "right",
+  legendTextSize = 10,
+  legendTitleSize = 10,
+  axisTextSize = 12,
+  axisTitleSize = 12
 )
 }
 \arguments{
@@ -31,6 +36,16 @@ distributionPlot(
 \item{legendLab}{Legend label.}
 
 \item{palette}{Color palette.}
+
+\item{legendPos}{Legend position.}
+
+\item{legendTextSize}{Legend text size.}
+
+\item{legendTitleSize}{Legend title size.}
+
+\item{axisTextSize}{Axis text size.}
+
+\item{axisTitleSize}{Axis title size.}
 }
 \value{
 A ggplot object.

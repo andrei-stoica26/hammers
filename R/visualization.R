@@ -16,6 +16,11 @@ NULL
 #' @param yLab y axis label.
 #' @param legendLab Legend label.
 #' @param palette Color palette.
+#' @param legendPos Legend position.
+#' @param legendTitleSize Legend title size.
+#' @param legendTextSize Legend text size.
+#' @param axisTextSize Axis text size.
+#' @param axisTitleSize Axis title size.
 #'
 #' @return A ggplot object.
 #'
@@ -36,7 +41,12 @@ distributionPlot <- function(scObj,
                              xLab = col1,
                              yLab = 'Count',
                              legendLab = col2,
-                             palette = 'Spectral'){
+                             palette = 'Spectral',
+                             legendPos = 'right',
+                             legendTextSize = 10,
+                             legendTitleSize = 10,
+                             axisTextSize = 12,
+                             axisTitleSize = 12){
     df <- scColPairCounts(scObj, col1, col2)
     nColors <- length(unique(df[, 2]))
     p <- ggplot(df) +
@@ -46,7 +56,12 @@ distributionPlot <- function(scObj,
                      fill=.data[[names(df)[2]]],
                      y=.data[[names(df)[3]]])) +
         theme_classic() + labs(x=xLab, y=yLab, fill=legendLab) +
-        scale_fill_manual(values=hcl.colors(nColors, palette))
+        scale_fill_manual(values=hcl.colors(nColors, palette)) +
+        theme(legend.position=legendPos,
+              legend.text=element_text(size=legendTextSize),
+              legend.title=element_text(size=legendTitleSize),
+              axis.text=element_text(size=axisTextSize),
+              axis.title=element_text(size=axisTitleSize))
     p <- centerTitle(p, title)
     return(p)
 }
