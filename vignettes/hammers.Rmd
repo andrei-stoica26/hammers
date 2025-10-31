@@ -21,7 +21,7 @@ knitr::opts_chunk$set(
 
 `hammers` is a utilities suite for scRNA-seq data analysis and package 
 development. It offers functions (both getters and setters) that can operate 
-on both `Seurat` and `SingleCellExperiment` objects, intended to help 
+on both Seurat and SingleCellExperiment objects, intended to help 
 developers build tools compatible with both types of input. Additionally, 
 `hammers` provides simple tools to address tasks in scRNA-seq data analysis, 
 such as retrieving aggregate gene statistics, finding and removing rare genes, 
@@ -48,7 +48,7 @@ for this tutorial.
 
 This tutorial uses an scRNA-seq human pancreas dataset. After loading the 
 required packages, download the dataset using the `BaronPancreasData` function 
-from `scRNAseq`. The dataset will be stored as a `SingleCellExperiment` object. 
+from `scRNAseq`. The dataset will be stored as a SingleCellExperiment object. 
 
 ```{r message=FALSE, warning=FALSE, results=FALSE}
 library(hammers)
@@ -95,8 +95,9 @@ identical(mat1, mat2)
 
 By default, the function extracts normalized and log-transformed single-cell
 expression data, so it looks for the `data` assay for a Seurat object and for
-the `logcounts` one for a SingleCellExperiment object. This behavior can be
-changed by setting the `dataType` parameter to `counts`.
+the `logcounts` assay for a SingleCellExperiment object. This behavior can be
+changed by setting the `dataType` parameter to `counts`—in which case the
+function will look for an assay with this name in the input object.
 
 `scExpMat` can also take a matrix as an argument. This option is useful when 
 building functions allowing users to use either a single-cell expression matrix 
@@ -124,8 +125,8 @@ mat2 <- scExpMat(sceObj, genes=rownames(sceObj)[seq(30, 80)])
 dim(mat2)
 ```
 
-The `scCol` function extracts a column from the metadata of the `Seurat` object 
-or the coldata of the `SingleCellExperiment` object:
+The `scCol` function extracts a column from the metadata of the Seurat object 
+or the coldata of the SingleCellExperiment object:
 
 ```{r}
 col1 <- scCol(seuratObj, 'label')
@@ -135,7 +136,7 @@ head(col1)
 ```
 
 It can also be used to insert a new column. Here, we just make a modified
-copy of the `label` column for the `Seurat` object:
+copy of the `label` column for the Seurat object:
 
 ```{r}
 scCol(seuratObj, 'labelCopy') <- paste0(scCol(seuratObj, 'label'), '_copy')
@@ -143,7 +144,7 @@ head(seuratObj[['labelCopy']])
 ```
 
 The `metadataDF` function extracts the metadata/coldata data frame from a
-`Seurat` or `SingleCellExpression` object:
+Seurat or SingleCellExpression object:
 
 ```{r}
 df1 <- metadataDF(seuratObj)
@@ -153,7 +154,7 @@ head(df1)[, c(1, 2)]
 ```
 
 The `metadataNames` function extracts the column names of the metadata/coldata 
-data frame from a `Seurat` or `SingleCellExpression` object:
+data frame from a Seurat or SingleCellExpression object:
 
 ```{r}
 colNames1 <- metadataNames(seuratObj)
@@ -165,9 +166,9 @@ head(colNames1)
 **Note**: Just like `scCol`, the `metadataDF` and `metadataNames` functions 
 allow users to alter the value of the stored objects.
 
-The`scColCounts` and `scColPairCounts` functions are wrappers around 
-`dplyr::count` which enable counting frequencies of elements from one or two 
-categorical columns in a `Seurat` or `SingleCellExpression` object:
+The scColCounts and scColPairCounts functions are wrappers around 
+`dplyr::count` and enable counting frequencies of elements from one or two 
+categorical columns in a Seurat or SingleCellExpression object:
 
 ```{r}
 freq1 <- scColCounts(sceObj, 'donor')
@@ -218,7 +219,7 @@ head(df)
 ```
 
 The `removeRareGenes` function calls `findRareGenes` and subsequently removes
-the identified rare genes from the single-cell expression object:
+the identified rare genes from the object:
 
 ```{r}
 dim(sceObj)
