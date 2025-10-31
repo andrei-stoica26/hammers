@@ -307,8 +307,7 @@ scDimredMat.default <- function(scObj, dimred)
 scDimredMat.Seurat <- function(scObj, dimred)
 {
     reductions <- dimredNames(scObj)
-    if(!dimred %in% reductions)
-        stop(dimred, ' reduction not found in Seurat object.')
+    dimred <- dimredName(scObj, dimred)
     return(as.matrix(Embeddings(scObj, reduction=dimred)))
 }
 
@@ -317,8 +316,7 @@ scDimredMat.Seurat <- function(scObj, dimred)
 #'
 scDimredMat.SingleCellExperiment <- function(scObj, dimred){
     reductions <- dimredNames(scObj)
-    if(!dimred %in% reductions)
-        stop(dimred, ' reduction not found in SingleCellExperiment object.')
+    dimred <- dimredName(scObj, dimred)
     return(reducedDim(scObj, dimred))
 }
 
@@ -377,16 +375,20 @@ scColPairCounts <- function(scObj, col1='seurat_clusters', col2='orig.ident')
 #'
 #' @noRd
 #'
-scDimredMatWithCaseCheck <- function(scObj, dimred){
+dimredName <- function(scObj, dimred){
+    lowerDimred <- tolower(dimred)
     upperDimred <- toupper(dimred)
-    dimName <- intersect(dimredNames(scObj), c(dimred, upperDimred))
+    dimName <- intersect(dimredNames(scObj), c(dimred, lowerDimred,
+                                               upperDimred))
     if (!length(dimName))
-        stop('No `', dimred, '` or `', upperDimred,
+        stop('No `', lowerDimred, '` or `', upperDimred,
              '` reduction was found in the object.')
-    if (length(dimName) == 2)
-        stop('Both `', dimred, '` and ', upperDimred, '` reductions were ',
-             'found. Use instead `scDimredMat` with the desired reduction.')
-    return(scDimredMat(scObj, dimName))
+    if (length(dimName) > 1){
+        warning('Both `', lowerDimred, '` and ', upperDimred, '` reductions were ',
+                'found. Returning ', dimred, '.')
+        return(dimred)
+    }
+    return(dimName)
 }
 
 #' Extracts the PCA matrix from object.
@@ -407,7 +409,7 @@ scDimredMatWithCaseCheck <- function(scObj, dimred){
 #' @export
 #'
 scPCAMat <- function(scObj)
-    return(scDimredMatWithCaseCheck(scObj, 'pca'))
+    return(scDimredMat(scObj, 'pca'))
 
 #' Extracts the UMAP matrix from object.
 #'
@@ -427,5 +429,5 @@ scPCAMat <- function(scObj)
 #' @export
 #'
 scUMAPMat <- function(scObj)
-    return(scDimredMatWithCaseCheck(scObj, 'umap'))
+    return(scDimredMat(scObj, 'umap'))
 
