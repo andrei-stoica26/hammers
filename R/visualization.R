@@ -1,4 +1,4 @@
-#' @importFrom ggplot2 aes ggplot geom_bar geom_point labs scale_fill_manual theme_classic
+#' @importFrom ggplot2 aes element_text ggplot geom_bar geom_point labs scale_fill_manual theme theme_classic
 #' @importFrom ggrepel geom_text_repel
 #' @importFrom henna centerTitle riverPlot
 #' @importFrom rlang .data

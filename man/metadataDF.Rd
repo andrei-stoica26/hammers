@@ -36,8 +36,8 @@ metadataDF(scObj) <- value
 A metadata data frame.
 }
 \description{
-This function extracts the metadata from a Seurat or
-SingleCellExperiment object as a data frame.
+This function extracts the metadata from a \code{Seurat} or
+\code{SingleCellExperiment} object as a data frame.
 }
 \examples{
 scObj <- withr::with_seed(1, scuttle::mockSCE(ngenes=200))

@@ -261,6 +261,11 @@ pvalRiverPlot(df, title=NULL)
 **Note**: `pvalRiverPlot` can create an alluvial plot for any data frame
 with a p-value column.
 
+# Computing gene center of mass
+
+Given a list of genes, `geneCenters` can compute the center of mass of each
+gene.
+
 # Session information {-}
 ```{r}
 sessionInfo()

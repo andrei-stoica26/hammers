@@ -5,6 +5,27 @@
 #'
 NULL
 
+#' @rdname dimredNames
+#' @export
+#'
+dimredNames.default <- function(scObj)
+    stop('Unrecognized input type: `scObj` must be a Seurat, ',
+         'SingleCellExpression, matrix or dgCMatrix object.')
+
+#' @rdname dimredNames
+#' @export
+#'
+dimredNames.Seurat <- function(scObj)
+    return(Reductions(scObj))
+
+
+#' @rdname dimredNames
+#' @export
+#'
+dimredNames.SingleCellExperiment <- function(scObj)
+    return(names(reducedDims(scObj)))
+
+###############################################################################
 #' @rdname metadataDF
 #' @export
 #'
@@ -28,7 +49,7 @@ metadataDF.Seurat <- function(scObj)
 #' @rdname metadataDF
 #' @export
 #'
-`metadataDF<-.Seurat` <- function(scObj, value) {
+`metadataDF<-.Seurat` <- function(scObj, value){
     if (!is.data.frame(value))
         stop('`value` must be a data.frame.')
     scObj[[]] <- value
@@ -197,7 +218,7 @@ scExpMat.default <- function(scObj,
                              genes = NULL,
                              densify = TRUE)
     stop('Unrecognized input type: `scObj` must be a Seurat, ',
-         'SingleCellExpression, matrix or dgCMatrix object')
+         'SingleCellExpression, matrix or dgCMatrix object.')
 
 #' @rdname scExpMat
 #' @export
@@ -261,11 +282,11 @@ scExpMat.dgCMatrix <- function(scObj,
 #' @export
 #'
 scExpMat.matrix <- function(scObj,
-                               dataType = c('data',
-                                            'counts',
-                                            'logcounts'),
-                               genes = NULL,
-                               densify = TRUE){
+                            dataType = c('data',
+                                         'counts',
+                                         'logcounts'),
+                            genes = NULL,
+                            densify = TRUE){
 
     if (!is.null(genes))
         scObj <- scObj[genes, ]
@@ -273,36 +294,31 @@ scExpMat.matrix <- function(scObj,
 }
 
 ###############################################################################
-#' @noRd
+#' @rdname scDimredMat
+#' @export
 #'
-scDimredMat.default <- function(scObj, dimred = c('pca', 'umap'))
+scDimredMat.default <- function(scObj, dimred)
     stop('Unrecognized input type: `scObj` must be a Seurat or ',
-         'SingleCellExpression object')
+         'SingleCellExpression object.')
 
-#' @noRd
+#' @rdname scDimredMat
+#' @export
 #'
-scDimredMat.Seurat <- function(scObj, dimred = c('pca', 'umap'))
+scDimredMat.Seurat <- function(scObj, dimred)
 {
-    dimred <- match.arg(dimred, c('pca', 'umap'))
-    reductions <- Reductions(scObj)
-    if(!dimred %in% reductions){
-        dimred <- toupper(dimred)
-        if(!dimred %in% reductions)
-            stop(dimred, ' reduction not found in Seurat object.')
-    }
+    reductions <- dimredNames(scObj)
+    if(!dimred %in% reductions)
+        stop(dimred, ' reduction not found in Seurat object.')
     return(as.matrix(Embeddings(scObj, reduction=dimred)))
 }
 
-#' @noRd
+#' @rdname scDimredMat
+#' @export
 #'
-scDimredMat.SingleCellExperiment <- function(scObj, dimred = c('pca', 'umap')){
-    dimred <- match.arg(dimred, c('pca', 'umap'))
-    reductions <- names(reducedDims(scObj))
-    if(!dimred %in% reductions){
-        dimred <- toupper(dimred)
-        if(!dimred %in% reductions)
-            stop(dimred, ' reduction not found in SingleCellExperiment object.')
-    }
+scDimredMat.SingleCellExperiment <- function(scObj, dimred){
+    reductions <- dimredNames(scObj)
+    if(!dimred %in% reductions)
+        stop(dimred, ' reduction not found in SingleCellExperiment object.')
     return(reducedDim(scObj, dimred))
 }
 
@@ -350,12 +366,35 @@ scColPairCounts <- function(scObj, col1='seurat_clusters', col2='orig.ident')
     return(dplyr::count(metadataDF(scObj), .data[[col1]], .data[[col2]]))
 
 
+#' Extract dimensionality reduction matrix from single-cell expression object
+#'
+#' This function extracts a dimensionality reduction matrix from a Seurat
+#' or SingleCellExpression object.
+#'
+#' @inheritParams scDimredMat
+#'
+#' @return A dimensionality reduction matrix.
+#'
+#' @noRd
+#'
+scDimredMatWithCaseCheck <- function(scObj, dimred){
+    upperDimred <- toupper(dimred)
+    dimName <- intersect(dimredNames(scObj), c(dimred, upperDimred))
+    if (!length(dimName))
+        stop('No `', dimred, '` or `', upperDimred,
+             '` reduction was found in the object.')
+    if (length(dimName) == 2)
+        stop('Both `', dimred, '` and ', upperDimred, '` reductions were ',
+             'found. Use instead `scDimredMat` with the desired reduction.')
+    return(scDimredMat(scObj, dimName))
+}
+
 #' Extracts the PCA matrix from object.
 #'
 #' This function extracts the PCA matrix from a Seurat or
 #' SingleCellExperiment object.
 #'
-#' @inheritParams metadataNames
+#' @inheritParams metadataDF
 #'
 #' @return A PCA matrix.
 #'
@@ -368,14 +407,14 @@ scColPairCounts <- function(scObj, col1='seurat_clusters', col2='orig.ident')
 #' @export
 #'
 scPCAMat <- function(scObj)
-    return(scDimredMat(scObj, 'pca'))
+    return(scDimredMatWithCaseCheck(scObj, 'pca'))
 
 #' Extracts the UMAP matrix from object.
 #'
 #' This function extracts the UMAP matrix from a Seurat or
 #' SingleCellExperiment object.
 #'
-#' @inheritParams metadataNames
+#' @inheritParams metadataDF
 #'
 #' @return A UMAP matrix.
 #'
@@ -388,5 +427,5 @@ scPCAMat <- function(scObj)
 #' @export
 #'
 scUMAPMat <- function(scObj)
-    return(scDimredMat(scObj, 'umap'))
+    return(scDimredMatWithCaseCheck(scObj, 'umap'))
 

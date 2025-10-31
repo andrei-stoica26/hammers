@@ -25,10 +25,30 @@
 devPlot <- function(plotObject, ...)
     UseMethod(generic='devPlot', object=plotObject)
 
+#' Extract the names of available dimensionality reductions from object
+#'
+#' This function extracts the names of available dimensionality reductions
+#' from a Seurat or SingleCellExperiment object.
+#'
+#' @inheritParams metadataNames
+#'
+#' @return A character vector.
+#'
+#' @examples
+#' scObj <- withr::with_seed(1, scuttle::mockSCE(ngenes=20000))
+#' scObj <- scuttle::logNormCounts(scObj)
+#' scObj <- scater::runPCA(scObj)
+#' dimredNames(scObj)
+#'
+#' @export
+#'
+dimredNames <- function(scObj)
+    UseMethod(generic='dimredNames', object=scObj)
+
 #' Extract metadata from object as a data frame
 #'
-#' This function extracts the metadata from a Seurat or
-#' SingleCellExperiment object as a data frame.
+#' This function extracts the metadata from a \code{Seurat} or
+#' \code{SingleCellExperiment} object as a data frame.
 #'
 #' @param scObj A \code{Seurat} or \code{SingleCellExperiment} object.
 #' @param value A data frame to replace metadata with.
@@ -52,8 +72,8 @@ metadataDF <- function(scObj)
 
 #' Extract a metadata/coldata column from object.
 #'
-#' This function extracts a metadata/coldata column from a Seurat or
-#' SingleCellExperiment object.
+#' This function extracts a metadata/coldata column from a \code{Seurat} or
+#' \code{SingleCellExperiment} object.
 #'
 #' @inheritParams metadataNames
 #' @param col Column name.
@@ -77,16 +97,24 @@ scCol <- function(scObj, col)
 
 #' Extracts a dimensionality reduction matrix from object.
 #'
-#' This function extracts a dimensionality reduction matrix (PCA or UMAP)
-#' from a Seurat or SingleCellExperiment object.
+#' This function extracts a dimensionality reduction matrix from a Seurat or
+#' SingleCellExperiment object.
 #'
 #' @inheritParams metadataNames
+#' @param dimred Dimensionality reduction.
 #'
-#' @return A PCA or UMAP matrix.
+#' @return A dimensionality reduction matrix.
 #'
-#' @noRd
+#' @examples
+#' scObj <- withr::with_seed(1, scuttle::mockSCE(ngenes=20000))
+#' scObj <- scuttle::logNormCounts(scObj)
+#' scObj <- scater::runPCA(scObj)
+#' pcaMat <- scDimredMat(scObj, 'pca')
 #'
-scDimredMat <- function(scObj, dimred = c('pca', 'umap'))
+#'
+#' @export
+#'
+scDimredMat <- function(scObj, dimred)
     UseMethod(generic='scDimredMat', object=scObj)
 
 #' Extracts the expression matrix from object.

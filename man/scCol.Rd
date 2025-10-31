@@ -38,8 +38,8 @@ scCol(scObj, col) <- value
 A vector.
 }
 \description{
-This function extracts a metadata/coldata column from a Seurat or
-SingleCellExperiment object.
+This function extracts a metadata/coldata column from a \code{Seurat} or
+\code{SingleCellExperiment} object.
 }
 \examples{
 scObj <- withr::with_seed(1, scuttle::mockSCE(ngenes=20000))
