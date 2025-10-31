@@ -6,7 +6,7 @@
 \usage{
 pointsDimPlot(
   seuratObj,
-  plotTitle = "Dim plot",
+  plotTitle = NULL,
   pointsDF = NULL,
   pointShape = 4,
   pointSize = 2,

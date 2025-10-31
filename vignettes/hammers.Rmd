@@ -261,10 +261,30 @@ pvalRiverPlot(df, title=NULL)
 **Note**: `pvalRiverPlot` can create an alluvial plot for any data frame
 with a p-value column.
 
-# Computing gene center of mass
+# Computing centers of mass
 
 Given a list of genes, `geneCenters` can compute the center of mass of each
-gene.
+gene based on a dimensionality reduction of choice. By default, the reduction used by 
+`geneCenters` is UMAP:
+
+```{r}
+genes <- c('PRSS1', 'TTR', 'GJD2', 'MS4A8')
+geneCenters(sceObj, genes)
+```
+
+The centers of mass can be visualized with `genesDimPlot`, a wrapper around
+the `DimPlot` function from `Seurat`. `genesDimPlot` uses `geneCenters` 
+internally:
+
+```{r}
+genesDimPlot(seuratObj, genes, group.by='label')
+```
+
+**Note**: The related `colsDimPlot` function can plot the center of mass of
+numeric columns of the metadata of a Seurat object. `colsDimPlot` uses 
+`colCenters` internally, which works similarly to `geneCenters`. Both 
+`genesDimPlot` and `colsDimPlot` are wrappers around `pointsDimPlot`, which
+adds labeled points on a plot generated with `Seurat::DimPlot`.
 
 # Session information {-}
 ```{r}
