@@ -1,12 +1,12 @@
-#' Calculate the coordinates of the center of mass
+#' Calculate the center of mass
 #'
-#' This function calculates the coordinates of the center of mass based on a
+#' This function calculates the center of mass based on a
 #' matrix of cell embeddings and a vector of weights.
 #'
 #' @param dimMat A matrix of cell embeddings.
 #' @param weights A vector of weights.
 #'
-#' @return A vector containing the coordinates of the center of mass.
+#' @return A vector containing the center of mass.
 #'
 #' @examples
 #' dimMat <- matrix(data=c(2, 3, 1, 3, 6, 8), nrow=3, ncol=2)
@@ -20,14 +20,14 @@ centerOfMass <- function(dimMat, weights){
   return(apply(dimMat, 2, function(x) sum(x * weights) / totalWeight))
 }
 
-#' Calculate the coordinates of centers of mass of gene expression
+#' Calculate the centers of mass of the expression of input genes
 #'
-#' This function calculates the coordinates of the center of mass of the
-#' expression of input genes.
+#' This function calculates the centers of mass of the expression of input
+#' genes.
 #'
 #' @inheritParams scExpMat
 #'
-#' @return A data frame containing the coordinates of centers of mass.
+#' @return A data frame containing the centers of mass.
 #'
 #' @examples
 #' scObj <- withr::with_seed(1, scuttle::mockSCE(ngenes=20000))
@@ -45,10 +45,10 @@ geneCenters <- function(scObj, genes){
     return(centersDF)
 }
 
-#' Calculate the coordinates of centers of mass of metadata/coldata columns
+#' Calculate the centers of mass of metadata/coldata columns
 #'
-#' This function calculates the coordinates of the center of mass of the
-#' selected metadata/coldata columns from a Seurat or SingleCellExpression
+#' This function calculates the centers of mass of  selected metadata/coldata
+#' columns from a \code{Seurat} or \code{SingleCellExpression}
 #' object.
 #'
 #' @inheritParams metadataDF

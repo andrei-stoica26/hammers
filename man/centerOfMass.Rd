@@ -2,7 +2,7 @@
 % Please edit documentation in R/center_of_mass.R
 \name{centerOfMass}
 \alias{centerOfMass}
-\title{Calculate the coordinates of the center of mass}
+\title{Calculate the center of mass}
 \usage{
 centerOfMass(dimMat, weights)
 }
@@ -12,10 +12,10 @@ centerOfMass(dimMat, weights)
 \item{weights}{A vector of weights.}
 }
 \value{
-A vector containing the coordinates of the center of mass.
+A vector containing the center of mass.
 }
 \description{
-This function calculates the coordinates of the center of mass based on a
+This function calculates the center of mass based on a
 matrix of cell embeddings and a vector of weights.
 }
 \examples{

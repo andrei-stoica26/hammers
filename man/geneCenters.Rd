@@ -2,7 +2,7 @@
 % Please edit documentation in R/center_of_mass.R
 \name{geneCenters}
 \alias{geneCenters}
-\title{Calculate the coordinates of centers of mass of gene expression}
+\title{Calculate the centers of mass of the expression of input genes}
 \usage{
 geneCenters(scObj, genes)
 }
@@ -13,11 +13,11 @@ geneCenters(scObj, genes)
 \item{genes}{Selected genes. If \code{NULL}, all genes will be retained.}
 }
 \value{
-A data frame containing the coordinates of centers of mass.
+A data frame containing the centers of mass.
 }
 \description{
-This function calculates the coordinates of the center of mass of the
-expression of input genes.
+This function calculates the centers of mass of the expression of input
+genes.
 }
 \examples{
 scObj <- withr::with_seed(1, scuttle::mockSCE(ngenes=20000))

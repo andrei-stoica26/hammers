@@ -1,7 +1,7 @@
 # hammers
 
 `hammers` is a utilities suite for scRNA-seq data analysis and package 
-development. It offers functions (both getters and setters) that can operate 
+development. It offers functions—both getters and setters—that can operate 
 on both Seurat and SingleCellExperiment objects, intended to help 
 developers build tools compatible with both types of input. Additionally, 
 `hammers` provides simple tools to address tasks in scRNA-seq data analysis, 

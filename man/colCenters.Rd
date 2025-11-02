@@ -2,7 +2,7 @@
 % Please edit documentation in R/center_of_mass.R
 \name{colCenters}
 \alias{colCenters}
-\title{Calculate the coordinates of centers of mass of metadata/coldata columns}
+\title{Calculate the centers of mass of metadata/coldata columns}
 \usage{
 colCenters(scObj, columns)
 }
@@ -15,8 +15,8 @@ colCenters(scObj, columns)
 A data frame containing the coordinates of centers of mass.
 }
 \description{
-This function calculates the coordinates of the center of mass of the
-selected metadata/coldata columns from a Seurat or SingleCellExpression
+This function calculates the centers of mass of  selected metadata/coldata
+columns from a \code{Seurat} or \code{SingleCellExpression}
 object.
 }
 \examples{
