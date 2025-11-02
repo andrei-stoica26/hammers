@@ -36,6 +36,7 @@ Imports:
     text2vec,
     withr
 Suggests:
+    BiocStyle,
     knitr,
     rmarkdown,
     scater,
@@ -46,7 +47,8 @@ biocViews:
     Software,
     SingleCell,
     GeneExpression,
-    MultipleComparison
+    MultipleComparison,
+    Visualization
 Encoding: UTF-8
 RoxygenNote: 7.3.3
 VignetteBuilder: knitr

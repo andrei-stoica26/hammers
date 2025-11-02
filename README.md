@@ -18,5 +18,5 @@ To install `hammers`, run the following R code:
 if (!require("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
     
-BiocManager::install("andrei-stoica26/hammers")
+BiocManager::install("hammers")
 ```

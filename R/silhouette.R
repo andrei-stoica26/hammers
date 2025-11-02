@@ -79,3 +79,33 @@ normalizeSilhouette <- function(scObj, idClass, silCol='silhouette'){
     }
     return(res)
 }
+
+#' Adds normalized silhouette column to a single-cell expression object
+#'
+#' This function adds a normalized silhouette column to a single-cell
+#' expression object.
+#'
+#' @inheritParams computeSilhouette
+#' @param normSilDF Normalized silhouette data frame.
+#'
+#' @return The input object (\code{Seurat} or \code{SingleCellExperiment}) with
+#' an added metadata normalized silhouette column.
+#'
+#' @examples
+#' scObj <- withr::with_seed(1, scuttle::mockSCE(ngenes=20000))
+#' scObj <- scuttle::logNormCounts(scObj)
+#' scObj <- scater::runPCA(scObj)
+#' scCol(scObj, 'Cluster') <- withr::with_seed(1,
+#' sample(paste0('Cluster', seq(5)), dim(scObj)[2], replace=TRUE))
+#' scObj <- computeSilhouette(scObj, 'Cluster')
+#' df <- normalizeSilhouette(scObj, 'Cluster')
+#' scObj <- addNormSilhouette(scObj, df)
+#'
+#' @export
+#'
+addNormSilhouette <- function(scObj, normSilDF, normSilCol='normSilhouette'){
+    scCol(scObj, normSilCol) <- apply(normSilDF, 1, max)
+    return(scObj)
+}
+
+

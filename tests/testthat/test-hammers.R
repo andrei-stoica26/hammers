@@ -117,6 +117,9 @@ test_that("silhouette functions and scCol work", {
     scObj <- computeSilhouette(scObj, 'Cell_Cycle')
     df <- normalizeSilhouette(scObj, 'Cell_Cycle')
     expect_equal(sum(df), 112.3134, tolerance=0.001)
+    scObj <- addNormSilhouette(scObj, df)
+    expect_equal(mean(scCol(scObj, 'normSilhouette')), 0.561566,
+                 tolerance=0.001)
 })
 
 test_that("joinCharCombs works", {

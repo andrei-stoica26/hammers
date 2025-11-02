@@ -312,6 +312,16 @@ df <- normalizeSilhouette(sceObj, 'label', 'labelSil')
 head(df)
 ```
 
+The `addNormSilhouette` function adds non-zero normalized silhouette 
+information to the single-cell expression object as a metadata/coldata column.
+For visualization purposes, we will use Seurat's `FeaturePlot`:
+
+```{r message=FALSE, warning=FALSE}
+seuratObj <- addNormSilhouette(seuratObj, df, 'labelNormSil')
+FeaturePlot(seuratObj, 'labelNormSil')
+```
+
+
 # Session information {-}
 ```{r}
 sessionInfo()
