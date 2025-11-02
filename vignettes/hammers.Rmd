@@ -2,7 +2,7 @@
 title: "hammers"
 author: "Andrei-Florian Stoica"
 package: hammers
-date: October 22, 2025
+date: November 2, 2025
 output: BiocStyle::html_document
 vignette: >
     %\VignetteIndexEntry{Getting started with CSOA}
@@ -285,6 +285,32 @@ numeric columns of the metadata of a Seurat object. `colsDimPlot` uses
 `colCenters` internally, which works similarly to `geneCenters`. Both 
 `genesDimPlot` and `colsDimPlot` are wrappers around `pointsDimPlot`, which
 adds labeled points on a plot generated with `Seurat::DimPlot`.
+
+# Computing silhouette and normalized silhouette
+
+The `computeSilhouette` computes the silhouette for an input column in the
+metadata or coldata of the single-cell expression object, returning the object
+with an appended silhouette column:
+
+```{r}
+sceObj <- computeSilhouette(sceObj, 'label', 'labelSil')
+head(scCol(sceObj, 'labelSil'))
+```
+
+The `normalizeSilhouette` function returns a data frame whose number of rows
+equals the number of cells and the number of columns equals the number of 
+identities in the single-cell expression object. It requires silhouette 
+information for the required column to be provided in the metadata/coldata of 
+the object. 
+
+For each column in the output data frame, cells outside of the 
+corresponding identity get a score of 0. All the other cells get scores in
+(0, 1] by adjusted min-max normalization:
+
+```{r}
+df <- normalizeSilhouette(sceObj, 'label', 'labelSil')
+head(df)
+```
 
 # Session information {-}
 ```{r}
