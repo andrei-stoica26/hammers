@@ -12,7 +12,7 @@ computeSilhouette(scObj, idClass, silCol = "silhouette")
 \item{idClass}{Identity class. Must be present among the metadata columns of
 the single-cell expression object.}
 
-\item{silCol}{Silhouette column.}
+\item{silCol}{The name of the silhouette column to be added.}
 }
 \value{
 The input object (\code{Seurat} or \code{SingleCellExperiment}) with

@@ -13,7 +13,7 @@ NULL
 #' @inheritParams metadataDF
 #' @param idClass Identity class. Must be present among the metadata columns of
 #' the single-cell expression object.
-#' @param silCol Silhouette column.
+#' @param silCol The name of the silhouette column to be added.
 #'
 #' @return The input object (\code{Seurat} or \code{SingleCellExperiment}) with
 #' an added metadata silhouette column.
@@ -48,6 +48,7 @@ computeSilhouette <- function(scObj, idClass, silCol = 'silhouette'){
 #' class in the single-cell expression object.
 #'
 #' @inheritParams computeSilhouette
+#' @param silCol The name of the silhouette column.
 #'
 #' @return A data frame with normalized silhouettes for each unique element in
 #' the identity class.
@@ -87,7 +88,8 @@ normalizeSilhouette <- function(scObj, idClass, silCol='silhouette'){
 #'
 #' @inheritParams computeSilhouette
 #' @param normSilDF Normalized silhouette data frame.
-#'
+#' @param normSilCol The name of the normalized silhouette column to be added.
+#
 #' @return The input object (\code{Seurat} or \code{SingleCellExperiment}) with
 #' an added metadata normalized silhouette column.
 #'

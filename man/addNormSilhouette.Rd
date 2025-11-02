@@ -10,6 +10,8 @@ addNormSilhouette(scObj, normSilDF, normSilCol = "normSilhouette")
 \item{scObj}{A \code{Seurat} or \code{SingleCellExperiment} object.}
 
 \item{normSilDF}{Normalized silhouette data frame.}
+
+\item{normSilCol}{The name of the normalized silhouette column to be added.}
 }
 \value{
 The input object (\code{Seurat} or \code{SingleCellExperiment}) with
