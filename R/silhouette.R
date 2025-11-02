@@ -30,12 +30,12 @@ NULL
 #'
 computeSilhouette <- function(scObj, idClass, silCol = 'silhouette'){
     if (!idClass %in% metadataNames(scObj))
-        stop(paste0('Column ', idClass, ' not found.'))
+        stop('Column ', idClass, ' not found.')
     pcaMat <- scPCAMat(scObj)
     message('Computing cosine distance matrix...')
     distMat <- 1 - text2vec::sim2(pcaMat, method='cosine', norm='l2')
-    message(paste0('Computing silhouette for identity class: ',
-                   idClass, '...'))
+    message('Computing silhouette for identity class: ',
+                   idClass, '...')
     groupVals <- unclass(factor(scCol(scObj, idClass)))
     scObj[[silCol]] <- cluster::silhouette(groupVals,
                                                  dmatrix=distMat)[, 3]

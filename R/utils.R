@@ -229,6 +229,6 @@ timeFun <- function(fun, ...){
     x <- Sys.time()
     res <- fun(...)
     y <- Sys.time()
-    print(y - x)
+    message(y - x)
     return(res)
 }
