@@ -83,8 +83,9 @@ metadataDF.SingleCellExperiment <- function(scObj)
 #' @return The names of the metadata columns.
 #'
 #' @examples
-#' scObj <- withr::with_seed(1, scuttle::mockSCE(ngenes=20000))
-#' colNames <- metadataNames(scObj)
+#' scePath <- system.file('extdata', 'sceObj.qs', package='hammers')
+#' sceObj <- qs::qread(scePath)
+#' colNames <- metadataNames(sceObj)
 #'
 #' @export
 #'
@@ -332,8 +333,9 @@ scDimredMat.SingleCellExperiment <- function(scObj, dimred){
 #' @return A frequency vector with the unique column values as names.
 #'
 #' @examples
-#' scObj <- withr::with_seed(1, scuttle::mockSCE(ngenes=20000))
-#' scColCounts(scObj, 'Mutation_Status')
+#' scePath <- system.file('extdata', 'sceObj.qs', package='hammers')
+#' sceObj <- qs::qread(scePath)
+#' scColCounts(sceObj, 'Mutation_Status')
 #'
 #' @export
 #'
@@ -355,8 +357,9 @@ scColCounts <- function(scObj, col='orig.ident'){
 #' two categorical columns.
 #'
 #' @examples
-#' scObj <- withr::with_seed(1, scuttle::mockSCE(ngenes=20000))
-#' scColPairCounts(scObj, 'Mutation_Status', 'Cell_Cycle')
+#' scePath <- system.file('extdata', 'sceObj.qs', package='hammers')
+#' sceObj <- qs::qread(scePath)
+#' scColPairCounts(sceObj, 'Mutation_Status', 'Cell_Cycle')
 #'
 #' @export
 #'
@@ -401,10 +404,9 @@ dimredName <- function(scObj, dimred){
 #' @return A PCA matrix.
 #'
 #' @examples
-#' scObj <- withr::with_seed(1, scuttle::mockSCE(ngenes=20000))
-#' scObj <- scuttle::logNormCounts(scObj)
-#' scObj <- scater::runPCA(scObj)
-#' pcaMat <- scPCAMat(scObj)
+#' scePath <- system.file('extdata', 'sceObj.qs', package='hammers')
+#' sceObj <- qs::qread(scePath)
+#' pcaMat <- scPCAMat(sceObj)
 #'
 #' @export
 #'
@@ -421,10 +423,9 @@ scPCAMat <- function(scObj)
 #' @return A UMAP matrix.
 #'
 #' @examples
-#' scObj <- withr::with_seed(1, scuttle::mockSCE(ngenes=20000))
-#' scObj <- scuttle::logNormCounts(scObj)
-#' scObj <- scater::runUMAP(scObj)
-#' umapMat <- scUMAPMat(scObj)
+#' scePath <- system.file('extdata', 'sceObj.qs', package='hammers')
+#' sceObj <- qs::qread(scePath)
+#' umapMat <- scUMAPMat(sceObj)
 #'
 #' @export
 #'

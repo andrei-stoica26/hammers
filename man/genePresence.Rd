@@ -29,7 +29,8 @@ This function extracts the number of cells in which a gene from a Seurat or
 SingleCellExperiment is expressed.
 }
 \examples{
-scObj <- withr::with_seed(1, scuttle::mockSCE(ngenes=200))
-df <- genePresence(scObj)
+scePath <- system.file('extdata', 'sceObj.qs', package='hammers')
+sceObj <- qs::qread(scePath)
+df <- genePresence(sceObj)
 
 }

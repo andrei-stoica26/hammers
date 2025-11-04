@@ -25,7 +25,10 @@ test_that("compatibility functions and checks work", {
     expect_equal(metadataNames(sceObj), c('Mutation_Status',
                                          'Cell_Cycle',
                                          'Treatment',
-                                         'sizeFactor'))
+                                         'sizeFactor',
+                                         'Cluster',
+                                         'Donor',
+                                         'silhouette'))
 
     expect_error(metadataNames(c(1, 2, 3)))
     expect_equal(length(scCol(sceObj, 'Cell_Cycle')), 200)
@@ -68,24 +71,6 @@ test_that("gene information functions work", {
 })
 
 test_that("repAnalysis and pvalRiverPlot work", {
-    scCol(sceObj, 'Cluster') <- withr::with_seed(1,
-                                                sample(paste0('Cluster',
-                                                              seq(5)),
-                                                       dim(sceObj)[2],
-                                                       replace=TRUE))
-    scCol(sceObj, 'Donor') <- rep('Donor1', dim(sceObj)[2])
-    for (i in seq(5)){
-        scCol(sceObj, 'Donor')[withr::with_seed(1,
-                                               sample(which(scCol(sceObj,
-                                                                  'Cluster') ==
-                                               paste0('Cluster', i))
-                                     , 15))]<- paste0('Donor', i)
-        scCol(sceObj, 'Donor')[withr::with_seed(1,
-                                               sample(which(scCol(sceObj,
-                                                                  'Cluster') ==
-                                               paste0('Cluster', i))
-                                     , 15))]<- paste0('Donor', i + 1)
-    }
     df <- repAnalysis(sceObj, 'Cluster', 'Donor')
     expect_equal(ncol(df), 9)
     expect_equal(mean(df$pvalAdj), 7.30162e-11, tolerance=0.0001)

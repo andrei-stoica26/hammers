@@ -21,7 +21,8 @@ two categorical columns.
 This function extracts count information from Seurat column.
 }
 \examples{
-scObj <- withr::with_seed(1, scuttle::mockSCE(ngenes=20000))
-scColPairCounts(scObj, 'Mutation_Status', 'Cell_Cycle')
+scePath <- system.file('extdata', 'sceObj.qs', package='hammers')
+sceObj <- qs::qread(scePath)
+scColPairCounts(sceObj, 'Mutation_Status', 'Cell_Cycle')
 
 }

@@ -20,9 +20,8 @@ columns from a \code{Seurat} or \code{SingleCellExpression}
 object.
 }
 \examples{
-scObj <- withr::with_seed(1, scuttle::mockSCE(ngenes=20000))
-scObj <- scuttle::logNormCounts(scObj)
-scObj <- scater::runUMAP(scObj)
-colCenters(scObj, c('sizeFactor'))
+scePath <- system.file('extdata', 'sceObj.qs', package='hammers')
+sceObj <- qs::qread(scePath)
+colCenters(sceObj, c('sizeFactor'))
 
 }

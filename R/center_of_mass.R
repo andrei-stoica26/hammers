@@ -1,3 +1,7 @@
+#' @importFrom qs qread
+#'
+NULL
+
 #' Calculate the center of mass
 #'
 #' This function calculates the center of mass based on a
@@ -30,10 +34,9 @@ centerOfMass <- function(dimMat, weights){
 #' @return A data frame containing the centers of mass.
 #'
 #' @examples
-#' scObj <- withr::with_seed(1, scuttle::mockSCE(ngenes=20000))
-#' scObj <- scuttle::logNormCounts(scObj)
-#' scObj <- scater::runUMAP(scObj)
-#' geneCenters(scObj, c('Gene_0980', 'Gene_0981', 'Gene_0982'))
+#' scePath <- system.file('extdata', 'sceObj.qs', package='hammers')
+#' sceObj <- qs::qread(scePath)
+#' geneCenters(sceObj, c('Gene_0480', 'Gene_0481', 'Gene_0482'))
 #'
 #' @export
 #'
@@ -57,10 +60,9 @@ geneCenters <- function(scObj, genes){
 #' @return A data frame containing the coordinates of centers of mass.
 #'
 #' @examples
-#' scObj <- withr::with_seed(1, scuttle::mockSCE(ngenes=20000))
-#' scObj <- scuttle::logNormCounts(scObj)
-#' scObj <- scater::runUMAP(scObj)
-#' colCenters(scObj, c('sizeFactor'))
+#' scePath <- system.file('extdata', 'sceObj.qs', package='hammers')
+#' sceObj <- qs::qread(scePath)
+#' colCenters(sceObj, c('sizeFactor'))
 #'
 #' @export
 #'

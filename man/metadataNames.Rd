@@ -22,7 +22,8 @@ This function extracts metadata names from a Seurat or
 SingleCellExperiment object. It can also be used to modify metadata names.
 }
 \examples{
-scObj <- withr::with_seed(1, scuttle::mockSCE(ngenes=20000))
-colNames <- metadataNames(scObj)
+scePath <- system.file('extdata', 'sceObj.qs', package='hammers')
+sceObj <- qs::qread(scePath)
+colNames <- metadataNames(sceObj)
 
 }

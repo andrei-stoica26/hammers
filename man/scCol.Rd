@@ -42,7 +42,8 @@ This function extracts a metadata/coldata column from a \code{Seurat} or
 \code{SingleCellExperiment} object.
 }
 \examples{
-scObj <- withr::with_seed(1, scuttle::mockSCE(ngenes=20000))
-v <- scCol(scObj, 'Mutation_Status')
+scePath <- system.file('extdata', 'sceObj.qs', package='hammers')
+sceObj <- qs::qread(scePath)
+v <- scCol(sceObj, 'Mutation_Status')
 
 }

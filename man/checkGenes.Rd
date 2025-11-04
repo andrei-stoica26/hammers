@@ -20,7 +20,8 @@ This function checks if all genes exist in the single-cell expression
 object.
 }
 \examples{
-scObj <- withr::with_seed(1, scuttle::mockSCE(ngenes=20000))
-checkGenes(scObj, c('Gene_0980', 'Gene_0981', 'Gene_0982'))
+scePath <- system.file('extdata', 'sceObj.qs', package='hammers')
+sceObj <- qs::qread(scePath)
+checkGenes(sceObj, c('Gene_0480', 'Gene_0481', 'Gene_0482'))
 
 }

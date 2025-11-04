@@ -19,7 +19,8 @@ This function extracts count information from the column of a Seurat or
 SingleCellExperiment object.
 }
 \examples{
-scObj <- withr::with_seed(1, scuttle::mockSCE(ngenes=20000))
-scColCounts(scObj, 'Mutation_Status')
+scePath <- system.file('extdata', 'sceObj.qs', package='hammers')
+sceObj <- qs::qread(scePath)
+scColCounts(sceObj, 'Mutation_Status')
 
 }

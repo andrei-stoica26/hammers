@@ -11,8 +11,9 @@
 #' representing their frequencies.
 #'
 #' @examples
-#' scObj <- withr::with_seed(1, scuttle::mockSCE(ngenes=20000))
-#' df <- findRareGenes(scObj)
+#' scePath <- system.file('extdata', 'sceObj.qs', package='hammers')
+#' sceObj <- qs::qread(scePath)
+#' df <- findRareGenes(sceObj)
 #'
 #' @export
 #'
@@ -32,8 +33,9 @@ findRareGenes <- function(scObj, nCells = 10)
 #' @return A Seurat or SingleCellExpression object with rare genes removed.
 #'
 #' @examples
-#' scObj <- withr::with_seed(1, scuttle::mockSCE(ngenes=20000))
-#' scObj <- removeRareGenes(scObj, 30)
+#' scePath <- system.file('extdata', 'sceObj.qs', package='hammers')
+#' sceObj <- qs::qread(scePath)
+#' sceObj <- removeRareGenes(sceObj, 30)
 #'
 #' @export
 #'

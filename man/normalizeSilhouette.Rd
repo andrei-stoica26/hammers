@@ -23,12 +23,8 @@ This function normalizes the already computed silhouette for each identity
 class in the single-cell expression object.
 }
 \examples{
-scObj <- withr::with_seed(1, scuttle::mockSCE(ngenes=20000))
-scObj <- scuttle::logNormCounts(scObj)
-scObj <- scater::runPCA(scObj)
-scCol(scObj, 'Cluster') <- withr::with_seed(1,
-sample(paste0('Cluster', seq(5)), dim(scObj)[2], replace=TRUE))
-scObj <- computeSilhouette(scObj, 'Cluster')
-df <- normalizeSilhouette(scObj, 'Cluster')
+scePath <- system.file('extdata', 'sceObj.qs', package='hammers')
+sceObj <- qs::qread(scePath)
+df <- normalizeSilhouette(sceObj, 'Cluster')
 
 }

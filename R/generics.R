@@ -56,8 +56,9 @@ dimredNames <- function(scObj)
 #' @return A metadata data frame.
 #'
 #' @examples
-#' scObj <- withr::with_seed(1, scuttle::mockSCE(ngenes=200))
-#' df <- metadataDF(scObj)
+#' scePath <- system.file('extdata', 'sceObj.qs', package='hammers')
+#' sceObj <- qs::qread(scePath)
+#' df <- metadataDF(sceObj)
 #'
 #' @export
 #'
@@ -81,8 +82,9 @@ metadataDF <- function(scObj)
 #' @return A vector.
 #'
 #' @examples
-#' scObj <- withr::with_seed(1, scuttle::mockSCE(ngenes=20000))
-#' v <- scCol(scObj, 'Mutation_Status')
+#' scePath <- system.file('extdata', 'sceObj.qs', package='hammers')
+#' sceObj <- qs::qread(scePath)
+#' v <- scCol(sceObj, 'Mutation_Status')
 #'
 #' @export
 #'
@@ -106,10 +108,9 @@ scCol <- function(scObj, col)
 #' @return A dimensionality reduction matrix.
 #'
 #' @examples
-#' scObj <- withr::with_seed(1, scuttle::mockSCE(ngenes=20000))
-#' scObj <- scuttle::logNormCounts(scObj)
-#' scObj <- scater::runPCA(scObj)
-#' pcaMat <- scDimredMat(scObj, 'pca')
+#' scePath <- system.file('extdata', 'sceObj.qs', package='hammers')
+#' sceObj <- qs::qread(scePath)
+#' pcaMat <- scDimredMat(sceObj, 'pca')
 #'
 #'
 #' @export
@@ -129,8 +130,9 @@ scDimredMat <- function(scObj, dimred)
 #' @return An expression matrix.
 #'
 #' @examples
-#' scObj <- withr::with_seed(1, scuttle::mockSCE(ngenes=20000))
-#' mat <- scExpMat(scObj, 'counts')
+#' scePath <- system.file('extdata', 'sceObj.qs', package='hammers')
+#' sceObj <- qs::qread(scePath)
+#' mat <- scExpMat(sceObj, 'counts')
 #'
 #' @export
 #'
@@ -155,8 +157,9 @@ scExpMat <- function(scObj, dataType = c('data',
 #' @return A gene expression vector.
 #'
 #' @examples
-#' scObj <- withr::with_seed(1, scuttle::mockSCE(ngenes=20000))
-#' v <- scGeneExp(scObj, 'Gene_0991')
+#' scePath <- system.file('extdata', 'sceObj.qs', package='hammers')
+#' sceObj <- qs::qread(scePath)
+#' v <- scGeneExp(sceObj, 'Gene_0491')
 #'
 #' @export
 #'

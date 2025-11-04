@@ -43,8 +43,9 @@ Add a categorical column to a Seurat metadata or SingleCellExperiment
 coldata
 }
 \examples{
-scObj <- withr::with_seed(1, scuttle::mockSCE(ngenes=20000))
-scObj <- addMetadataCategory(scObj, 'Cell_Cycle', 'Type',
+scePath <- system.file('extdata', 'sceObj.qs', package='hammers')
+sceObj <- qs::qread(scePath)
+sceObj <- addMetadataCategory(sceObj, 'Cell_Cycle', 'Type',
 list(c('G0', 'G1'), 'G2M', 'S'), c(2, 3, 1))
 
 }

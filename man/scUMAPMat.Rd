@@ -17,9 +17,8 @@ This function extracts the UMAP matrix from a Seurat or
 SingleCellExperiment object.
 }
 \examples{
-scObj <- withr::with_seed(1, scuttle::mockSCE(ngenes=20000))
-scObj <- scuttle::logNormCounts(scObj)
-scObj <- scater::runUMAP(scObj)
-umapMat <- scUMAPMat(scObj)
+scePath <- system.file('extdata', 'sceObj.qs', package='hammers')
+sceObj <- qs::qread(scePath)
+umapMat <- scUMAPMat(sceObj)
 
 }

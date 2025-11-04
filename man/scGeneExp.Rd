@@ -38,7 +38,8 @@ This function extracts the expression of a single gene from a Seurat,
 SingleCellExperiment, dgCMatrix or matrix object.
 }
 \examples{
-scObj <- withr::with_seed(1, scuttle::mockSCE(ngenes=20000))
-v <- scGeneExp(scObj, 'Gene_0991')
+scePath <- system.file('extdata', 'sceObj.qs', package='hammers')
+sceObj <- qs::qread(scePath)
+v <- scGeneExp(sceObj, 'Gene_0491')
 
 }

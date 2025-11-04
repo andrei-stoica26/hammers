@@ -25,17 +25,14 @@ NULL
 #' @return A ggplot object.
 #'
 #' @examples
-#' scObj <- withr::with_seed(1, scuttle::mockSCE(ngenes=20000))
-#' scCol(scObj, 'Cluster') <- withr::with_seed(1,
-#' sample(paste0('Cluster', seq(5)), dim(scObj)[2], replace=TRUE))
-#' scCol(scObj, 'Donor') <- withr::with_seed(1,
-#' sample(paste0('Donor', seq(6)), dim(scObj)[2], replace=TRUE))
-#' p <- distributionPlot(scObj, col1='Cluster', col2='Donor')
+#' scePath <- system.file('extdata', 'sceObj.qs', package='hammers')
+#' sceObj <- qs::qread(scePath)
+#' p <- distributionPlot(sceObj, col1='Cluster', col2='Donor')
 #'
 #' @export
 #'
 distributionPlot <- function(scObj,
-                             title = 'Distribution plot',
+                             title = NULL,
                              col1 = 'seurat_clusters',
                              col2 = 'orig.ident',
                              xLab = col1,
@@ -76,18 +73,9 @@ distributionPlot <- function(scObj,
 #' @return A ggplot object
 #'
 #' @examples
-#' scObj <- withr::with_seed(1, scuttle::mockSCE(ngenes=20000))
-#' scCol(scObj, 'Cluster') <- withr::with_seed(1,
-#' sample(paste0('Cluster', seq(5)), dim(scObj)[2], replace=TRUE))
-#' scCol(scObj, 'Donor') <- rep('Donor1', dim(scObj)[2])
-#' for (i in seq(5)){
-#' scCol(scObj, 'Donor')[sample(which(scCol(scObj, 'Cluster') ==
-#' paste0('Cluster', i)), 15)]<- paste0('Donor', sample(seq(6), 1))
-#' scCol(scObj, 'Donor')[sample(which(scCol(scObj, 'Cluster') ==
-#' paste0('Cluster', i))
-#' , 15)]<- paste0('Donor', sample(seq(6), 1))
-#' }
-#' df <- repAnalysis(scObj, 'Cluster', 'Donor')
+#' scePath <- system.file('extdata', 'sceObj.qs', package='hammers')
+#' sceObj <- qs::qread(scePath)
+#' df <- repAnalysis(sceObj, 'Cluster', 'Donor')
 #' pvalRiverPlot(df)
 #'
 #' @export
@@ -120,17 +108,12 @@ pvalRiverPlot <- function(df,
 #' @return A ggplot object.
 #'
 #' @examples
-#' scObj <- withr::with_seed(1, scuttle::mockSCE(ngenes=20000))
-#' scObj <- suppressWarnings(Seurat::as.Seurat(scObj, data=NULL))
-#' scObj <- Seurat::NormalizeData(scObj)
-#' scObj <- Seurat::FindVariableFeatures(scObj)
-#' scObj <- Seurat::ScaleData(scObj)
-#' scObj <- suppressWarnings(Seurat::RunPCA(scObj))
-#' scObj <- suppressWarnings(Seurat::RunUMAP(scObj, dims=1:15))
+#' seuratPath <- system.file('extdata', 'seuratObj.qs', package='hammers')
+#' seuratObj <- qs::qread(seuratPath)
 #' pointsDF <- data.frame(x = c(2, 3),
 #' y = c(1, 0),
 #' row.names = c('P1', 'P2'))
-#' pointsDimPlot(scObj, pointsDF=pointsDF)
+#' pointsDimPlot(seuratObj, pointsDF=pointsDF)
 #'
 #' @export
 #'
@@ -170,14 +153,9 @@ pointsDimPlot <- function(seuratObj,
 #' @return A ggplot object.
 #'
 #' @examples
-#' scObj <- withr::with_seed(1, scuttle::mockSCE(ngenes=20000))
-#' scObj <- suppressWarnings(Seurat::as.Seurat(scObj, data=NULL))
-#' scObj <- Seurat::NormalizeData(scObj)
-#' scObj <- Seurat::FindVariableFeatures(scObj)
-#' scObj <- Seurat::ScaleData(scObj)
-#' scObj <- suppressWarnings(Seurat::RunPCA(scObj))
-#' scObj <- suppressWarnings(Seurat::RunUMAP(scObj, dims=1:15))
-#' genesDimPlot(scObj, c('Spike-0021', 'Spike-0053', 'Spike-0018'))
+#' seuratPath <- system.file('extdata', 'seuratObj.qs', package='hammers')
+#' seuratObj <- qs::qread(seuratPath)
+#' genesDimPlot(seuratObj, c('Spike-0021', 'Spike-0053', 'Spike-0018'))
 #'
 #' @export
 #'
@@ -198,14 +176,9 @@ genesDimPlot <- function(seuratObj, genes, ...){
 #' @return A ggplot object.
 #'
 #' @examples
-#' scObj <- withr::with_seed(1, scuttle::mockSCE(ngenes=20000))
-#' scObj <- suppressWarnings(Seurat::as.Seurat(scObj, data=NULL))
-#' scObj <- Seurat::NormalizeData(scObj)
-#' scObj <- Seurat::FindVariableFeatures(scObj)
-#' scObj <- Seurat::ScaleData(scObj)
-#' scObj <- suppressWarnings(Seurat::RunPCA(scObj))
-#' scObj <- suppressWarnings(Seurat::RunUMAP(scObj, dims=1:15))
-#' colsDimPlot(scObj, c('nCount_originalexp', 'nFeature_originalexp'))
+#' seuratPath <- system.file('extdata', 'seuratObj.qs', package='hammers')
+#' seuratObj <- qs::qread(seuratPath)
+#' colsDimPlot(seuratObj, c('nCount_originalexp', 'nFeature_originalexp'))
 #'
 #' @export
 #'

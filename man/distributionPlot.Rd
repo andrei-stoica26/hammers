@@ -6,7 +6,7 @@
 \usage{
 distributionPlot(
   scObj,
-  title = "Distribution plot",
+  title = NULL,
   col1 = "seurat_clusters",
   col2 = "orig.ident",
   xLab = col1,
@@ -54,11 +54,8 @@ A ggplot object.
 This function plots the distribution of cells across two columns.
 }
 \examples{
-scObj <- withr::with_seed(1, scuttle::mockSCE(ngenes=20000))
-scCol(scObj, 'Cluster') <- withr::with_seed(1,
-sample(paste0('Cluster', seq(5)), dim(scObj)[2], replace=TRUE))
-scCol(scObj, 'Donor') <- withr::with_seed(1,
-sample(paste0('Donor', seq(6)), dim(scObj)[2], replace=TRUE))
-p <- distributionPlot(scObj, col1='Cluster', col2='Donor')
+scePath <- system.file('extdata', 'sceObj.qs', package='hammers')
+sceObj <- qs::qread(scePath)
+p <- distributionPlot(sceObj, col1='Cluster', col2='Donor')
 
 }

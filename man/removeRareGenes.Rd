@@ -22,7 +22,8 @@ This function removes genes expressed in a low number of cells in a Seurat
 or SingleCellExpression object.
 }
 \examples{
-scObj <- withr::with_seed(1, scuttle::mockSCE(ngenes=20000))
-scObj <- removeRareGenes(scObj, 30)
+scePath <- system.file('extdata', 'sceObj.qs', package='hammers')
+sceObj <- qs::qread(scePath)
+sceObj <- removeRareGenes(sceObj, 30)
 
 }

@@ -28,10 +28,9 @@ This function extracts a dimensionality reduction matrix from a Seurat or
 SingleCellExperiment object.
 }
 \examples{
-scObj <- withr::with_seed(1, scuttle::mockSCE(ngenes=20000))
-scObj <- scuttle::logNormCounts(scObj)
-scObj <- scater::runPCA(scObj)
-pcaMat <- scDimredMat(scObj, 'pca')
+scePath <- system.file('extdata', 'sceObj.qs', package='hammers')
+sceObj <- qs::qread(scePath)
+pcaMat <- scDimredMat(sceObj, 'pca')
 
 
 }

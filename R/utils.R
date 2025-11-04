@@ -141,10 +141,11 @@ safeMessage <- function(msg, verbose = TRUE)
 #' @return Genes vector after changes.
 #'
 #' @examples
-#' scObj <- withr::with_seed(1, scuttle::mockSCE(ngenes=20000))
-#' genes <- c('Gene_0826', 'Gene_0610', 'Gene_0380', 'Gene_0602',
-#' 'Gene_0613', 'Gene_0201', 'Gene_0295')
-#' shuffleGenes(scObj, genes, 0.3, 0.9)
+#' scePath <- system.file('extdata', 'sceObj.qs', package='hammers')
+#' sceObj <- qs::qread(scePath)
+#' genes <- c('Gene_0226', 'Gene_0210', 'Gene_0280', 'Gene_0202',
+#' 'Gene_0313', 'Gene_0101', 'Gene_0195')
+#' shuffleGenes(sceObj, genes, 0.3, 0.9)
 #'
 #' @export
 #'

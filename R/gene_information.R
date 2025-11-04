@@ -17,8 +17,9 @@
 #' lists the corresponding numbers of cells.
 #'
 #' @examples
-#' scObj <- withr::with_seed(1, scuttle::mockSCE(ngenes=200))
-#' df <- genePresence(scObj)
+#' scePath <- system.file('extdata', 'sceObj.qs', package='hammers')
+#' sceObj <- qs::qread(scePath)
+#' df <- genePresence(sceObj)
 #'
 #' @export
 #'

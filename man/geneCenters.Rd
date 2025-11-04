@@ -20,9 +20,8 @@ This function calculates the centers of mass of the expression of input
 genes.
 }
 \examples{
-scObj <- withr::with_seed(1, scuttle::mockSCE(ngenes=20000))
-scObj <- scuttle::logNormCounts(scObj)
-scObj <- scater::runUMAP(scObj)
-geneCenters(scObj, c('Gene_0980', 'Gene_0981', 'Gene_0982'))
+scePath <- system.file('extdata', 'sceObj.qs', package='hammers')
+sceObj <- qs::qread(scePath)
+geneCenters(sceObj, c('Gene_0480', 'Gene_0481', 'Gene_0482'))
 
 }

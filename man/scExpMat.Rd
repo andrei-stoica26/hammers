@@ -70,7 +70,8 @@ This function extracts an expression matrix from a Seurat or
 SingleCellExperiment object.
 }
 \examples{
-scObj <- withr::with_seed(1, scuttle::mockSCE(ngenes=20000))
-mat <- scExpMat(scObj, 'counts')
+scePath <- system.file('extdata', 'sceObj.qs', package='hammers')
+sceObj <- qs::qread(scePath)
+mat <- scExpMat(sceObj, 'counts')
 
 }

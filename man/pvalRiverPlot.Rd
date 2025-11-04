@@ -34,18 +34,9 @@ A ggplot object
 This function plots representation data frame as an alluvial plot.
 }
 \examples{
-scObj <- withr::with_seed(1, scuttle::mockSCE(ngenes=20000))
-scCol(scObj, 'Cluster') <- withr::with_seed(1,
-sample(paste0('Cluster', seq(5)), dim(scObj)[2], replace=TRUE))
-scCol(scObj, 'Donor') <- rep('Donor1', dim(scObj)[2])
-for (i in seq(5)){
-scCol(scObj, 'Donor')[sample(which(scCol(scObj, 'Cluster') ==
-paste0('Cluster', i)), 15)]<- paste0('Donor', sample(seq(6), 1))
-scCol(scObj, 'Donor')[sample(which(scCol(scObj, 'Cluster') ==
-paste0('Cluster', i))
-, 15)]<- paste0('Donor', sample(seq(6), 1))
-}
-df <- repAnalysis(scObj, 'Cluster', 'Donor')
+scePath <- system.file('extdata', 'sceObj.qs', package='hammers')
+sceObj <- qs::qread(scePath)
+df <- repAnalysis(sceObj, 'Cluster', 'Donor')
 pvalRiverPlot(df)
 
 }
