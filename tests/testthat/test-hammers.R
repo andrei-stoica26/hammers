@@ -6,53 +6,52 @@ test_that("centerOfMass works", {
 })
 
 test_that("geneCenters and colCenters work", {
-    df <- geneCenters(scObj, c('Gene_0980', 'Gene_0981', 'Gene_0982'))
-    expect_equal(df$UMAP1, c(0.022384739, -0.003861012, -0.003507070),
-                 tolerance=0.001)
-    expect_equal(df$UMAP2, c(0.0111317786, -0.0004384431, -0.0139794494),
-                 tolerance=0.001)
+    df <- geneCenters(sceObj, c('Gene_0480', 'Gene_0481', 'Gene_0482'))
+    expect_equal(df$UMAP1, c(0.06097369, 0.08114399, -0.02560534),
+                 tolerance=0.0001)
+    expect_equal(df$UMAP2, c(-0.022776318, 0.009713695, -0.002921195),
+                 tolerance=0.0001)
 
-    df <- colCenters(scObj, c('sizeFactor'))
-    expect_equal(df$UMAP1, c(0.0008518303), tolerance=0.001)
-    expect_equal(df$UMAP1, c(0.0006236511), tolerance=0.001)
+    df <- colCenters(sceObj, c('sizeFactor'))
+    expect_equal(df$UMAP1, c(0.00724403), tolerance=0.0001)
+    expect_equal(df$UMAP2, c(0.004673039), tolerance=0.0001)
 })
 
 test_that("compatibility functions and checks work", {
-    expect_null(checkGenes(scObj, c('Gene_0980', 'Gene_0981', 'Gene_0982')))
-    expect_error(checkGenes(scObj, c('Gene_0980', 'Gene_0981', 'Gene_0982',
+    expect_null(checkGenes(sceObj, c('Gene_0480', 'Gene_0481', 'Gene_0482')))
+    expect_error(checkGenes(sceObj, c('Gene_0480', 'Gene_0481', 'Gene_0482',
                                      'DSFDGDG')))
 
-    expect_equal(metadataNames(scObj), c('Mutation_Status',
+    expect_equal(metadataNames(sceObj), c('Mutation_Status',
                                          'Cell_Cycle',
                                          'Treatment',
                                          'sizeFactor'))
 
     expect_error(metadataNames(c(1, 2, 3)))
-    expect_equal(length(scCol(scObj, 'Cell_Cycle')), 200)
+    expect_equal(length(scCol(sceObj, 'Cell_Cycle')), 200)
 
-    expect_equal(scColCounts(scObj, 'Cell_Cycle')['G2M'],
-                 setNames(47, 'G2M'))
-    expect_equal(scColPairCounts(scObj, 'Mutation_Status', 'Cell_Cycle')[1, 3],
-                 28)
+    expect_equal(scColCounts(sceObj, 'Cell_Cycle')['G2M'],
+                 setNames(56, 'G2M'))
+    expect_equal(scColPairCounts(sceObj, 'Mutation_Status', 'Cell_Cycle')[1, 3],
+                 24)
 
-    expect_equal(length(scGeneExp(scObj, 'Gene_0980')), 200)
-    expect_equal(dim(scExpMat(scObj)), c(20000, 200))
+    expect_equal(length(scGeneExp(sceObj, 'Gene_0480')), 200)
+    expect_equal(dim(scExpMat(sceObj)), c(500, 200))
 
-    v <- scPCAMat(scObj)
+    v <- scPCAMat(sceObj)
     w <- scPCAMat(seuratObj)
     colnames(v) <- paste0('PC_', seq(50))
     expect_equal(v, w)
 
-    v <- scUMAPMat(scObj)
+    v <- scUMAPMat(sceObj)
     w <- scUMAPMat(seuratObj)
     colnames(v) <- paste0('UMAP_', seq(2))
     expect_equal(v, w)
 })
 
 test_that("gene information functions work", {
-    scObj <- withr::with_seed(1, scuttle::mockSCE(ngenes=200))
-    df <- genePresence(scObj)
-    expect_identical(mean(df[, 2]), 144.775, tolerance=0.001)
+    df <- genePresence(sceObj)
+    expect_identical(mean(df[, 2]), 146.19, tolerance=0.0001)
 
     mat <- matrix(0, 1000, 500)
     rownames(mat) <- paste0('G', seq(1000))
@@ -65,40 +64,39 @@ test_that("gene information functions work", {
                                                                     TRUE))
     mat <- mat[paste0('G', withr::with_seed(1, sample(1000, 3))), ]
     res <- mean(vapply(geneCellSets(mat), length, numeric(1)))
-    expect_identical(res, 72.33333, tolerance=0.001)
+    expect_identical(res, 72.33333, tolerance=0.0001)
 })
 
 test_that("repAnalysis and pvalRiverPlot work", {
-    scObj <- withr::with_seed(1, scuttle::mockSCE(ngenes=20000))
-    scCol(scObj, 'Cluster') <- withr::with_seed(1,
+    scCol(sceObj, 'Cluster') <- withr::with_seed(1,
                                                 sample(paste0('Cluster',
                                                               seq(5)),
-                                                       dim(scObj)[2],
+                                                       dim(sceObj)[2],
                                                        replace=TRUE))
-    scCol(scObj, 'Donor') <- rep('Donor1', dim(scObj)[2])
+    scCol(sceObj, 'Donor') <- rep('Donor1', dim(sceObj)[2])
     for (i in seq(5)){
-        scCol(scObj, 'Donor')[withr::with_seed(1,
-                                               sample(which(scCol(scObj,
+        scCol(sceObj, 'Donor')[withr::with_seed(1,
+                                               sample(which(scCol(sceObj,
                                                                   'Cluster') ==
                                                paste0('Cluster', i))
                                      , 15))]<- paste0('Donor', i)
-        scCol(scObj, 'Donor')[withr::with_seed(1,
-                                               sample(which(scCol(scObj,
+        scCol(sceObj, 'Donor')[withr::with_seed(1,
+                                               sample(which(scCol(sceObj,
                                                                   'Cluster') ==
                                                paste0('Cluster', i))
                                      , 15))]<- paste0('Donor', i + 1)
     }
-    df <- repAnalysis(scObj, 'Cluster', 'Donor')
+    df <- repAnalysis(sceObj, 'Cluster', 'Donor')
     expect_equal(ncol(df), 9)
-    expect_equal(mean(df$pvalAdj), 7.30162e-11, tolerance=0.001)
+    expect_equal(mean(df$pvalAdj), 7.30162e-11, tolerance=0.0001)
     p <- pvalRiverPlot(df)
     expect_equal(length(intersect(is(p), c('gg', 'ggplot2::ggplot'))), 1)
 })
 
 test_that("addMetadataCategory works", {
-    scObj <- addMetadataCategory(scObj, 'Cell_Cycle', 'Type',
-                                 list(c('G0', 'G1'), 'G2M', 'S'), c(2, 3, 1))
-    expect_equal(unique(metadataDF(scObj)[['Type']]),
+    sceObj <- addMetadataCategory(sceObj, 'Cell_Cycle', 'Type',
+                                  list(c('G0', 'G1'), 'G2M', 'S'), c(2, 3, 1))
+    expect_equal(unique(metadataDF(sceObj)[['Type']]),
                  c(2, 3, 1))
 })
 
@@ -106,20 +104,20 @@ test_that("multiple testing functions work", {
     df <- data.frame(elem = c('A', 'B', 'C', 'D', 'E'),
                      pval = c(0.032, 0.001, 0.0045, 0.051, 0.048))
     res <- mtCorrectDF(df, 'bf', nTests=5)
-    expect_equal(res$pvalAdj, c(0.0050, 0.0225), tolerance=0.001)
+    expect_equal(res$pvalAdj, c(0.0050, 0.0225), tolerance=0.0001)
     res <- mtCorrectDF(df, 'bh')
-    expect_equal(res$pvalAdj, c(0.00500, 0.01125), tolerance=0.001)
+    expect_equal(res$pvalAdj, c(0.00500, 0.01125), tolerance=0.0001)
     res <- mtCorrectDF(df, 'by')
-    expect_equal(res$pvalAdj, c(0.01141667, 0.02568750), tolerance=0.001)
+    expect_equal(res$pvalAdj, c(0.01141667, 0.02568750), tolerance=0.0001)
 })
 
 test_that("silhouette functions and scCol work", {
-    scObj <- computeSilhouette(scObj, 'Cell_Cycle')
-    df <- normalizeSilhouette(scObj, 'Cell_Cycle')
-    expect_equal(sum(df), 112.3134, tolerance=0.001)
-    scObj <- addNormSilhouette(scObj, df)
-    expect_equal(mean(scCol(scObj, 'normSilhouette')), 0.561566,
-                 tolerance=0.001)
+    sceObj <- computeSilhouette(sceObj, 'Cell_Cycle')
+    df <- normalizeSilhouette(sceObj, 'Cell_Cycle')
+    expect_equal(sum(df), 113.6763, tolerance=0.0001)
+    sceObj <- addNormSilhouette(sceObj, df)
+    expect_equal(mean(scCol(sceObj, 'normSilhouette')), 0.5683813,
+                 tolerance=0.0001)
 })
 
 test_that("joinCharCombs works", {
@@ -146,12 +144,12 @@ test_that("nearestNeighbors works", {
 })
 
 test_that("proximity works", {
-    expect_equal(proximity(2, 3, 6), 0.8333333, tolerance=0.001)
+    expect_equal(proximity(2, 3, 6), 0.8333333, tolerance=0.0001)
 })
 
 test_that("safeMinmax works", {
     expect_equal(safeMinmax(c(2.1, 3.2, 2.8)), c(0, 1, 0.6363636),
-                 tolerance=0.001)
+                 tolerance=0.0001)
     expect_equal(safeMinmax(c(8, 8, 8)), c(0, 0, 0))
 })
 
@@ -162,9 +160,9 @@ test_that("safeMessage works", {
 })
 
 test_that("shuffleGenes works", {
-    genes <- c('Gene_0826', 'Gene_0610', 'Gene_0380', 'Gene_0602',
-               'Gene_0613', 'Gene_0201', 'Gene_0295')
-    newGenes <- shuffleGenes(scObj, genes, 0.3, 0.9)
+    genes <- c('Gene_0226', 'Gene_0210', 'Gene_0280', 'Gene_0202',
+               'Gene_0313', 'Gene_0101', 'Gene_0195')
+    newGenes <- shuffleGenes(sceObj, genes, 0.3, 0.9)
     expect_equal(length(intersect(genes, newGenes)), 5)
     expect_equal(length(newGenes), 50)
 })
@@ -184,7 +182,7 @@ test_that("timeFun works", {
 })
 
 test_that("distributionPlot works", {
-    p <- distributionPlot(scObj, col1='Mutation_Status', col2='Cell_Cycle')
+    p <- distributionPlot(sceObj, col1='Mutation_Status', col2='Cell_Cycle')
     expect_equal(length(intersect(is(p), c('gg', 'ggplot2::ggplot'))), 1)
 })
 
@@ -201,4 +199,9 @@ test_that("dimPlot functions work", {
                                 c('nCount_originalexp',
                                   'nFeature_originalexp'))),
                     'patchwork')
+})
+
+test_that("numCosine works", {
+    res <- numCosine(c(2, 3, 6), c(4, 3, 2))
+    expect_equal(res, 0.7693093, tolerance=0.0001)
 })

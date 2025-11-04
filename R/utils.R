@@ -1,5 +1,6 @@
 #' @importFrom abdiv euclidean
 #' @importFrom withr with_seed
+#' @importFrom lsa cosine
 #'
 NULL
 
@@ -229,6 +230,27 @@ timeFun <- function(fun, ...){
     x <- Sys.time()
     res <- fun(...)
     y <- Sys.time()
-    message(y - x)
+    print(y - x)
     return(res)
 }
+
+#' Calculate the cosine similarity of two vectors
+#'
+#' This function calculates the cosine similarity of two vectors.
+#'
+#' @param x A numeric vector or matrix.
+#' @param y A numeric vector of the same dimension as \code{x} if the latter
+#' is a vector. If \code{NULL}, the similarity matrix between all column
+#' vectors of \code{x} will be computed.
+#'
+#' @return A numeric values representing the cosine similarity of the two
+#' vectors.
+#'
+#' @examples
+#' numCosine(c(2, 3, 6), c(4, 3, 2))
+#'
+#' @export
+#'
+numCosine <- function(x, y = NULL)
+    return(as.numeric(cosine(x, y)))
+
