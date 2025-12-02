@@ -7,9 +7,11 @@
 pointsDimPlot(
   seuratObj,
   plotTitle = NULL,
-  pointsDF = NULL,
+  pointsObj = NULL,
+  alpha = 1,
   pointShape = 4,
   pointSize = 2,
+  pointColor = "black",
   labelSize = 2.5,
   maxOverlaps = 30,
   ...
@@ -20,14 +22,19 @@ pointsDimPlot(
 
 \item{plotTitle}{Plot title.}
 
-\item{pointsDF}{A data frame of points with two columns representing the x
-and y coordinates.}
+\item{pointsObj}{A data frame or matrix of points with two columns
+representing x and y coordinates.}
+
+\item{alpha}{Opaqueness level.}
 
 \item{pointShape}{Point shape.}
 
 \item{pointSize}{Point size.}
 
-\item{labelSize}{Label size.}
+\item{pointColor}{Point color.}
+
+\item{labelSize}{Label size. If \code{NULL}, the points will not receive
+labels.}
 
 \item{maxOverlaps}{Maximum overlaps.}
 
@@ -42,9 +49,9 @@ This function plots a Seurat DimPlot with added labeled points.
 \examples{
 seuratPath <- system.file('extdata', 'seuratObj.qs', package='hammers')
 seuratObj <- qs::qread(seuratPath)
-pointsDF <- data.frame(x = c(2, 3),
+pointsObj <- data.frame(x = c(2, 3),
 y = c(1, 0),
 row.names = c('P1', 'P2'))
-pointsDimPlot(seuratObj, pointsDF=pointsDF)
+pointsDimPlot(seuratObj, pointsObj=pointsObj)
 
 }

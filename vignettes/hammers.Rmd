@@ -227,7 +227,7 @@ sceObj <- removeRareGenes(sceObj, 10)
 dim(sceObj)
 ```
 
-# Representation analysis and multiple testing
+# Representation analysis
 
 The `repAnalysis` function shows which pairs selected from two categorical 
 columns of a single-cell object are:
@@ -239,16 +239,6 @@ columns of a single-cell object are:
 df <- repAnalysis(sceObj, 'donor', 'label')
 head(df)
 head(repAnalysis(sceObj, 'donor', 'label', doOverrep=FALSE))
-```
-
-`repAnalysis` relies upon the `mtCorrectDF` function for multiple testing.
-By default, `repAnalysis` calls `mtCorrectDF` with the `mtMethod` parameter 
-set to `by` (Benjamini-Yekutieli). Other options are `bf` (Bonferroni) and 
-`bh` (Benjamini-Hochberg):
-
-```{r}
-head(repAnalysis(sceObj, 'donor', 'label', mtMethod='bf'))
-head(repAnalysis(sceObj, 'donor', 'label', mtMethod='bh'))
 ```
 
 The output of `repAnalysis` can be visualized using the `pvalRiverPlot` 

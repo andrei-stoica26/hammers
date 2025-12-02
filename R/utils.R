@@ -46,7 +46,7 @@ nearestNeighbors <- function(distMat)
 #'
 #' @return A data frame with weight scores in lieu of p-values.
 #'
-#' @keywords internal
+#' @export
 #'
 prepAlluvial <- function(df,
                          pvalCol = 'pvalAdj',
@@ -210,29 +210,6 @@ tabulateVector <- function(v,
             df <- df[order(df$avg), ]
     }
     return(df)
-}
-
-#' Time a function
-#'
-#' This function prints the time required to run a function and returns the
-#' function output.
-#'
-#' @param fun A function.
-#' @param ... Additional parameters passed to the function.
-#'
-#' @return The function output.
-#'
-#' @examples
-#' res <- timeFun(sum, 2, 3, 4)
-#'
-#' @export
-#'
-timeFun <- function(fun, ...){
-    x <- Sys.time()
-    res <- fun(...)
-    y <- Sys.time()
-    print(y - x)
-    return(res)
 }
 
 #' Calculate the cosine similarity of two vectors

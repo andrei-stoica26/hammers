@@ -3,6 +3,6 @@
 .Rproj.user
 R/.test_code.R
 R/.extras.R
-hammers.Rproj
+*.Rproj
 inst/doc
 *.pdf

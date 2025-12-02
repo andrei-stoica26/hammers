@@ -1,7 +1,7 @@
 Package: hammers
 Type: Package
 Title: A collection of simple tools for scRNA-seq analysis and package development
-Version: 0.99.2
+Version: 0.99.3
 Authors@R: person('Andrei-Florian', 'Stoica', 
       email='andreistoica@foxmail.com',
      role=c('aut','cre'),
@@ -33,7 +33,6 @@ Imports:
     SeuratObject,
     SingleCellExperiment,
     SummarizedExperiment,
-    sgof,
     stats,
     text2vec,
     withr

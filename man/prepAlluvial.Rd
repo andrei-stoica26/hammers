@@ -31,4 +31,3 @@ A data frame with weight scores in lieu of p-values.
 This function extracts the relevant information from dataframe and adjusts
 p-values to be used as weights for the alluvia.
 }
-\keyword{internal}

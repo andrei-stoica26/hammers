@@ -2,7 +2,7 @@
 % Please edit documentation in R/compatibility.R
 \name{scColCounts}
 \alias{scColCounts}
-\title{Extract count information from single-cell expression object column}
+\title{Extract per-group counts from single-cell expression object column}
 \usage{
 scColCounts(scObj, col = "orig.ident")
 }
@@ -15,8 +15,8 @@ scColCounts(scObj, col = "orig.ident")
 A frequency vector with the unique column values as names.
 }
 \description{
-This function extracts count information from the column of a Seurat or
-SingleCellExperiment object.
+This function extracts per-group counts from the column of a single-cell
+expression object.
 }
 \examples{
 scePath <- system.file('extdata', 'sceObj.qs', package='hammers')

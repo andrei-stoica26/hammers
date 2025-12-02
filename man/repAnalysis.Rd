@@ -9,7 +9,7 @@ repAnalysis(
   col1 = "seurat_clusters",
   col2 = "orig.ident",
   doOverrep = TRUE,
-  mtMethod = c("by", "bf", "bh"),
+  mtMethod = c("holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr", "none"),
   ...
 )
 }
@@ -23,11 +23,11 @@ repAnalysis(
 \item{doOverrep}{Whether to perform overrepresentation analysis. If
 \code{FALSE}, underrepresentation analysis will be performed instead.}
 
-\item{mtMethod}{Multiple testing correction method. Choices are
-Bonferroni ('bf'), Benjamini-Hochberg('bh'), and Benjamini-Yekutieli ('by').}
+\item{mtMethod}{Multiple testing correction method. Choices are 'holm',
+'hochberg', hommel', 'bonferroni', 'BH', 'BY', 'fdr' and 'none'. Default is
+'holm'.}
 
-\item{...}{Additional arguments passed to the multiple testing correction
-method.}
+\item{...}{Additional parameters passed to mtCorrectDF}
 }
 \value{
 An overrepresentation or underrepresentation data frame.

@@ -2,7 +2,7 @@
 % Please edit documentation in R/compatibility.R
 \name{scColPairCounts}
 \alias{scColPairCounts}
-\title{Extract count information from Seurat column}
+\title{Extract per-pair counts from single-cell expression object columns}
 \usage{
 scColPairCounts(scObj, col1 = "seurat_clusters", col2 = "orig.ident")
 }
@@ -18,7 +18,8 @@ A data frame listing the counts of all combinations of pairs from
 two categorical columns.
 }
 \description{
-This function extracts count information from Seurat column.
+This function extracts per-pair counts from two columns of a single-cell
+expression object.
 }
 \examples{
 scePath <- system.file('extdata', 'sceObj.qs', package='hammers')

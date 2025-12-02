@@ -6,7 +6,8 @@
 \usage{
 mtCorrectDF(
   df,
-  mtMethod = c("bf", "bh", "by"),
+  mtMethod = c("holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr", "none"),
+  doOrder = TRUE,
   pvalThr = 0.05,
   colStr = "pval",
   newColStr = "pvalAdj",
@@ -16,8 +17,12 @@ mtCorrectDF(
 \arguments{
 \item{df}{A data frame with a p-values columnn.}
 
-\item{mtMethod}{Multiple testing correction method. Choices are
-Bonferroni ('bf'), Benjamini-Hochberg('bh'), and Benjamini-Yekutieli ('by').}
+\item{mtMethod}{Multiple testing correction method. Choices are 'holm',
+'hochberg', hommel', 'bonferroni', 'BH', 'BY', 'fdr' and 'none'. Default is
+'holm'.}
+
+\item{doOrder}{Whether to increasingly order the data frame based on the
+adjusted p-values.}
 
 \item{pvalThr}{p-value threshold.}
 

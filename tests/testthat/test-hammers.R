@@ -88,11 +88,11 @@ test_that("addMetadataCategory works", {
 test_that("multiple testing functions work", {
     df <- data.frame(elem = c('A', 'B', 'C', 'D', 'E'),
                      pval = c(0.032, 0.001, 0.0045, 0.051, 0.048))
-    res <- mtCorrectDF(df, 'bf', nTests=5)
+    res <- mtCorrectDF(df, 'bonferroni')
     expect_equal(res$pvalAdj, c(0.0050, 0.0225), tolerance=0.0001)
-    res <- mtCorrectDF(df, 'bh')
+    res <- mtCorrectDF(df, 'BH')
     expect_equal(res$pvalAdj, c(0.00500, 0.01125), tolerance=0.0001)
-    res <- mtCorrectDF(df, 'by')
+    res <- mtCorrectDF(df, 'BY')
     expect_equal(res$pvalAdj, c(0.01141667, 0.02568750), tolerance=0.0001)
 })
 
@@ -161,22 +161,16 @@ test_that("tabulateVector works", {
     expect_equal(res, df)
 })
 
-test_that("timeFun works", {
-    expect_output(res <- timeFun(sum, 2, 3, 4))
-    expect_equal(res, 9)
-})
-
 test_that("distributionPlot works", {
     p <- distributionPlot(sceObj, col1='Mutation_Status', col2='Cell_Cycle')
     expect_equal(length(intersect(is(p), c('gg', 'ggplot2::ggplot'))), 1)
 })
 
 test_that("dimPlot functions work", {
-    pointsDF <- data.frame(x = c(2, 3),
+    pointsObj <- data.frame(x = c(2, 3),
                            y = c(1, 0.5),
                            row.names = c('P1', 'P2'))
-    pointsDimPlot(seuratObj, pointsDF=pointsDF)
-    expect_equal(is(pointsDimPlot(seuratObj, pointsDF=pointsDF)), 'patchwork')
+    expect_equal(is(pointsDimPlot(seuratObj, pointsObj=pointsObj)), 'patchwork')
     expect_equal(is(genesDimPlot(seuratObj, c('Spike-0001', 'Spike-0074',
                                               'Spike-0067'))),
                     'patchwork')

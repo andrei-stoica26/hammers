@@ -9,15 +9,17 @@ distributionPlot(
   title = NULL,
   col1 = "seurat_clusters",
   col2 = "orig.ident",
+  type = c("counts", "percs"),
   xLab = col1,
-  yLab = "Count",
+  yLab = if (type == "counts") "Count" else "Percentage",
   legendLab = col2,
   palette = "Spectral",
   legendPos = "right",
   legendTextSize = 10,
   legendTitleSize = 10,
   axisTextSize = 12,
-  axisTitleSize = 12
+  axisTitleSize = 12,
+  sigDigits = 2
 )
 }
 \arguments{
@@ -28,6 +30,9 @@ distributionPlot(
 \item{col1}{Column as string.}
 
 \item{col2}{Column as string.}
+
+\item{type}{Whether the plot should display counts ('counts', default) or
+percentages ('percs').}
 
 \item{xLab}{x axis label.}
 
@@ -46,6 +51,9 @@ distributionPlot(
 \item{axisTextSize}{Axis text size.}
 
 \item{axisTitleSize}{Axis title size.}
+
+\item{sigDigits}{Number of significant digits used by percentages displayed
+on the plot. Ignored if \code{type} is 'counts'.}
 }
 \value{
 A ggplot object.

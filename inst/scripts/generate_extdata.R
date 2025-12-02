@@ -1,6 +1,6 @@
 # A self-contained script to generate the data in extdata
 #'
-createTestData <- function(){
+createExtData <- function(){
     if (requireNamespace(c('qs', 'scater', 'scuttle', 'Seurat', 'withr'),
                          quietly=TRUE)){
         sceObj <- withr::with_seed(1, scuttle::mockSCE(ngenes=500))

@@ -9,10 +9,11 @@ NULL
 #' This function find the differential representation of two Seurat columns.
 #'
 #' @inheritParams scColPairCounts
+#' @inheritParams mtCorrectDF
 #'
 #' @param doOverrep Whether to perform overrepresentation analysis. If
 #' \code{FALSE}, underrepresentation analysis will be performed instead.
-#' @inheritParams mtCorrectDF
+#' @param ... Additional parameters passed to mtCorrectDF
 #'
 #' @return An overrepresentation or underrepresentation data frame.
 #'
@@ -27,9 +28,13 @@ repAnalysis <- function(scObj,
                         col1 = 'seurat_clusters',
                         col2 = 'orig.ident',
                         doOverrep = TRUE,
-                        mtMethod = c('by', 'bf', 'bh'),
+                        mtMethod = c('holm', 'hochberg', 'hommel',
+                                     'bonferroni', 'BH', 'BY',
+                                     'fdr', 'none'),
                         ...){
-    mtMethod <- match.arg(mtMethod, c('by', 'bf', 'bh'))
+    mtMethod <- match.arg(mtMethod, c('holm', 'hochberg', 'hommel',
+                                      'bonferroni', 'BH', 'BY',
+                                      'fdr', 'none'))
     nCells <- ncol(scObj)
     df <- scColPairCounts(scObj, col1, col2)
     colnames(df)[3] <- 'sharedCount'
