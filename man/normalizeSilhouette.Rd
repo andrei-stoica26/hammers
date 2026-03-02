@@ -7,7 +7,8 @@
 normalizeSilhouette(scObj, idClass, silCol = "silhouette")
 }
 \arguments{
-\item{scObj}{A \code{Seurat} or \code{SingleCellExperiment} object.}
+\item{scObj}{A \code{Seurat}, \code{SingleCellExperiment},
+\code{dgCMatrix} or \code{matrix} object.}
 
 \item{idClass}{Identity class. Must be present among the metadata columns of
 the single-cell expression object.}
@@ -23,8 +24,8 @@ This function normalizes the already computed silhouette for each identity
 class in the single-cell expression object.
 }
 \examples{
-scePath <- system.file('extdata', 'sceObj.qs', package='hammers')
-sceObj <- qs::qread(scePath)
+scePath <- system.file('extdata', 'sceObj.qs2', package='hammers')
+sceObj <- qs2::qs_read(scePath)
 df <- normalizeSilhouette(sceObj, 'Cluster')
 
 }

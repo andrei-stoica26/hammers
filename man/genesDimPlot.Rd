@@ -2,12 +2,14 @@
 % Please edit documentation in R/visualization.R
 \name{genesDimPlot}
 \alias{genesDimPlot}
-\title{Plot Seurat DimPlot with added labeled points for genes}
+\title{Create a single-cell dimensionality reduction plot with added labeled points
+for genes}
 \usage{
-genesDimPlot(seuratObj, genes, ...)
+genesDimPlot(scObj, genes, ...)
 }
 \arguments{
-\item{seuratObj}{A Seurat object.}
+\item{scObj}{A \code{Seurat}, \code{SingleCellExperiment},
+\code{dgCMatrix} or \code{matrix} object.}
 
 \item{genes}{Genes whose centers of mass will be plotted.}
 
@@ -17,11 +19,12 @@ genesDimPlot(seuratObj, genes, ...)
 A ggplot object.
 }
 \description{
-This function plots a Seurat DimPlot with added labeled points for genes.
+This function creates a single-cell dimensionality reduction plot with
+added labeled points for genes.
 }
 \examples{
-seuratPath <- system.file('extdata', 'seuratObj.qs', package='hammers')
-seuratObj <- qs::qread(seuratPath)
-genesDimPlot(seuratObj, c('Spike-0021', 'Spike-0053', 'Spike-0018'))
+scePath <- system.file('extdata', 'sceObj.qs2', package='hammers')
+sceObj <- qs2::qs_read(scePath)
+genesDimPlot(sceObj, c('Gene_0364', 'Gene_0388', 'Gene_0477'))
 
 }

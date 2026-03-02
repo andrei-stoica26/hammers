@@ -7,7 +7,8 @@
 colCenters(scObj, columns)
 }
 \arguments{
-\item{scObj}{A \code{Seurat} or \code{SingleCellExperiment} object.}
+\item{scObj}{A \code{Seurat}, \code{SingleCellExperiment},
+\code{dgCMatrix} or \code{matrix} object.}
 
 \item{columns}{Numeric columns.}
 }
@@ -20,8 +21,8 @@ columns from a \code{Seurat} or \code{SingleCellExpression}
 object.
 }
 \examples{
-scePath <- system.file('extdata', 'sceObj.qs', package='hammers')
-sceObj <- qs::qread(scePath)
+scePath <- system.file('extdata', 'sceObj.qs2', package='hammers')
+sceObj <- qs2::qs_read(scePath)
 colCenters(sceObj, c('sizeFactor'))
 
 }

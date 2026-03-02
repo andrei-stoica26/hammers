@@ -14,7 +14,8 @@ repAnalysis(
 )
 }
 \arguments{
-\item{scObj}{A \code{Seurat} or \code{SingleCellExperiment} object.}
+\item{scObj}{A \code{Seurat}, \code{SingleCellExperiment},
+\code{dgCMatrix} or \code{matrix} object.}
 
 \item{col1}{Column as string.}
 
@@ -36,8 +37,8 @@ An overrepresentation or underrepresentation data frame.
 This function find the differential representation of two Seurat columns.
 }
 \examples{
-scePath <- system.file('extdata', 'sceObj.qs', package='hammers')
-sceObj <- qs::qread(scePath)
+scePath <- system.file('extdata', 'sceObj.qs2', package='hammers')
+sceObj <- qs2::qs_read(scePath)
 repAnalysis(sceObj, 'Cluster', 'Donor')
 
 }

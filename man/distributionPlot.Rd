@@ -23,7 +23,8 @@ distributionPlot(
 )
 }
 \arguments{
-\item{scObj}{A \code{Seurat} or \code{SingleCellExperiment} object.}
+\item{scObj}{A \code{Seurat}, \code{SingleCellExperiment},
+\code{dgCMatrix} or \code{matrix} object.}
 
 \item{title}{Plot title.}
 
@@ -62,8 +63,8 @@ A ggplot object.
 This function plots the distribution of cells across two columns.
 }
 \examples{
-scePath <- system.file('extdata', 'sceObj.qs', package='hammers')
-sceObj <- qs::qread(scePath)
+scePath <- system.file('extdata', 'sceObj.qs2', package='hammers')
+sceObj <- qs2::qs_read(scePath)
 p <- distributionPlot(sceObj, col1='Cluster', col2='Donor')
 
 }

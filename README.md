@@ -14,7 +14,7 @@ silhouette and cluster-normalized silhouette.
 
 To install `hammers`, run the following R code:
 
-```
+```r
 if (!require("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
     

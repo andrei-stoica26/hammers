@@ -9,29 +9,30 @@ addMetadataCategory(
   scObj,
   col,
   newCol,
-  hashKeys,
-  hashValues,
+  keys,
+  values,
   newCol2 = NULL,
-  hashValues2 = NULL
+  values2 = NULL
 )
 }
 \arguments{
-\item{scObj}{A \code{Seurat} or \code{SingleCellExperiment} object.}
+\item{scObj}{A \code{Seurat}, \code{SingleCellExperiment},
+\code{dgCMatrix} or \code{matrix} object.}
 
 \item{col}{Column whose values will be used for creating the new column.}
 
 \item{newCol}{Column to be added.}
 
-\item{hashKeys}{A list of hash keys. If vectors are part of the hash keys,
+\item{keys}{A list of keys. If vectors are part of the keys,
 each of their elements will be assigned the corresponding value.}
 
-\item{hashValues}{A vector of hash values.
-Must have the same length as \code{hashKeys}.}
+\item{values}{A vector of values.
+Must have the same length as \code{keys}.}
 
-\item{newCol2}{A second column to be added based on the same hash keys.
+\item{newCol2}{A second column to be added based on the same keys.
 Default is \code{NULL} (no second column will be added).}
 
-\item{hashValues2}{A vector of hash values corresponding to the second
+\item{values2}{A vector of values corresponding to the second
 column. Default is \code{NULL} (no second column will be added).}
 }
 \value{
@@ -43,8 +44,8 @@ Add a categorical column to a Seurat metadata or SingleCellExperiment
 coldata
 }
 \examples{
-scePath <- system.file('extdata', 'sceObj.qs', package='hammers')
-sceObj <- qs::qread(scePath)
+scePath <- system.file('extdata', 'sceObj.qs2', package='hammers')
+sceObj <- qs2::qs_read(scePath)
 sceObj <- addMetadataCategory(sceObj, 'Cell_Cycle', 'Type',
 list(c('G0', 'G1'), 'G2M', 'S'), c(2, 3, 1))
 

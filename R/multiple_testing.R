@@ -1,7 +1,3 @@
-#' @importFrom stats p.adjust
-#'
-NULL
-
 #' Perform multiple testing correction on a data frame column
 #'
 #' This function orders a data frame based on a column of p-values, performs
@@ -38,12 +34,10 @@ mtCorrectDF <- function(df,
                         colStr = 'pval',
                         newColStr = 'pvalAdj',
                         ...){
-    mtMethod <- match.arg(mtMethod, c('holm', 'hochberg', 'hommel',
-                                      'bonferroni', 'BH', 'BY',
-                                      'fdr', 'none'))
+    mtMethod <- match.arg(mtMethod)
     df[[newColStr]] <- p.adjust(df[[colStr]], mtMethod, ...)
+    df <- df[df[, newColStr] < pvalThr, ]
     if (doOrder)
         df <- df[order(df[[newColStr]]), ]
-    df <- df[df[, newColStr] < pvalThr, ]
     return(df)
 }

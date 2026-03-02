@@ -1,30 +1,30 @@
-#' Create a hash map
+#' Create a map from keys to values
 #'
-#' This function creates a hash map.
+#' This function creates a map from keys to values.
 #'
-#' @param hashKeys A list of hash keys. If vectors are part of the hash keys,
+#' @param keys A list of keys. If vectors are part of the keys,
 #' each of their elements will be assigned the corresponding value.
-#' @param hashValues A vector of hash values.
-#' Must have the same length as \code{hashKeys}.
+#' @param values A vector of values.
+#' Must have the same length as \code{keys}.
 #'
 #' @return A named vector.
 #'
 #' @examples
-#' hashMap(list(2, c(3, 4, 5), 6, 8), c('a', 'b', 'c', 'd'))
+#' keyvalMap(list(2, c(3, 4, 5), 6, 8), c('a', 'b', 'c', 'd'))
 #'
 #' @export
 #'
-hashMap <- function(hashKeys, hashValues){
-    if (length(hashKeys) != length(hashValues))
-        stop('`hashKeys` and `hashValues` must have the same length.')
-    if (max(table(unlist(hashKeys))) > 1)
-        stop('All values in `hashKeys` must be unique. ',
-             names(which.max(table(unlist(hashKeys)))), ' is repeated.')
-    hashNames <- unlist(hashKeys)
-    hash <- unlist(mapply(function(x, y) rep(y, length(x)), hashKeys,
-                          hashValues))
-    names(hash) <- hashNames
-    return(hash)
+keyvalMap <- function(keys, values){
+    if (length(keys) != length(values))
+        stop('`keys` and `values` must have the same length.')
+    if (max(table(unlist(keys))) > 1)
+        stop('All values in `keys` must be unique. ',
+             names(which.max(table(unlist(keys)))), ' is repeated.')
+    mapNames <- unlist(keys)
+    map <- unlist(mapply(function(x, y) rep(y, length(x)), keys,
+                          values))
+    names(map) <- mapNames
+    return(map)
 }
 
 #' Add a categorical column to a data frame based on another column
@@ -35,7 +35,7 @@ hashMap <- function(hashKeys, hashValues){
 #' @param df A data frame.
 #' @param col Column whose values will be used for creating the new column.
 #' @param newCol Column to be added.
-#' @inheritParams hashMap
+#' @inheritParams keyvalMap
 #'
 #' @return A data frame with a new categorical column.
 #'
@@ -50,36 +50,36 @@ hashMap <- function(hashKeys, hashValues){
 #'                 c('red', 'yellow', 'purple'))
 #' @export
 #'
-addCategory <- function(df, col, newCol, hashKeys, hashValues){
-    remainder <- setdiff(unique(df[[col]]), unlist(hashKeys))
-    if (length(hashKeys) + 1 == length(hashValues))
-        hashKeys[[length(hashKeys) + 1]] <- setdiff(unique(df[[col]]),
-                                                    unlist(hashKeys))
+addCategory <- function(df, col, newCol, keys, values){
+    remainder <- setdiff(unique(df[[col]]), unlist(keys))
+    if (length(keys) + 1 == length(values))
+        keys[[length(keys) + 1]] <- setdiff(unique(df[[col]]),
+                                                    unlist(keys))
     else if (length(remainder) > 0){
-        hashKeys <- c(hashKeys, remainder)
-        hashValues <- c(hashValues, remainder)
+        keys <- c(keys, remainder)
+        values <- c(values, remainder)
     }
-    hash <- hashMap(hashKeys, hashValues)
-    df[[newCol]] <- hash[as.character(df[[col]])]
+    map <- keyvalMap(keys, values)
+    df[[newCol]] <- map[as.character(df[[col]])]
     return(df)
 }
 
 #' Add a categorical column to a Seurat metadata or SingleCellExperiment
 #' coldata
 #'
-#' @inheritParams metadataDF
+#' @inheritParams geneCenters
 #' @inheritParams addCategory
-#' @param newCol2 A second column to be added based on the same hash keys.
+#' @param newCol2 A second column to be added based on the same keys.
 #' Default is \code{NULL} (no second column will be added).
-#' @param hashValues2 A vector of hash values corresponding to the second
+#' @param values2 A vector of values corresponding to the second
 #' column. Default is \code{NULL} (no second column will be added).
 #'
 #' @return A Seurat or SingleCellExpression object with one or two new
 #' categorical column(s) in the metadata/coldata.
 #'
 #' @examples
-#' scePath <- system.file('extdata', 'sceObj.qs', package='hammers')
-#' sceObj <- qs::qread(scePath)
+#' scePath <- system.file('extdata', 'sceObj.qs2', package='hammers')
+#' sceObj <- qs2::qs_read(scePath)
 #' sceObj <- addMetadataCategory(sceObj, 'Cell_Cycle', 'Type',
 #' list(c('G0', 'G1'), 'G2M', 'S'), c(2, 3, 1))
 #'
@@ -88,18 +88,18 @@ addCategory <- function(df, col, newCol, hashKeys, hashValues){
 addMetadataCategory <- function(scObj,
                                 col,
                                 newCol,
-                                hashKeys,
-                                hashValues,
+                                keys,
+                                values,
                                 newCol2 = NULL,
-                                hashValues2 = NULL){
+                                values2 = NULL){
     metadataDF(scObj) <- addCategory(metadataDF(scObj), col, newCol,
-                                 hashKeys, hashValues)
+                                 keys, values)
     if (!is.null(newCol2))
     {
-        hashValues2 <- unlist(lapply(hashValues2, function(x)
+        values2 <- unlist(lapply(values2, function(x)
             paste0(x, collapse = '/')))
         metadataDF(scObj) <- addCategory(metadataDF(scObj), col, newCol2,
-                                     hashKeys, hashValues2)
+                                     keys, values2)
     }
 
     return(scObj)

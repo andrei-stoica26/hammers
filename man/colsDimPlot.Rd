@@ -2,14 +2,16 @@
 % Please edit documentation in R/visualization.R
 \name{colsDimPlot}
 \alias{colsDimPlot}
-\title{Plot Seurat DimPlot with added labeled points for numeric columns}
+\title{Create a single-cell dimensionality reduction plot with added labeled points
+for numeric columns}
 \usage{
-colsDimPlot(seuratObj, cols, ...)
+colsDimPlot(scObj, cols, ...)
 }
 \arguments{
-\item{seuratObj}{A Seurat object.}
+\item{scObj}{A \code{Seurat}, \code{SingleCellExperiment},
+\code{dgCMatrix} or \code{matrix} object.}
 
-\item{cols}{Genes whose centers of mass will be plotted.}
+\item{cols}{Columns whose centers of mass will be plotted.}
 
 \item{...}{Additional parameters passed to \code{pointsDimPlot}.}
 }
@@ -17,12 +19,12 @@ colsDimPlot(seuratObj, cols, ...)
 A ggplot object.
 }
 \description{
-This function plots a Seurat DimPlot with added labeled points for metadata
-numeric columns.
+This function creates a single-cell dimensionality reduction plot with
+added labeled points for metadata numeric columns.
 }
 \examples{
-seuratPath <- system.file('extdata', 'seuratObj.qs', package='hammers')
-seuratObj <- qs::qread(seuratPath)
-colsDimPlot(seuratObj, c('nCount_originalexp', 'nFeature_originalexp'))
+scePath <- system.file('extdata', 'sceObj.qs2', package='hammers')
+sceObj <- qs2::qs_read(scePath)
+colsDimPlot(sceObj, c('sizeFactor', 'silhouette'))
 
 }

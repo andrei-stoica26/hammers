@@ -4,7 +4,7 @@
 \alias{addCategory}
 \title{Add a categorical column to a data frame based on another column}
 \usage{
-addCategory(df, col, newCol, hashKeys, hashValues)
+addCategory(df, col, newCol, keys, values)
 }
 \arguments{
 \item{df}{A data frame.}
@@ -13,11 +13,11 @@ addCategory(df, col, newCol, hashKeys, hashValues)
 
 \item{newCol}{Column to be added.}
 
-\item{hashKeys}{A list of hash keys. If vectors are part of the hash keys,
+\item{keys}{A list of keys. If vectors are part of the keys,
 each of their elements will be assigned the corresponding value.}
 
-\item{hashValues}{A vector of hash values.
-Must have the same length as \code{hashKeys}.}
+\item{values}{A vector of values.
+Must have the same length as \code{keys}.}
 }
 \value{
 A data frame with a new categorical column.

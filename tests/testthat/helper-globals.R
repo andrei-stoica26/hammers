@@ -1,4 +1,2 @@
-scePath <- system.file('extdata', 'sceObj.qs', package='hammers')
-sceObj <- qread(scePath)
-seuratPath <- system.file('extdata', 'seuratObj.qs', package='hammers')
-seuratObj <- qread(seuratPath)
+scePath <- system.file('extdata', 'sceObj.qs2', package='hammers')
+sceObj <- qs2::qs_read(scePath)

@@ -10,7 +10,7 @@ geneCenters(scObj, genes)
 \item{scObj}{A \code{Seurat}, \code{SingleCellExperiment},
 \code{dgCMatrix} or \code{matrix} object.}
 
-\item{genes}{Selected genes. If \code{NULL}, all genes will be retained.}
+\item{genes}{A character vector of genes.}
 }
 \value{
 A data frame containing the centers of mass.
@@ -20,8 +20,8 @@ This function calculates the centers of mass of the expression of input
 genes.
 }
 \examples{
-scePath <- system.file('extdata', 'sceObj.qs', package='hammers')
-sceObj <- qs::qread(scePath)
+scePath <- system.file('extdata', 'sceObj.qs2', package='hammers')
+sceObj <- qs2::qs_read(scePath)
 geneCenters(sceObj, c('Gene_0480', 'Gene_0481', 'Gene_0482'))
 
 }

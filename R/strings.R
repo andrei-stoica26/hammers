@@ -13,6 +13,10 @@
 #'
 #' @export
 #'
-joinCharCombs <- function(..., joinChar = '_')
-    return(sort(apply(expand.grid(...), 1,
-               function(x) paste0(x, collapse = joinChar))))
+joinCharCombs <- function(..., joinChar = '_'){
+    combs <- apply(expand.grid(...), 1,
+                   function(x) paste0(x, collapse = joinChar))
+    return(sort(combs, method='radix'))
+}
+
+

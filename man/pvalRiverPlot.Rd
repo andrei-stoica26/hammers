@@ -34,8 +34,8 @@ A ggplot object
 This function plots representation data frame as an alluvial plot.
 }
 \examples{
-scePath <- system.file('extdata', 'sceObj.qs', package='hammers')
-sceObj <- qs::qread(scePath)
+scePath <- system.file('extdata', 'sceObj.qs2', package='hammers')
+sceObj <- qs2::qs_read(scePath)
 df <- repAnalysis(sceObj, 'Cluster', 'Donor')
 pvalRiverPlot(df)
 

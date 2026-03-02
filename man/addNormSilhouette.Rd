@@ -7,7 +7,8 @@
 addNormSilhouette(scObj, normSilDF, normSilCol = "normSilhouette")
 }
 \arguments{
-\item{scObj}{A \code{Seurat} or \code{SingleCellExperiment} object.}
+\item{scObj}{A \code{Seurat}, \code{SingleCellExperiment},
+\code{dgCMatrix} or \code{matrix} object.}
 
 \item{normSilDF}{Normalized silhouette data frame.}
 
@@ -22,8 +23,8 @@ This function adds a normalized silhouette column to a single-cell
 expression object.
 }
 \examples{
-scePath <- system.file('extdata', 'sceObj.qs', package='hammers')
-sceObj <- qs::qread(scePath)
+scePath <- system.file('extdata', 'sceObj.qs2', package='hammers')
+sceObj <- qs2::qs_read(scePath)
 df <- normalizeSilhouette(sceObj, 'Cluster')
 sceObj <- addNormSilhouette(sceObj, df)
 

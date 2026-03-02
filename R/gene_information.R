@@ -3,7 +3,7 @@
 #' This function extracts the number of cells in which a gene from a Seurat or
 #' SingleCellExperiment is expressed.
 #'
-#' @inheritParams metadataDF
+#' @inheritParams geneCenters
 #' @param genes Genes for which the number of cells in which the gene is
 #' expressed will be computed. If \code{NULL} (as default), all genes will be
 #' included in the assessment.
@@ -17,8 +17,8 @@
 #' lists the corresponding numbers of cells.
 #'
 #' @examples
-#' scePath <- system.file('extdata', 'sceObj.qs', package='hammers')
-#' sceObj <- qs::qread(scePath)
+#' scePath <- system.file('extdata', 'sceObj.qs2', package='hammers')
+#' sceObj <- qs2::qs_read(scePath)
 #' df <- genePresence(sceObj)
 #'
 #' @export
@@ -43,7 +43,7 @@ genePresence <- function(scObj,
 #' This function constructs, for each input gene, sets of cells expressing
 #' the gene
 #'
-#' @inheritParams scExpMat
+#' @inheritParams geneCenters
 #'
 #' @return A named list of character vectors of cell names.
 #'
@@ -65,6 +65,6 @@ geneCellSets <- function(scObj, genes = NULL){
         geneExp  <- geneExp[geneExp > 0]
         return(names(geneExp))
     }), genes)
-    cellSets <- cellSets[vapply(cellSets, length, numeric(1)) > 0]
+    cellSets <- cellSets[lengths(cellSets) > 0]
     return(cellSets)
 }

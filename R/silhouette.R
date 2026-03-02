@@ -10,7 +10,7 @@ NULL
 #' This function computes the silhouette for each cell in the \code{Seurat}
 #' or \code{SingleCellExperiment} object.
 #'
-#' @inheritParams metadataDF
+#' @inheritParams geneCenters
 #' @param idClass Identity class. Must be present among the metadata columns of
 #' the single-cell expression object.
 #' @param silCol The name of the silhouette column to be added.
@@ -19,8 +19,8 @@ NULL
 #' an added metadata silhouette column.
 #'
 #' @examples
-#' scePath <- system.file('extdata', 'sceObj.qs', package='hammers')
-#' sceObj <- qs::qread(scePath)
+#' scePath <- system.file('extdata', 'sceObj.qs2', package='hammers')
+#' sceObj <- qs2::qs_read(scePath)
 #' sceObj <- computeSilhouette(sceObj, 'Cluster')
 #'
 #' @export
@@ -34,7 +34,7 @@ computeSilhouette <- function(scObj, idClass, silCol = 'silhouette'){
     message('Computing silhouette for identity class: ',
                    idClass, '...')
     groupVals <- unclass(factor(scCol(scObj, idClass)))
-    scObj[[silCol]] <- cluster::silhouette(groupVals,
+    scCol(scObj, silCol) <- cluster::silhouette(groupVals,
                                                  dmatrix=distMat)[, 3]
     return(scObj)
 }
@@ -51,8 +51,8 @@ computeSilhouette <- function(scObj, idClass, silCol = 'silhouette'){
 #' the identity class.
 #'
 #' @examples
-#' scePath <- system.file('extdata', 'sceObj.qs', package='hammers')
-#' sceObj <- qs::qread(scePath)
+#' scePath <- system.file('extdata', 'sceObj.qs2', package='hammers')
+#' sceObj <- qs2::qs_read(scePath)
 #' df <- normalizeSilhouette(sceObj, 'Cluster')
 #'
 #' @export
@@ -87,8 +87,8 @@ normalizeSilhouette <- function(scObj, idClass, silCol='silhouette'){
 #' an added metadata normalized silhouette column.
 #'
 #' @examples
-#' scePath <- system.file('extdata', 'sceObj.qs', package='hammers')
-#' sceObj <- qs::qread(scePath)
+#' scePath <- system.file('extdata', 'sceObj.qs2', package='hammers')
+#' sceObj <- qs2::qs_read(scePath)
 #' df <- normalizeSilhouette(sceObj, 'Cluster')
 #' sceObj <- addNormSilhouette(sceObj, df)
 #'

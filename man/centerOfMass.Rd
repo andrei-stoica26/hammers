@@ -2,12 +2,12 @@
 % Please edit documentation in R/center_of_mass.R
 \name{centerOfMass}
 \alias{centerOfMass}
-\title{Calculate the center of mass}
+\title{Calculate the center of mass of columns}
 \usage{
-centerOfMass(dimMat, weights)
+centerOfMass(obj, weights)
 }
 \arguments{
-\item{dimMat}{A matrix of cell embeddings.}
+\item{obj}{A data frame or matrix.}
 
 \item{weights}{A vector of weights.}
 }
@@ -15,12 +15,12 @@ centerOfMass(dimMat, weights)
 A vector containing the center of mass.
 }
 \description{
-This function calculates the center of mass based on a
-matrix of cell embeddings and a vector of weights.
+This function calculates the center of mass based on the columns of
+a data frame or matrix and a vector of weights.
 }
 \examples{
-dimMat <- matrix(data=c(2, 3, 1, 3, 6, 8), nrow=3, ncol=2)
+obj <- matrix(data=c(2, 3, 1, 3, 6, 8), nrow=3, ncol=2)
 weights <- c(0.8, 6, 16)
-centerOfMass(dimMat, weights)
+centerOfMass(obj, weights)
 
 }

@@ -15,9 +15,10 @@ shuffleGenes(
 )
 }
 \arguments{
-\item{scObj}{A \code{Seurat} or \code{SingleCellExperiment} object.}
+\item{scObj}{A \code{Seurat}, \code{SingleCellExperiment},
+\code{dgCMatrix} or \code{matrix} object.}
 
-\item{genes}{A character vector.}
+\item{genes}{A character vector of genes.}
 
 \item{lossFrac}{Fraction of genes than be removed. Must be in \code{[0, 1]}.}
 
@@ -38,8 +39,8 @@ Genes vector after changes.
 This function removes and adds genes from vector at random.
 }
 \examples{
-scePath <- system.file('extdata', 'sceObj.qs', package='hammers')
-sceObj <- qs::qread(scePath)
+scePath <- system.file('extdata', 'sceObj.qs2', package='hammers')
+sceObj <- qs2::qs_read(scePath)
 genes <- c('Gene_0226', 'Gene_0210', 'Gene_0280', 'Gene_0202',
 'Gene_0313', 'Gene_0101', 'Gene_0195')
 shuffleGenes(sceObj, genes, 0.3, 0.9)

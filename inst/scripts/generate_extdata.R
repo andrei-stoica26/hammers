@@ -1,7 +1,7 @@
 # A self-contained script to generate the data in extdata
 #'
 createExtData <- function(){
-    if (requireNamespace(c('qs', 'scater', 'scuttle', 'Seurat', 'withr'),
+    if (requireNamespace(c('qs2', 'scater', 'scuttle', 'withr'),
                          quietly=TRUE)){
         sceObj <- withr::with_seed(1, scuttle::mockSCE(ngenes=500))
         sceObj <- scuttle::logNormCounts(sceObj)
@@ -24,8 +24,8 @@ createExtData <- function(){
                                                            , 15))]<- paste0('Donor', i + 1)
         }
         sceObj <- computeSilhouette(sceObj, 'Cluster')
-        qs::qsave(sceObj, 'inst/extdata/sceObj.qs')
-        seuratObj <- suppressWarnings(Seurat::as.Seurat(sceObj, data=NULL))
-        qs::qsave(seuratObj, 'inst/extdata/seuratObj.qs')
+        qs2::qs_save(sceObj, 'inst/extdata/sceObj.qs2')
     }
 }
+
+createExtData()

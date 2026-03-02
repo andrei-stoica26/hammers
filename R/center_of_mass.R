@@ -1,27 +1,29 @@
-#' @importFrom qs qread
+#' @importFrom scLang dimPlot metadataDF metadataDF<- metadataNames scCol scCol<- scColCounts scColPairCounts scColPairPercs scExpMat scPCAMat scUMAPMat
 #'
 NULL
 
-#' Calculate the center of mass
+#' Calculate the center of mass of columns
 #'
-#' This function calculates the center of mass based on a
-#' matrix of cell embeddings and a vector of weights.
+#' This function calculates the center of mass based on the columns of
+#' a data frame or matrix and a vector of weights.
 #'
-#' @param dimMat A matrix of cell embeddings.
+#' @param obj A data frame or matrix.
 #' @param weights A vector of weights.
 #'
 #' @return A vector containing the center of mass.
 #'
 #' @examples
-#' dimMat <- matrix(data=c(2, 3, 1, 3, 6, 8), nrow=3, ncol=2)
+#' obj <- matrix(data=c(2, 3, 1, 3, 6, 8), nrow=3, ncol=2)
 #' weights <- c(0.8, 6, 16)
-#' centerOfMass(dimMat, weights)
+#' centerOfMass(obj, weights)
 #'
 #' @export
 #'
-centerOfMass <- function(dimMat, weights){
-  totalWeight <- sum(weights)
-  return(apply(dimMat, 2, function(x) sum(x * weights) / totalWeight))
+centerOfMass <- function(obj, weights){
+    #Less fast than matrixStats::colWeightedMeans,
+    #but able to handle negative weights.
+    totalWeight <- sum(weights)
+    return(apply(obj, 2, function(x) sum(x * weights) / totalWeight))
 }
 
 #' Calculate the centers of mass of the expression of input genes
@@ -29,13 +31,15 @@ centerOfMass <- function(dimMat, weights){
 #' This function calculates the centers of mass of the expression of input
 #' genes.
 #'
-#' @inheritParams scExpMat
+#' @param scObj A \code{Seurat}, \code{SingleCellExperiment},
+#' \code{dgCMatrix} or \code{matrix} object.
+#' @param genes A character vector of genes.
 #'
 #' @return A data frame containing the centers of mass.
 #'
 #' @examples
-#' scePath <- system.file('extdata', 'sceObj.qs', package='hammers')
-#' sceObj <- qs::qread(scePath)
+#' scePath <- system.file('extdata', 'sceObj.qs2', package='hammers')
+#' sceObj <- qs2::qs_read(scePath)
 #' geneCenters(sceObj, c('Gene_0480', 'Gene_0481', 'Gene_0482'))
 #'
 #' @export
@@ -54,14 +58,14 @@ geneCenters <- function(scObj, genes){
 #' columns from a \code{Seurat} or \code{SingleCellExpression}
 #' object.
 #'
-#' @inheritParams metadataDF
+#' @inheritParams geneCenters
 #' @param columns Numeric columns.
 #'
 #' @return A data frame containing the coordinates of centers of mass.
 #'
 #' @examples
-#' scePath <- system.file('extdata', 'sceObj.qs', package='hammers')
-#' sceObj <- qs::qread(scePath)
+#' scePath <- system.file('extdata', 'sceObj.qs2', package='hammers')
+#' sceObj <- qs2::qs_read(scePath)
 #' colCenters(sceObj, c('sizeFactor'))
 #'
 #' @export

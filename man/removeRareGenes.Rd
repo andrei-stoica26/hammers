@@ -7,7 +7,8 @@
 removeRareGenes(scObj, nCells = 10, verbose = TRUE)
 }
 \arguments{
-\item{scObj}{A \code{Seurat} or \code{SingleCellExperiment} object.}
+\item{scObj}{A \code{Seurat}, \code{SingleCellExperiment},
+\code{dgCMatrix} or \code{matrix} object.}
 
 \item{nCells}{Minimum number of cells in which a gene must be expressed to
 be retained.}
@@ -22,8 +23,8 @@ This function removes genes expressed in a low number of cells in a Seurat
 or SingleCellExpression object.
 }
 \examples{
-scePath <- system.file('extdata', 'sceObj.qs', package='hammers')
-sceObj <- qs::qread(scePath)
+scePath <- system.file('extdata', 'sceObj.qs2', package='hammers')
+sceObj <- qs2::qs_read(scePath)
 sceObj <- removeRareGenes(sceObj, 30)
 
 }

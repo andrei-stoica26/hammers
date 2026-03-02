@@ -1,20 +1,17 @@
 Package: hammers
 Type: Package
 Title: A collection of simple tools for scRNA-seq analysis and package development
-Version: 0.99.3
+Version: 0.99.4
 Authors@R: person('Andrei-Florian', 'Stoica', 
       email='andreistoica@foxmail.com',
      role=c('aut','cre'),
      comment=c(ORCID='0000-0002-5253-0826'))
-Description: hammers is a utilities suite for scRNA-seq data analysis and package 
-    development. It offers functions—both getters and setters—that can operate 
-    on both Seurat and SingleCellExperiment objects, intended to help 
-    developers build tools compatible with both types of input. Additionally, 
-    hammers provides simple tools to address tasks in scRNA-seq data analysis, 
-    such as retrieving aggregate gene statistics, finding and removing rare genes, 
-    performing multiple testing correction, computing the center of mass for the 
-    expression of a gene of interest in low-dimensional space, and calculating 
-    silhouette and cluster-normalized silhouette.
+Description: hammers is a utilities suite for scRNA-seq data analysis. It 
+    provides simple tools to address tasks in scRNA-seq data analysis, such as 
+    retrieving aggregate gene statistics, finding and removing rare genes, 
+    performing multiple testing correction, computing the center of mass for 
+    the expression of a gene of interest in low-dimensional space, and 
+    calculating silhouette and cluster-normalized silhouette.
 License: MIT + file LICENSE
 Imports: 
     abdiv,
@@ -26,19 +23,15 @@ Imports:
     henna,
     liver,
     lsa,
-    qs,
     rlang,
-    S4Vectors,
-    Seurat,
-    SeuratObject,
-    SingleCellExperiment,
-    SummarizedExperiment,
+    scLang,
     stats,
     text2vec,
     withr
 Suggests:
     BiocStyle,
     knitr,
+    qs2,
     rmarkdown,
     scater,
     scRNAseq,

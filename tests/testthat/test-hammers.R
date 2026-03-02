@@ -1,3 +1,9 @@
+test_that("checkGenes works", {
+    expect_null(checkGenes(sceObj, c('Gene_0337', 'Gene_0321')))
+    expect_error(checkGenes(sceObj, c('Gene_0337', 'Gene_0321', 'Gene_928',
+                                      'Gene_1123')))
+})
+
 test_that("centerOfMass works", {
     dimMat <- matrix(data=c(2, 3, 1, 3, 6, 8), nrow=3, ncol=2)
     weights <- c(0.8, 6, 16)
@@ -15,41 +21,6 @@ test_that("geneCenters and colCenters work", {
     df <- colCenters(sceObj, c('sizeFactor'))
     expect_equal(df$UMAP1, c(0.00724403), tolerance=0.0001)
     expect_equal(df$UMAP2, c(0.004673039), tolerance=0.0001)
-})
-
-test_that("compatibility functions and checks work", {
-    expect_null(checkGenes(sceObj, c('Gene_0480', 'Gene_0481', 'Gene_0482')))
-    expect_error(checkGenes(sceObj, c('Gene_0480', 'Gene_0481', 'Gene_0482',
-                                     'DSFDGDG')))
-
-    expect_equal(metadataNames(sceObj), c('Mutation_Status',
-                                         'Cell_Cycle',
-                                         'Treatment',
-                                         'sizeFactor',
-                                         'Cluster',
-                                         'Donor',
-                                         'silhouette'))
-
-    expect_error(metadataNames(c(1, 2, 3)))
-    expect_equal(length(scCol(sceObj, 'Cell_Cycle')), 200)
-
-    expect_equal(scColCounts(sceObj, 'Cell_Cycle')['G2M'],
-                 setNames(56, 'G2M'))
-    expect_equal(scColPairCounts(sceObj, 'Mutation_Status', 'Cell_Cycle')[1, 3],
-                 24)
-
-    expect_equal(length(scGeneExp(sceObj, 'Gene_0480')), 200)
-    expect_equal(dim(scExpMat(sceObj)), c(500, 200))
-
-    v <- scPCAMat(sceObj)
-    w <- scPCAMat(seuratObj)
-    colnames(v) <- paste0('PC_', seq(50))
-    expect_equal(v, w)
-
-    v <- scUMAPMat(sceObj)
-    w <- scUMAPMat(seuratObj)
-    colnames(v) <- paste0('UMAP_', seq(2))
-    expect_equal(v, w)
 })
 
 test_that("gene information functions work", {
@@ -96,7 +67,14 @@ test_that("multiple testing functions work", {
     expect_equal(res$pvalAdj, c(0.01141667, 0.02568750), tolerance=0.0001)
 })
 
-test_that("silhouette functions and scCol work", {
+test_that("rare genes functions work", {
+    df <- findRareGenes(sceObj, 50)
+    expect_equal(dim(df), c(50, 2))
+    expect_identical(rownames(df), df[, 1])
+    expect_equal(length(rownames(removeRareGenes(sceObj, 50))), 450)
+})
+
+test_that("silhouette functions work", {
     sceObj <- computeSilhouette(sceObj, 'Cell_Cycle')
     df <- normalizeSilhouette(sceObj, 'Cell_Cycle')
     expect_equal(sum(df), 113.6763, tolerance=0.0001)
@@ -170,17 +148,29 @@ test_that("dimPlot functions work", {
     pointsObj <- data.frame(x = c(2, 3),
                            y = c(1, 0.5),
                            row.names = c('P1', 'P2'))
-    expect_equal(is(pointsDimPlot(seuratObj, pointsObj=pointsObj)), 'patchwork')
-    expect_equal(is(genesDimPlot(seuratObj, c('Spike-0001', 'Spike-0074',
-                                              'Spike-0067'))),
-                    'patchwork')
-    expect_equal(is(colsDimPlot(seuratObj,
-                                c('nCount_originalexp',
-                                  'nFeature_originalexp'))),
-                    'patchwork')
+    p <- pointsDimPlot(sceObj, pointsObj=pointsObj)
+    expect_equal(length(intersect(is(p), c('gg', 'ggplot2::ggplot'))), 1)
+    p <- genesDimPlot(sceObj, c('Gene_0364', 'Gene_0388',
+                                   'Gene_0477'))
+    expect_equal(length(intersect(is(p), c('gg', 'ggplot2::ggplot'))), 1)
+    p <- colsDimPlot(sceObj, c('sizeFactor', 'silhouette'))
+    expect_equal(length(intersect(is(p), c('gg', 'ggplot2::ggplot'))), 1)
 })
 
 test_that("numCosine works", {
     res <- numCosine(c(2, 3, 6), c(4, 3, 2))
     expect_equal(res, 0.7693093, tolerance=0.0001)
 })
+
+test_that("devPlot works", {
+    library(ggplot2)
+    df <- data.frame(x = c(1, 2), y = c(3, 5))
+    p <- ggplot(df) + geom_point(aes(x, y))
+    expect_equal(devPlot(p), setNames(c(1), 'null device'))
+    simplePlot <- function(df, title)
+        return(ggplot(df) + geom_point(aes(x, y)) + ggtitle(title))
+    expect_equal(devPlot(simplePlot, df, 'Plot title'),
+                 setNames(c(1), 'null device'))
+})
+
+

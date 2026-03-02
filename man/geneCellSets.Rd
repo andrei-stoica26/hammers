@@ -10,7 +10,7 @@ geneCellSets(scObj, genes = NULL)
 \item{scObj}{A \code{Seurat}, \code{SingleCellExperiment},
 \code{dgCMatrix} or \code{matrix} object.}
 
-\item{genes}{Selected genes. If \code{NULL}, all genes will be retained.}
+\item{genes}{A character vector of genes.}
 }
 \value{
 A named list of character vectors of cell names.

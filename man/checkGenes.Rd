@@ -20,8 +20,8 @@ This function checks if all genes exist in the single-cell expression
 object.
 }
 \examples{
-scePath <- system.file('extdata', 'sceObj.qs', package='hammers')
-sceObj <- qs::qread(scePath)
+scePath <- system.file('extdata', 'sceObj.qs2', package='hammers')
+sceObj <- qs2::qs_read(scePath)
 checkGenes(sceObj, c('Gene_0480', 'Gene_0481', 'Gene_0482'))
 
 }

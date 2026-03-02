@@ -2,11 +2,11 @@
 % Please edit documentation in R/visualization.R
 \name{pointsDimPlot}
 \alias{pointsDimPlot}
-\title{Plot Seurat DimPlot with added labeled points}
+\title{Create a single-cell dimensionality reduction plot with added labeled points}
 \usage{
 pointsDimPlot(
-  seuratObj,
-  plotTitle = NULL,
+  scObj,
+  title = NULL,
   pointsObj = NULL,
   alpha = 1,
   pointShape = 4,
@@ -18,9 +18,10 @@ pointsDimPlot(
 )
 }
 \arguments{
-\item{seuratObj}{A Seurat object.}
+\item{scObj}{A \code{Seurat}, \code{SingleCellExperiment},
+\code{dgCMatrix} or \code{matrix} object.}
 
-\item{plotTitle}{Plot title.}
+\item{title}{Plot title.}
 
 \item{pointsObj}{A data frame or matrix of points with two columns
 representing x and y coordinates.}
@@ -44,14 +45,18 @@ labels.}
 A ggplot object.
 }
 \description{
-This function plots a Seurat DimPlot with added labeled points.
+This function creates a single-cell dimensionality reduction plot with
+added labeled points.
+}
+\details{
+A wrapper around \code{scLang::dimPlot}.
 }
 \examples{
-seuratPath <- system.file('extdata', 'seuratObj.qs', package='hammers')
-seuratObj <- qs::qread(seuratPath)
+scePath <- system.file('extdata', 'sceObj.qs2', package='hammers')
+sceObj <- qs2::qs_read(scePath)
 pointsObj <- data.frame(x = c(2, 3),
 y = c(1, 0),
 row.names = c('P1', 'P2'))
-pointsDimPlot(seuratObj, pointsObj=pointsObj)
+pointsDimPlot(sceObj, pointsObj=pointsObj)
 
 }

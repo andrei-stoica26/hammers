@@ -1,6 +1,5 @@
 #' @importFrom dplyr count
-#' @import SeuratObject
-#' @importFrom stats phyper quantile setNames
+#' @importFrom stats p.adjust phyper quantile setNames
 #'
 NULL
 
@@ -8,7 +7,9 @@ NULL
 #'
 #' This function find the differential representation of two Seurat columns.
 #'
-#' @inheritParams scColPairCounts
+#' @inheritParams geneCenters
+#' @param col1 Column as string.
+#' @param col2 Column as string.
 #' @inheritParams mtCorrectDF
 #'
 #' @param doOverrep Whether to perform overrepresentation analysis. If
@@ -18,8 +19,8 @@ NULL
 #' @return An overrepresentation or underrepresentation data frame.
 #'
 #' @examples
-#' scePath <- system.file('extdata', 'sceObj.qs', package='hammers')
-#' sceObj <- qs::qread(scePath)
+#' scePath <- system.file('extdata', 'sceObj.qs2', package='hammers')
+#' sceObj <- qs2::qs_read(scePath)
 #' repAnalysis(sceObj, 'Cluster', 'Donor')
 #'
 #' @export
@@ -32,9 +33,7 @@ repAnalysis <- function(scObj,
                                      'bonferroni', 'BH', 'BY',
                                      'fdr', 'none'),
                         ...){
-    mtMethod <- match.arg(mtMethod, c('holm', 'hochberg', 'hommel',
-                                      'bonferroni', 'BH', 'BY',
-                                      'fdr', 'none'))
+    mtMethod <- match.arg(mtMethod)
     nCells <- ncol(scObj)
     df <- scColPairCounts(scObj, col1, col2)
     colnames(df)[3] <- 'sharedCount'

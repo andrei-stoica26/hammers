@@ -7,7 +7,8 @@
 genePresence(scObj, genes = NULL, minCutoff = NULL, maxCutoff = NULL)
 }
 \arguments{
-\item{scObj}{A \code{Seurat} or \code{SingleCellExperiment} object.}
+\item{scObj}{A \code{Seurat}, \code{SingleCellExperiment},
+\code{dgCMatrix} or \code{matrix} object.}
 
 \item{genes}{Genes for which the number of cells in which the gene is
 expressed will be computed. If \code{NULL} (as default), all genes will be
@@ -29,8 +30,8 @@ This function extracts the number of cells in which a gene from a Seurat or
 SingleCellExperiment is expressed.
 }
 \examples{
-scePath <- system.file('extdata', 'sceObj.qs', package='hammers')
-sceObj <- qs::qread(scePath)
+scePath <- system.file('extdata', 'sceObj.qs2', package='hammers')
+sceObj <- qs2::qs_read(scePath)
 df <- genePresence(sceObj)
 
 }

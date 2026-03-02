@@ -128,8 +128,7 @@ safeMessage <- function(msg, verbose = TRUE)
 #'
 #' This function removes and adds genes from vector at random.
 #'
-#' @inheritParams metadataDF
-#' @param genes A character vector.
+#' @inheritParams geneCenters
 #' @param lossFrac Fraction of genes than be removed. Must be in \code{[0, 1]}.
 #' @param noiseFrac Amount of noise (random genes) in the final gene vector.
 #' Must be in \code{[0, 1)}
@@ -141,8 +140,8 @@ safeMessage <- function(msg, verbose = TRUE)
 #' @return Genes vector after changes.
 #'
 #' @examples
-#' scePath <- system.file('extdata', 'sceObj.qs', package='hammers')
-#' sceObj <- qs::qread(scePath)
+#' scePath <- system.file('extdata', 'sceObj.qs2', package='hammers')
+#' sceObj <- qs2::qs_read(scePath)
 #' genes <- c('Gene_0226', 'Gene_0210', 'Gene_0280', 'Gene_0202',
 #' 'Gene_0313', 'Gene_0101', 'Gene_0195')
 #' shuffleGenes(sceObj, genes, 0.3, 0.9)
@@ -230,5 +229,5 @@ tabulateVector <- function(v,
 #' @export
 #'
 numCosine <- function(x, y = NULL)
-    return(as.numeric(cosine(x, y)))
+    return(drop(cosine(x, y)))
 

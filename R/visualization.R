@@ -2,7 +2,6 @@
 #' @importFrom ggrepel geom_text_repel
 #' @importFrom henna centerTitle hullPlot riverPlot
 #' @importFrom rlang .data
-#' @importFrom Seurat DimPlot NoLegend
 #'
 NULL
 
@@ -10,7 +9,7 @@ NULL
 #'
 #' This function plots the distribution of cells across two columns.
 #'
-#' @inheritParams scColPairCounts
+#' @inheritParams repAnalysis
 #' @param title Plot title.
 #' @param type Whether the plot should display counts ('counts', default) or
 #' percentages ('percs').
@@ -29,8 +28,8 @@ NULL
 #' @return A ggplot object.
 #'
 #' @examples
-#' scePath <- system.file('extdata', 'sceObj.qs', package='hammers')
-#' sceObj <- qs::qread(scePath)
+#' scePath <- system.file('extdata', 'sceObj.qs2', package='hammers')
+#' sceObj <- qs2::qs_read(scePath)
 #' p <- distributionPlot(sceObj, col1='Cluster', col2='Donor')
 #'
 #' @export
@@ -89,8 +88,8 @@ distributionPlot <- function(scObj,
 #' @return A ggplot object
 #'
 #' @examples
-#' scePath <- system.file('extdata', 'sceObj.qs', package='hammers')
-#' sceObj <- qs::qread(scePath)
+#' scePath <- system.file('extdata', 'sceObj.qs2', package='hammers')
+#' sceObj <- qs2::qs_read(scePath)
 #' df <- repAnalysis(sceObj, 'Cluster', 'Donor')
 #' pvalRiverPlot(df)
 #'
@@ -107,12 +106,15 @@ pvalRiverPlot <- function(df,
     return(p)
 }
 
-#' Plot Seurat DimPlot with added labeled points
+#' Create a single-cell dimensionality reduction plot with added labeled points
 #'
-#' This function plots a Seurat DimPlot with added labeled points.
+#' This function creates a single-cell dimensionality reduction plot with
+#' added labeled points.
 #'
-#' @param seuratObj A Seurat object.
-#' @param plotTitle Plot title.
+#' @details A wrapper around \code{scLang::dimPlot}.
+#'
+#' @inheritParams geneCenters
+#' @inheritParams distributionPlot
 #' @param pointsObj A data frame or matrix of points with two columns
 #' representing x and y coordinates.
 #' @param alpha Opaqueness level.
@@ -127,17 +129,17 @@ pvalRiverPlot <- function(df,
 #' @return A ggplot object.
 #'
 #' @examples
-#' seuratPath <- system.file('extdata', 'seuratObj.qs', package='hammers')
-#' seuratObj <- qs::qread(seuratPath)
+#' scePath <- system.file('extdata', 'sceObj.qs2', package='hammers')
+#' sceObj <- qs2::qs_read(scePath)
 #' pointsObj <- data.frame(x = c(2, 3),
 #' y = c(1, 0),
 #' row.names = c('P1', 'P2'))
-#' pointsDimPlot(seuratObj, pointsObj=pointsObj)
+#' pointsDimPlot(sceObj, pointsObj=pointsObj)
 #'
 #' @export
 #'
-pointsDimPlot <- function(seuratObj,
-                          plotTitle = NULL,
+pointsDimPlot <- function(scObj,
+                          title = NULL,
                           pointsObj = NULL,
                           alpha = 1,
                           pointShape = 4,
@@ -146,7 +148,7 @@ pointsDimPlot <- function(seuratObj,
                           labelSize = 2.5,
                           maxOverlaps = 30,
                           ...){
-    p <- suppressWarnings(DimPlot(seuratObj, ...)) + NoLegend()
+    p <- suppressWarnings(dimPlot(scObj, ...))
     if(!is.null(pointsObj)){
         p <- p + geom_point(aes(.data[[colnames(pointsObj)[1]]],
                                 .data[[colnames(pointsObj)[2]]]),
@@ -163,51 +165,54 @@ pointsDimPlot <- function(seuratObj,
                                      size=labelSize,
                                      max.overlaps=maxOverlaps)
     }
-    p <- centerTitle(p, plotTitle)
+    p <- centerTitle(p, title)
     return(p)
 }
 
-#' Plot Seurat DimPlot with added labeled points for genes
+#' Create a single-cell dimensionality reduction plot with added labeled points
+#' for genes
 #'
-#' This function plots a Seurat DimPlot with added labeled points for genes.
+#' This function creates a single-cell dimensionality reduction plot with
+#' added labeled points for genes.
 #'
-#' @param seuratObj A Seurat object.
+#' @inheritParams geneCenters
 #' @param genes Genes whose centers of mass will be plotted.
 #' @param ... Additional parameters passed to \code{pointsDimPlot}.
 #'
 #' @return A ggplot object.
 #'
 #' @examples
-#' seuratPath <- system.file('extdata', 'seuratObj.qs', package='hammers')
-#' seuratObj <- qs::qread(seuratPath)
-#' genesDimPlot(seuratObj, c('Spike-0021', 'Spike-0053', 'Spike-0018'))
+#' scePath <- system.file('extdata', 'sceObj.qs2', package='hammers')
+#' sceObj <- qs2::qs_read(scePath)
+#' genesDimPlot(sceObj, c('Gene_0364', 'Gene_0388', 'Gene_0477'))
 #'
 #' @export
 #'
-genesDimPlot <- function(seuratObj, genes, ...){
-    centersDF <- geneCenters(seuratObj, genes)
-    return(pointsDimPlot(seuratObj, pointsObj=centersDF, ...))
+genesDimPlot <- function(scObj, genes, ...){
+    centersDF <- geneCenters(scObj, genes)
+    return(pointsDimPlot(scObj, pointsObj=centersDF, ...))
 }
 
-#' Plot Seurat DimPlot with added labeled points for numeric columns
+#' Create a single-cell dimensionality reduction plot with added labeled points
+#' for numeric columns
 #'
-#' This function plots a Seurat DimPlot with added labeled points for metadata
-#' numeric columns.
+#' This function creates a single-cell dimensionality reduction plot with
+#' added labeled points for metadata numeric columns.
 #'
-#' @param seuratObj A Seurat object.
-#' @param cols Genes whose centers of mass will be plotted.
+#' @inheritParams geneCenters
+#' @param cols Columns whose centers of mass will be plotted.
 #' @param ... Additional parameters passed to \code{pointsDimPlot}.
 #'
 #' @return A ggplot object.
 #'
 #' @examples
-#' seuratPath <- system.file('extdata', 'seuratObj.qs', package='hammers')
-#' seuratObj <- qs::qread(seuratPath)
-#' colsDimPlot(seuratObj, c('nCount_originalexp', 'nFeature_originalexp'))
+#' scePath <- system.file('extdata', 'sceObj.qs2', package='hammers')
+#' sceObj <- qs2::qs_read(scePath)
+#' colsDimPlot(sceObj, c('sizeFactor', 'silhouette'))
 #'
 #' @export
 #'
-colsDimPlot <- function(seuratObj, cols, ...){
-    centersDF <- colCenters(seuratObj, cols)
-    return(pointsDimPlot(seuratObj, pointsObj=centersDF, ...))
+colsDimPlot <- function(scObj, cols, ...){
+    centersDF <- colCenters(scObj, cols)
+    return(pointsDimPlot(scObj, pointsObj=centersDF, ...))
 }
