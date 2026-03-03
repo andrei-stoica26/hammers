@@ -171,6 +171,8 @@ test_that("devPlot works", {
         return(ggplot(df) + geom_point(aes(x, y)) + ggtitle(title))
     expect_equal(devPlot(simplePlot, df, 'Plot title'),
                  setNames(c(1), 'null device'))
+    file.remove('Rplots.pdf')
+    file.remove('Rplots1.pdf')
 })
 
 

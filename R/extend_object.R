@@ -92,15 +92,15 @@ addMetadataCategory <- function(scObj,
                                 values,
                                 newCol2 = NULL,
                                 values2 = NULL){
-    metadataDF(scObj) <- addCategory(metadataDF(scObj), col, newCol,
-                                 keys, values)
+    df <- metadataDF(scObj)
+    df <- addCategory(df, col, newCol, keys, values)
+    scCol(scObj, newCol) <- df[[newCol]]
     if (!is.null(newCol2))
     {
         values2 <- unlist(lapply(values2, function(x)
             paste0(x, collapse = '/')))
-        metadataDF(scObj) <- addCategory(metadataDF(scObj), col, newCol2,
-                                     keys, values2)
+        df <- addCategory(df, col, newCol2, keys, values2)
+        scCol(scObj, newCol2) <- df[[newCol2]]
     }
-
     return(scObj)
 }

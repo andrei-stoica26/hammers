@@ -1,4 +1,4 @@
-#' @importFrom scLang dimPlot metadataDF metadataDF<- metadataNames scCol scCol<- scColCounts scColPairCounts scColPairPercs scExpMat scPCAMat scUMAPMat
+#' @importFrom scLang dimPlot metadataDF metadataNames scCol scCol<- scColCounts scColPairCounts scColPairPercs scExpMat scPCAMat scUMAPMat
 #'
 NULL
 
