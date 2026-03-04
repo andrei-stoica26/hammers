@@ -92,24 +92,6 @@ test_that("joinCharCombs works", {
     expect_equal(res, expected)
 })
 
-test_that("nearestNeighbors works", {
-    df <- data.frame(v = c(1, 2, 4, 5, 6),
-                     w = c(2, 3, 1, 5, 8),
-                     x = c(2, 8, 7, 1, 1),
-                     y = c(2, 3, 2, 2, 4),
-                     z = c(1, 9, 9, 7, 6))
-    distMat <- as.matrix(stats::dist(df))
-    rownames(distMat) <- c('v', 'w', 'x', 'y', 'z')
-    colnames(distMat) <- c('v', 'w', 'x', 'y', 'z')
-    res <- nearestNeighbors(distMat)
-    expected <- setNames(c('y', 'x', 'w', 'z', 'y'), rownames(distMat))
-    expect_equal(res, expected)
-})
-
-test_that("proximity works", {
-    expect_equal(proximity(2, 3, 6), 0.8333333, tolerance=0.0001)
-})
-
 test_that("safeMinmax works", {
     expect_equal(safeMinmax(c(2.1, 3.2, 2.8)), c(0, 1, 0.6363636),
                  tolerance=0.0001)
@@ -122,22 +104,6 @@ test_that("safeMessage works", {
     expect_message(safeMessage('message', FALSE), NA)
 })
 
-test_that("shuffleGenes works", {
-    genes <- c('Gene_0226', 'Gene_0210', 'Gene_0280', 'Gene_0202',
-               'Gene_0313', 'Gene_0101', 'Gene_0195')
-    newGenes <- shuffleGenes(sceObj, genes, 0.3, 0.9)
-    expect_equal(length(intersect(genes, newGenes)), 5)
-    expect_equal(length(newGenes), 50)
-})
-
-test_that("tabulateVector works", {
-    v <- c(2, 3, 4, 19, 15, 25, 32, 8)
-    res <- tabulateVector(v, paste0('r', seq(4)), paste0('c', seq(2)))
-    df <- data.frame(c1 = c(2, 3, 4, 19),
-                     c2 = c(15, 25, 32, 8),
-                     row.names = paste0('r', seq(4)))
-    expect_equal(res, df)
-})
 
 test_that("distributionPlot works", {
     p <- distributionPlot(sceObj, col1='Mutation_Status', col2='Cell_Cycle')
@@ -157,11 +123,6 @@ test_that("dimPlot functions work", {
     expect_equal(length(intersect(is(p), c('gg', 'ggplot2::ggplot'))), 1)
 })
 
-test_that("numCosine works", {
-    res <- numCosine(c(2, 3, 6), c(4, 3, 2))
-    expect_equal(res, 0.7693093, tolerance=0.0001)
-})
-
 test_that("devPlot works", {
     library(ggplot2)
     df <- data.frame(x = c(1, 2), y = c(3, 5))
@@ -171,8 +132,10 @@ test_that("devPlot works", {
         return(ggplot(df) + geom_point(aes(x, y)) + ggtitle(title))
     expect_equal(devPlot(simplePlot, df, 'Plot title'),
                  setNames(c(1), 'null device'))
-    file.remove('Rplots.pdf')
-    file.remove('Rplots1.pdf')
+    if (file.exists('Rplots.pdf'))
+        file.remove('Rplots.pdf')
+    if (file.exists('Rplots1.pdf'))
+        file.remove('Rplots1.pdf')
 })
 
 

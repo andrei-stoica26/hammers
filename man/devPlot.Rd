@@ -41,4 +41,9 @@ simplePlot <- function(df, title)
 
 devPlot(simplePlot, df, 'Plot title')
 
+if (file.exists('Rplots.pdf'))
+    file.remove('Rplots.pdf')
+if (file.exists('Rplots1.pdf'))
+    file.remove('Rplots1.pdf')
+
 }

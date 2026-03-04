@@ -1,7 +1,7 @@
 Package: hammers
 Type: Package
 Title: A collection of simple tools for scRNA-seq analysis and package development
-Version: 0.99.5
+Version: 0.99.6
 Authors@R: person('Andrei-Florian', 'Stoica', 
       email='andreistoica@foxmail.com',
      role=c('aut','cre'),
@@ -14,7 +14,6 @@ Description: hammers is a utilities suite for scRNA-seq data analysis. It
     calculating silhouette and cluster-normalized silhouette.
 License: MIT + file LICENSE
 Imports: 
-    abdiv,
     cluster,
     dplyr,
     ggplot2,
@@ -22,12 +21,10 @@ Imports:
     grDevices,
     henna,
     liver,
-    lsa,
     rlang,
     scLang,
     stats,
     text2vec,
-    withr
 Suggests:
     BiocStyle,
     knitr,
@@ -36,7 +33,8 @@ Suggests:
     scater,
     scRNAseq,
     scuttle,
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    withr
 biocViews: 
     Software,
     SingleCell,

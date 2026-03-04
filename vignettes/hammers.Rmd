@@ -2,7 +2,7 @@
 title: "Introduction  to hammers"
 author: "Andrei-Florian Stoica"
 package: hammers
-date: March 2, 2025
+date: March 4, 2025
 output: BiocStyle::html_document
 vignette: >
     %\VignetteIndexEntry{Getting started with CSOA}
@@ -21,7 +21,7 @@ knitr::opts_chunk$set(
 
 `hammers` is a utilities suite for scRNA-seq data analysis. It provides simple 
 tools to address tasks such as retrieving aggregate gene statistics, 
-finding and removing rare genes, performing multiple testing correction, 
+finding and removing rare genes, performing representation analysis, 
 computing the center of mass for the expression of a gene of interest in 
 low-dimensional space, and calculating silhouette and cluster-normalized 
 silhouette.
@@ -38,7 +38,8 @@ BiocManager::install("hammers")
 ```
 
 # Prerequisites
-In addition to hammers, you need to install [scater](https://bioconductor.org/packages/release/bioc/html/scater.html)and [scRNAseq](https://bioconductor.org/packages/release/data/experiment/html/scRNAseq.html)
+In addition to hammers, you need to install [scater](https://bioconductor.org/packages/release/bioc/html/scater.html) 
+and [scRNAseq](https://bioconductor.org/packages/release/data/experiment/html/scRNAseq.html)
 for this tutorial.
 
 # Loading and preparing  data
@@ -77,7 +78,7 @@ sceObj <- runUMAP(sceObj)
 
 The `genePresence` function extracts the `genes` that appear in at 
 least `minCutoff` and at most `maxCutoff` cells. It returns a data frame 
-listing the number of cells in which each gene meeting these criteria is 
+listing the number of cells in which each gene that meets these criteria is 
 expressed:
 
 ```{r}
@@ -95,10 +96,10 @@ head(cellSets[[1]])
 ```
 
 `findRareGenes` is a wrapper around `genePresence` that can extract the
-genes that appear in at least `nCells` cells:
+genes that appear in fewer than `nCells` cells:
 
 ```{r}
-df <- findRareGenes(sceObj, 10)
+df <- findRareGenes(sceObj, nCells=10)
 dim(df)
 head(df)
 ```
@@ -108,7 +109,7 @@ the identified rare genes from the object:
 
 ```{r}
 dim(sceObj)
-sceObj <- removeRareGenes(sceObj, 10)
+sceObj <- removeRareGenes(sceObj, nCells=10)
 dim(sceObj)
 ```
 
@@ -123,33 +124,43 @@ columns of a single-cell object are:
 ```{r}
 df <- repAnalysis(sceObj, 'donor', 'label')
 head(df)
-head(repAnalysis(sceObj, 'donor', 'label', doOverrep=FALSE))
+df <- repAnalysis(sceObj, 'donor', 'label', doOverrep=FALSE)
+head(df)
 ```
 
 The output of `repAnalysis` can be visualized using the `pvalRiverPlot` 
-function. Thicker connecting bands represent lower p-values:
+function, which creates an alluvial plot for a data frame
+having a p-value column. Thicker connecting bands represent lower p-values:
 
 ```{r}
 pvalRiverPlot(df, title=NULL)
 ```
 
-**Note**: `pvalRiverPlot` can create an alluvial plot for any data frame
-with a p-value column.
+The two columns can also be visualized using the `distributionPlot` function:
 
-# Computing centers of mass
+```{r}
+distributionPlot(sceObj, NULL, 'donor', 'label')
+```
+
+The function can also plot relative percentages instead of raw counts:
+
+```{r}
+distributionPlot(sceObj, NULL, 'donor', 'label', type='percs')
+```
+
+# Computing centers of mass of gene expression
 
 Given a list of genes, `geneCenters` can compute the center of mass of each
-gene based on a dimensionality reduction of choice. By default, the reduction used by 
-`geneCenters` is UMAP:
+gene based on a dimensionality reduction of choice. By default, the reduction 
+used by `geneCenters` is UMAP:
 
 ```{r}
 genes <- c('PRSS1', 'TTR', 'GJD2', 'MS4A8')
 geneCenters(sceObj, genes)
 ```
 
-The centers of mass can be visualized with `genesDimPlot`, a wrapper around
-the `dimPlot` function from `scLang`. `genesDimPlot` uses `geneCenters` 
-internally:
+The centers of mass can be visualized with `genesDimPlot`, a function which
+uses `geneCenters` internally:
 
 ```{r}
 genesDimPlot(sceObj, genes, groupBy='label')
@@ -159,7 +170,7 @@ genesDimPlot(sceObj, genes, groupBy='label')
 numeric columns of the metadata of a Seurat object. `colsDimPlot` uses 
 `colCenters` internally, which works similarly to `geneCenters`. Both 
 `genesDimPlot` and `colsDimPlot` are wrappers around `pointsDimPlot`, which
-adds labeled points on a plot generated with `Seurat::DimPlot`.
+adds labeled points on a plot generated with `scLang::dimPlot`.
 
 # Computing silhouette and normalized silhouette
 
@@ -176,9 +187,7 @@ The `normalizeSilhouette` function returns a data frame whose number of rows
 equals the number of cells and the number of columns equals the number of 
 identities in the single-cell expression object. It requires silhouette 
 information for the required column to be provided in the metadata/coldata of 
-the object. 
-
-For each column in the output data frame, cells outside of the 
+the object. For each column in the output data frame, cells outside of the 
 corresponding identity get a score of 0. All the other cells get scores in
 (0, 1] by adjusted min-max normalization:
 
@@ -195,21 +204,6 @@ For visualization purposes, we will use the `featurePlot` function from
 ```{r message=FALSE, warning=FALSE}
 sceObj <- addNormSilhouette(sceObj, df, 'labelNormSil')
 featurePlot(sceObj, 'labelNormSil')
-```
-
-# Visualization
-
-The `distributionPlot` function plots the frequencies of elements from two 
-categorical columns:
-
-```{r}
-distributionPlot(sceObj, NULL, 'donor', 'label')
-```
-
-It can also plot relative percentages instead of raw counts:
-
-```{r}
-distributionPlot(sceObj, NULL, 'donor', 'label', type='percs')
 ```
 
 # Session information {-}
