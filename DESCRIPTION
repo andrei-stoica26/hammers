@@ -1,7 +1,7 @@
 Package: hammers
 Type: Package
-Title: A collection of simple tools for scRNA-seq data analysis
-Version: 0.99.7
+Title: A collection of utilities for scRNA-seq data analysis
+Version: 0.99.8
 Authors@R: person('Andrei-Florian', 'Stoica', 
       email='andreistoica@foxmail.com',
      role=c('aut','cre'),

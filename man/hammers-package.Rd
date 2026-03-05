@@ -4,9 +4,9 @@
 \name{hammers-package}
 \alias{hammers}
 \alias{hammers-package}
-\title{hammers: A collection of simple tools for scRNA-seq analysis and package development}
+\title{hammers: A collection of utilities for scRNA-seq data analysis}
 \description{
-hammers is a utilities suite for scRNA-seq data analysis. It provides simple tools to address tasks in scRNA-seq data analysis, such as retrieving aggregate gene statistics, finding and removing rare genes, performing multiple testing correction, computing the center of mass for the expression of a gene of interest in low-dimensional space, and calculating silhouette and cluster-normalized silhouette.
+hammers is a utilities suite for scRNA-seq data analysis. It provides simple tools to address tasks such as retrieving aggregate gene statistics, finding and removing rare genes, performing representation analysis, computing the center of mass for the expression of a gene of interest in low-dimensional space, and calculating silhouette and cluster-normalized silhouette.
 }
 \seealso{
 Useful links:

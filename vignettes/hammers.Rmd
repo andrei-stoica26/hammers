@@ -2,7 +2,7 @@
 title: "Introduction  to hammers"
 author: "Andrei-Florian Stoica"
 package: hammers
-date: March 4, 2025
+date: March 5, 2026
 output: BiocStyle::html_document
 vignette: >
     %\VignetteIndexEntry{Getting started with CSOA}
