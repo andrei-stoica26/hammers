@@ -36,8 +36,8 @@ Default is \code{NULL} (no second column will be added).}
 column. Default is \code{NULL} (no second column will be added).}
 }
 \value{
-A Seurat or SingleCellExpression object with one or two new
-categorical column(s) in the metadata/coldata.
+A \code{Seurat} or \code{SingleCellExpression} object with one or
+two new categorical column(s) in the metadata/coldata.
 }
 \description{
 Add a categorical column to a Seurat metadata or SingleCellExperiment

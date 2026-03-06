@@ -2,7 +2,8 @@
 % Please edit documentation in R/composition.R
 \name{repAnalysis}
 \alias{repAnalysis}
-\title{Find the differential representation of two Seurat columns}
+\title{Find the differential representation of two Seurat or SingleCellExperiment
+columns}
 \usage{
 repAnalysis(
   scObj,
@@ -34,7 +35,8 @@ repAnalysis(
 An overrepresentation or underrepresentation data frame.
 }
 \description{
-This function find the differential representation of two Seurat columns.
+This function finds the differential representation of two
+\code{Seurat} or \code{SingleCellExperiment} columns.
 }
 \examples{
 scePath <- system.file('extdata', 'sceObj.qs2', package='hammers')

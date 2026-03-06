@@ -74,8 +74,8 @@ addCategory <- function(df, col, newCol, keys, values){
 #' @param values2 A vector of values corresponding to the second
 #' column. Default is \code{NULL} (no second column will be added).
 #'
-#' @return A Seurat or SingleCellExpression object with one or two new
-#' categorical column(s) in the metadata/coldata.
+#' @return A \code{Seurat} or \code{SingleCellExpression} object with one or
+#' two new categorical column(s) in the metadata/coldata.
 #'
 #' @examples
 #' scePath <- system.file('extdata', 'sceObj.qs2', package='hammers')

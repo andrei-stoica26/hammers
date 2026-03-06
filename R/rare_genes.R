@@ -22,15 +22,16 @@ findRareGenes <- function(scObj, nCells = 10)
 
 #' Remove rare genes from a Seurat or SingleCellExpression object
 #'
-#' This function removes genes expressed in a low number of cells in a Seurat
-#' or SingleCellExpression object.
+#' This function removes genes expressed in a low number of cells in a
+#' \code{Seurat} or \code{SingleCellExpression} object.
 #'
 #' @inheritParams geneCenters
 #' @param nCells Minimum number of cells in which a gene must be expressed to
 #' be retained.
 #' @param verbose Logical; whether the output should be verbose.
 #'
-#' @return A Seurat or SingleCellExpression object with rare genes removed.
+#' @return A \code{Seurat} or \code{SingleCellExpression} object with
+#' rare genes removed.
 #'
 #' @examples
 #' scePath <- system.file('extdata', 'sceObj.qs2', package='hammers')

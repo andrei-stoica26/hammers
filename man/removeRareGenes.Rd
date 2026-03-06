@@ -16,11 +16,12 @@ be retained.}
 \item{verbose}{Logical; whether the output should be verbose.}
 }
 \value{
-A Seurat or SingleCellExpression object with rare genes removed.
+A \code{Seurat} or \code{SingleCellExpression} object with
+rare genes removed.
 }
 \description{
-This function removes genes expressed in a low number of cells in a Seurat
-or SingleCellExpression object.
+This function removes genes expressed in a low number of cells in a
+\code{Seurat} or \code{SingleCellExpression} object.
 }
 \examples{
 scePath <- system.file('extdata', 'sceObj.qs2', package='hammers')

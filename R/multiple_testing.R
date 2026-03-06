@@ -3,7 +3,7 @@
 #' This function orders a data frame based on a column of p-values, performs
 #' multiple testing on the column, and filters the data-frame based on it.
 #'
-#' @param df A data frame with a p-values columnn.
+#' @param df A data frame with a p-values column.
 #' @param mtMethod Multiple testing correction method. Choices are 'holm',
 #' 'hochberg', hommel', 'bonferroni', 'BH', 'BY', 'fdr' and 'none'. Default is
 #' 'holm'.

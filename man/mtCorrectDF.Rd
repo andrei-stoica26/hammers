@@ -15,7 +15,7 @@ mtCorrectDF(
 )
 }
 \arguments{
-\item{df}{A data frame with a p-values columnn.}
+\item{df}{A data frame with a p-values column.}
 
 \item{mtMethod}{Multiple testing correction method. Choices are 'holm',
 'hochberg', hommel', 'bonferroni', 'BH', 'BY', 'fdr' and 'none'. Default is

@@ -2,7 +2,7 @@
 title: "Introduction  to hammers"
 author: "Andrei-Florian Stoica"
 package: hammers
-date: March 5, 2026
+date: March 6, 2026
 output: BiocStyle::html_document
 vignette: >
     %\VignetteIndexEntry{Getting started with CSOA}
@@ -107,7 +107,7 @@ head(df)
 The `removeRareGenes` function calls `findRareGenes` and subsequently removes
 the identified rare genes from the object:
 
-```{r}
+```{r message=FALSE, warning=FALSE}
 dim(sceObj)
 sceObj <- removeRareGenes(sceObj, nCells=10)
 dim(sceObj)
@@ -154,7 +154,7 @@ Given a list of genes, `geneCenters` can compute the center of mass of each
 gene based on a dimensionality reduction of choice. By default, the reduction 
 used by `geneCenters` is UMAP:
 
-```{r}
+```{r message=FALSE, warning=FALSE}
 genes <- c('PRSS1', 'TTR', 'GJD2', 'MS4A8')
 geneCenters(sceObj, genes)
 ```
@@ -162,7 +162,7 @@ geneCenters(sceObj, genes)
 The centers of mass can be visualized with `genesDimPlot`, a function which
 uses `geneCenters` internally:
 
-```{r}
+```{r message=FALSE, warning=FALSE}
 genesDimPlot(sceObj, genes, groupBy='label')
 ```
 
@@ -178,7 +178,7 @@ The `computeSilhouette` computes the silhouette for an input column in the
 metadata or coldata of the single-cell expression object, returning the object
 with an appended silhouette column:
 
-```{r}
+```{r message=FALSE, warning=FALSE}
 sceObj <- computeSilhouette(sceObj, 'label', 'labelSil')
 head(scCol(sceObj, 'labelSil'))
 ```
@@ -191,7 +191,7 @@ the object. For each column in the output data frame, cells outside of the
 corresponding identity get a score of 0. All the other cells get scores in
 (0, 1] by adjusted min-max normalization:
 
-```{r}
+```{r message=FALSE, warning=FALSE}
 df <- normalizeSilhouette(sceObj, 'label', 'labelSil')
 head(df)
 ```

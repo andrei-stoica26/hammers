@@ -3,9 +3,11 @@
 #'
 NULL
 
-#' Find the differential representation of two Seurat columns
+#' Find the differential representation of two Seurat or SingleCellExperiment
+#' columns
 #'
-#' This function find the differential representation of two Seurat columns.
+#' This function finds the differential representation of two
+#' \code{Seurat} or \code{SingleCellExperiment} columns.
 #'
 #' @inheritParams geneCenters
 #' @param col1 Column as string.
