@@ -21,6 +21,7 @@ Imports:
     ggrepel,
     grDevices,
     henna,
+    LISTO,
     liver,
     rlang,
     scLang,

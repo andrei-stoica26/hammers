@@ -10,7 +10,7 @@ repAnalysis(
   col1 = "seurat_clusters",
   col2 = "orig.ident",
   doOverrep = TRUE,
-  mtMethod = c("holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr", "none"),
+  mtMethod = c("BY", "holm", "hochberg", "hommel", "bonferroni", "BH", "fdr", "none"),
   ...
 )
 }
@@ -25,11 +25,11 @@ repAnalysis(
 \item{doOverrep}{Whether to perform overrepresentation analysis. If
 \code{FALSE}, underrepresentation analysis will be performed instead.}
 
-\item{mtMethod}{Multiple testing correction method. Choices are 'holm',
-'hochberg', hommel', 'bonferroni', 'BH', 'BY', 'fdr' and 'none'. Default is
-'holm'.}
+\item{mtMethod}{Multiple testing correction method. Choices are
+'BY' (default) 'holm', hochberg', hommel', 'bonferroni', 'BH',  'fdr' and
+'none'.}
 
-\item{...}{Additional parameters passed to mtCorrectDF}
+\item{...}{Additional parameters passed to \code{LISTO::mtCorrectDF}.}
 }
 \value{
 An overrepresentation or underrepresentation data frame.

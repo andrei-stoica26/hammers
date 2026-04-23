@@ -1,5 +1,6 @@
 #' @importFrom dplyr count
 #' @importFrom stats p.adjust phyper quantile setNames
+#' @importFrom LISTO mtCorrectDF
 #'
 NULL
 
@@ -12,11 +13,13 @@ NULL
 #' @inheritParams geneCenters
 #' @param col1 Column as string.
 #' @param col2 Column as string.
-#' @inheritParams mtCorrectDF
-#'
+#' @param mtMethod Multiple testing correction method. Choices are
+#' 'BY' (default) 'holm', hochberg', hommel', 'bonferroni', 'BH',  'fdr' and
+#' 'none'.
 #' @param doOverrep Whether to perform overrepresentation analysis. If
 #' \code{FALSE}, underrepresentation analysis will be performed instead.
-#' @param ... Additional parameters passed to mtCorrectDF
+#'
+#' @param ... Additional parameters passed to \code{LISTO::mtCorrectDF}.
 #'
 #' @return An overrepresentation or underrepresentation data frame.
 #'
@@ -31,9 +34,8 @@ repAnalysis <- function(scObj,
                         col1 = 'seurat_clusters',
                         col2 = 'orig.ident',
                         doOverrep = TRUE,
-                        mtMethod = c('holm', 'hochberg', 'hommel',
-                                     'bonferroni', 'BH', 'BY',
-                                     'fdr', 'none'),
+                        mtMethod = c('BY', 'holm', 'hochberg', 'hommel',
+                                     'bonferroni', 'BH', 'fdr', 'none'),
                         ...){
     mtMethod <- match.arg(mtMethod)
     nCells <- ncol(scObj)
