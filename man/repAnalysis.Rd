@@ -22,11 +22,11 @@ repAnalysis(
 
 \item{col2}{Column as string.}
 
-\item{doOverrep}{Whether to perform overrepresentation analysis. If
-\code{FALSE}, underrepresentation analysis will be performed instead.}
+\item{doOverrep}{Whether to perform overrepresentation analysis (\code{TRUE})
+or underrepresentation analysis (\code{FALSE}).}
 
 \item{mtMethod}{Multiple testing correction method. Choices are
-'BY' (default) 'holm', hochberg', hommel', 'bonferroni', 'BH',  'fdr' and
+'BY' (default), 'holm', hochberg', hommel', 'bonferroni', 'BH',  'fdr' and
 'none'.}
 
 \item{...}{Additional parameters passed to \code{LISTO::mtCorrectDF}.}

@@ -14,10 +14,10 @@ NULL
 #' @param col1 Column as string.
 #' @param col2 Column as string.
 #' @param mtMethod Multiple testing correction method. Choices are
-#' 'BY' (default) 'holm', hochberg', hommel', 'bonferroni', 'BH',  'fdr' and
+#' 'BY' (default), 'holm', hochberg', hommel', 'bonferroni', 'BH',  'fdr' and
 #' 'none'.
-#' @param doOverrep Whether to perform overrepresentation analysis. If
-#' \code{FALSE}, underrepresentation analysis will be performed instead.
+#' @param doOverrep Whether to perform overrepresentation analysis (\code{TRUE})
+#' or underrepresentation analysis (\code{FALSE}).
 #'
 #' @param ... Additional parameters passed to \code{LISTO::mtCorrectDF}.
 #'
